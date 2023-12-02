@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>YCZSoftware_VSClass</class>
+ <widget class="QMainWindow" name="YCZSoftware_VSClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>YCZSoftware_VS</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>C:/Users/Administrator/Desktop/杨赤中logo.png</normaloff>C:/Users/Administrator/Desktop/杨赤中logo.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Project</string>
+    </property>
+    <widget class="QMenu" name="menuImport">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>导入</string>
+     </property>
+     <addaction name="actionImportXYZ"/>
+     <addaction name="actionImportShp"/>
+    </widget>
+    <addaction name="actionOpen"/>
+    <addaction name="actionNew"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSaveAs"/>
+    <addaction name="separator"/>
+    <addaction name="menuImport"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menu3D">
+    <property name="title">
+     <string>3D</string>
+    </property>
+    <addaction name="actionOpen3DWindow"/>
+   </widget>
+   <widget class="QMenu" name="menuYCZ">
+    <property name="title">
+     <string>杨赤中</string>
+    </property>
+    <addaction name="actionYCZF"/>
+    <addaction name="actionYCZFilter"/>
+    <addaction name="actionLocalYCZ"/>
+    <addaction name="actionCoYCZ"/>
+    <addaction name="actionSTYCZ"/>
+    <addaction name="actionSTCoYCZ"/>
+    <addaction name="actionNonlinearYCZ"/>
+   </widget>
+   <widget class="QMenu" name="menuKriging">
+    <property name="title">
+     <string>Kriging</string>
+    </property>
+    <addaction name="actionNormalKriging"/>
+    <addaction name="actionUniversalKriging"/>
+    <addaction name="actionCoKriging"/>
+    <addaction name="actionRegressionKriging"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Analyse</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menu3D"/>
+   <addaction name="menu"/>
+   <addaction name="menuKriging"/>
+   <addaction name="menuYCZ"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionImportShp"/>
+   <addaction name="actionUnset"/>
+   <addaction name="actionPan"/>
+   <addaction name="actionZoomIn"/>
+   <addaction name="actionZoomOut"/>
+   <addaction name="actionZoomFull"/>
+   <addaction name="actionShowTable"/>
+   <addaction name="actionSerchSQL"/>
+   <addaction name="actionEmitPoint"/>
+   <addaction name="actionFeatureInfo"/>
+   <addaction name="actionSelectPoint"/>
+   <addaction name="actionSelectVector"/>
+   <addaction name="actionClearSelect"/>
+  </widget>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionImportXYZ">
+   <property name="text">
+    <string>导入csv/txt</string>
+   </property>
+   <property name="toolTip">
+    <string>导入csv/txt</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionImportShp">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/OpenHyperlink_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/OpenHyperlink_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>导入shp</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionOpen3DWindow">
+   <property name="text">
+    <string>打开3D窗口</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionYCZFilter">
+   <property name="text">
+    <string>全局杨赤中</string>
+   </property>
+  </action>
+  <action name="actionNormalKriging">
+   <property name="text">
+    <string>Normal Kriging</string>
+   </property>
+  </action>
+  <action name="actionUniversalKriging">
+   <property name="text">
+    <string>Universal Kriging</string>
+   </property>
+  </action>
+  <action name="actionCoKriging">
+   <property name="text">
+    <string>Co-Kriging</string>
+   </property>
+  </action>
+  <action name="actionRegressionKriging">
+   <property name="text">
+    <string>Regression Kriging</string>
+   </property>
+  </action>
+  <action name="actionYCZF">
+   <property name="text">
+    <string>YCZ Filter</string>
+   </property>
+  </action>
+  <action name="actionLocalYCZ">
+   <property name="text">
+    <string>local YCZ</string>
+   </property>
+  </action>
+  <action name="actionCoYCZ">
+   <property name="text">
+    <string>Co-YCZ</string>
+   </property>
+  </action>
+  <action name="actionSTYCZ">
+   <property name="text">
+    <string>ST-YCZ</string>
+   </property>
+  </action>
+  <action name="actionSTCoYCZ">
+   <property name="text">
+    <string>ST-Co-YCZ</string>
+   </property>
+  </action>
+  <action name="actionNonlinearYCZ">
+   <property name="text">
+    <string>Nonlinear YCZ</string>
+   </property>
+  </action>
+  <action name="actionPan">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/ArcGIS图标/ArcGIS/PanTool32.png</normaloff>D:/GIS_todo/ArcGIS图标/ArcGIS/PanTool32.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pan</string>
+   </property>
+   <property name="toolTip">
+    <string>Pan</string>
+   </property>
+  </action>
+  <action name="actionZoomOut">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/ZoomOut_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/ZoomOut_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>ZoomOut</string>
+   </property>
+  </action>
+  <action name="actionZoomFull">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/FullExtent_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/FullExtent_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>ZoomFull</string>
+   </property>
+  </action>
+  <action name="actionMeasure">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/RulerHorizontal_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/RulerHorizontal_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>Measure</string>
+   </property>
+  </action>
+  <action name="actionZoomIn">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/ZoomIn_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/ZoomIn_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>ZoomIn</string>
+   </property>
+  </action>
+  <action name="actionUnset">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Pointer_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Pointer_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>Unset</string>
+   </property>
+  </action>
+  <action name="actionShowTable">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Table_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Table_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>ShowTable</string>
+   </property>
+  </action>
+  <action name="actionSerchSQL">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/TableProperties_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/TableProperties_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>SerchSQL</string>
+   </property>
+  </action>
+  <action name="actionFeatureInfo">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Info_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Info_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>FeatureInfo</string>
+   </property>
+  </action>
+  <action name="actionEmitPoint">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/GeoPoint_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/GeoPoint_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>EmitPoint</string>
+   </property>
+  </action>
+  <action name="actionClearSelect">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/No_Border_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/No_Border_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>ClearSelect</string>
+   </property>
+  </action>
+  <action name="actionSelectPoint">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Point_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Point_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>SelectPoint</string>
+   </property>
+  </action>
+  <action name="actionSelectVector">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/SelectAll_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/SelectAll_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>SelectVector</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+    </font>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionSaveAs">
+   <property name="text">
+    <string>SaveAs</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="toolTip">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="YCZSoftware_VS.qrc"/>
+ </resources>
+ <connections/>
+</ui>

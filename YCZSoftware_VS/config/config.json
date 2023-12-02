@@ -1,0 +1,64 @@
+{
+  "main_window": {
+    "location_x": 200,
+    "location_y": 200,
+    "width": 1200,
+    "height": 800,
+    "font_size": 12,
+    "title": "YangChiZhong software",
+    "layer_dock_title": "Layers",
+    "layer_dock_obj_name": "dockLayers",
+    "eagle_dock_title": "EagleEye",
+    "eagle_dock_obj_name": "dockEagleEye",
+    "canvas_2d_background_color_r": 255,
+    "canvas_2d_background_color_g": 255,
+    "canvas_2d_background_color_b": 255,
+    "canvas_2d_selection_color_r": 0,
+    "canvas_2d_selection_color_g": 255,
+    "canvas_2d_selection_color_b": 255,
+    "map_view_title": "Map view",
+    "layer_tree_collapse_number": 10,
+    "layer_tree_obj_name": "layerTreeView",
+    "vector_file_open_dialog_title": "Open vector layers",
+    "vector_file_filter_name": "vector filter",
+    "csv/txt_file_open_dialog_title": "Open csv/txt file",
+    "csv/txt_file_filter_name": "txt filter"
+
+  },
+  "main_window_3d": {
+    "location_x": 200,
+    "location_y": 200,
+    "width": 1200,
+    "height": 800,
+    "font_size": 12,
+    "title": "3D display window",
+    "layer_dock_title": "Files",
+    "layer_dock_obj_name": "dock3DFiles",
+    "3d_vector_file_open_dialog_title": "Open vector layers",
+    "3d_vector_file_filter_name": "3d vector filter",
+    "map_view_title": "3D map view",
+    "3d_point_default_color_r": 255,
+    "3d_point_default_color_g": 255,
+    "3d_point_default_color_b": 0,
+    "3d_line_default_color_r": 0,
+    "3d_line_default_color_g": 0,
+    "3d_line_default_color_b": 255,
+    "3d_line_default_width": 2.0,
+    "root_name": "root",
+    "osg_widget": {
+      "osg_traits_x": 0,
+      "osg_traits_y": 0,
+      "osg_perspective_fovy": 30,
+      "osg_perspective_near": 1,
+      "osg_perspective_far": 10000,
+      "osg_viewer_countdown": 5,
+      "osg_viewport_margin": 2,
+      "osg_mini_width": 100,
+      "osg_mini_height": 100
+    }
+  },
+  "lyr_3d_select_dialog": {
+    "3d_vector_file_open_dialog_title": "Open vector layers",
+    "3d_vector_file_filter_name": "3d vector filter"
+  }
+}
