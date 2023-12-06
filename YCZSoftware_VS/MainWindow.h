@@ -78,6 +78,7 @@ private:
     bool isProjectOpened;
 
     void initUi();
+    void connectFunc();
 
     void createStatusBar();
 

@@ -103,6 +103,13 @@ void MainWindow::initUi()
     //layermenuprovider
     _mLayerTreeView->setMenuProvider(new LayerMenuProvider(_mLayerTreeView, _mCanvas2D));
 
+    this->connectFunc();
+
+    this->showMaximized();
+}
+
+void MainWindow::connectFunc()
+{
     // connect signals and slots
     this->connect(ui.actionOpen, &QAction::triggered, this, &MainWindow::onActionOpen);
     this->connect(ui.actionNew, &QAction::triggered, this, &MainWindow::onActionNew);
@@ -113,7 +120,7 @@ void MainWindow::initUi()
     this->connect(ui.actionImportXYZ, &QAction::triggered, this, &MainWindow::onActionImportXYZTriggered);
     this->connect(ui.actionYCZFilter, &QAction::triggered, this, &MainWindow::onActionYCZFilterTriggered);
     this->connect(ui.actionAbout, &QAction::triggered, this, &MainWindow::onActionAbout);
-    this->connect(ui.actionPan,&QAction::triggered,this,&MainWindow::onActionPanTriggered);
+    this->connect(ui.actionPan, &QAction::triggered, this, &MainWindow::onActionPanTriggered);
     this->connect(ui.actionZoomOut, &QAction::triggered, this, &MainWindow::onActionZoomOutTriggered);
     this->connect(ui.actionZoomFull, &QAction::triggered, this, &MainWindow::onActionZoomFullTriggered);
     this->connect(ui.actionZoomIn, &QAction::triggered, this, &MainWindow::onActionZoomInTriggered);
@@ -126,7 +133,6 @@ void MainWindow::initUi()
     this->connect(ui.actionSelectVector, &QAction::triggered, this, &MainWindow::onActionFeatureInfo);
     this->connect(ui.actionSerchSQL, &QAction::triggered, this, &MainWindow::onActionSerchSQL);
     this->connect(this->_mCanvas2D, SIGNAL(layersChanged()), this, SLOT(onCanvasRefresh()));
-    this->showMaximized();
 }
 
 bool MainWindow::onActionOpen()
@@ -238,6 +244,7 @@ bool MainWindow::onActionYCZFilterTriggered()
     yczFilterDialog->show();
     return false;
 }
+
 
 bool MainWindow::onActionAbout()
 {
