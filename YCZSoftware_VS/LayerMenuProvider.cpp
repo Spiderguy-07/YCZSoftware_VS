@@ -82,6 +82,10 @@ QMenu* LayerMenuProvider::createContextMenu()
 
 void LayerMenuProvider::onActionLayerProp()
 {
-    LayerPropForm* PropForm = new LayerPropForm();
+    QModelIndex idx = mView->currentIndex();
+    QgsLayerTreeNode* node = mView->index2node(idx);
+    QgsMapLayer* layer = QgsLayerTree::toLayer(node)->layer();
+
+    LayerPropForm* PropForm = new LayerPropForm(layer);
     PropForm->show();
 }

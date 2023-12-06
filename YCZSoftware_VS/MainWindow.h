@@ -86,6 +86,7 @@ private:
 
     void createStatusBar();
 
+
 private slots:
     bool onActionOpen();
     bool onActionNew();

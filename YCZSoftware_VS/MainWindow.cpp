@@ -499,6 +499,7 @@ void MainWindow::onActionEmitPoint()
     this->_mCanvas2D->setMapTool(_mToolEmitPoint);
 }
 
+
 void MainWindow::onActionSelectPoint()
 {
     QModelIndex idx = this->_mLayerTreeView->currentIndex();
@@ -653,6 +654,8 @@ void MainWindow::createStatusBar()
     //connect(m_scaleEdit, SIGNAL(scaleChanged()), this, SLOT(userScale()));
 
 }
+
+
 
 
 
