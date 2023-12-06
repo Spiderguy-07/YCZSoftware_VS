@@ -103,6 +103,8 @@ void MainWindow::initUi()
     //layermenuprovider
     _mLayerTreeView->setMenuProvider(new LayerMenuProvider(_mLayerTreeView, _mCanvas2D));
 
+    setAcceptDrops(true);
+
     this->connectFunc();
 
     this->showMaximized();
@@ -133,6 +135,68 @@ void MainWindow::connectFunc()
     this->connect(ui.actionSelectVector, &QAction::triggered, this, &MainWindow::onActionFeatureInfo);
     this->connect(ui.actionSerchSQL, &QAction::triggered, this, &MainWindow::onActionSerchSQL);
     this->connect(this->_mCanvas2D, SIGNAL(layersChanged()), this, SLOT(onCanvasRefresh()));
+}
+
+void MainWindow::addVectorLayer(const QString& filePath)
+{
+    QgsVectorLayer* vectorLayer = new QgsVectorLayer(filePath, QFileInfo(filePath).baseName(), "ogr");
+
+    if (vectorLayer->isValid())
+    {
+        QgsProject::instance()->addMapLayer(vectorLayer);
+    }
+    else
+    {
+        QMessageBox::about(this, "ERROR", QString("CAN NOT LOADING£º%1").arg(filePath));
+        delete vectorLayer;
+    }
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent* fileData)
+{
+    if (fileData->mimeData()->hasUrls())
+        fileData->accept();
+    else
+        fileData->ignore();
+}
+
+void MainWindow::dropEvent(QDropEvent* fileData)
+{
+    const QMimeData* mimeData = fileData->mimeData();
+    QStringList filePathList;
+
+    for (const QUrl& url : mimeData->urls())
+    {
+        QString filePath = url.path().mid(1);
+        filePathList.append(filePath.replace("/", "//"));
+    }
+
+    for (const QString& filePath : filePathList)
+    {
+        /*if (filePath.endsWith(".tif", Qt::CaseInsensitive) ||
+            filePath.endsWith(".tiff", Qt::CaseInsensitive) ||
+            filePath.endsWith(".png", Qt::CaseInsensitive) ||
+            filePath.endsWith(".jpg", Qt::CaseInsensitive) ||
+            filePath.endsWith(".pdf", Qt::CaseInsensitive))
+        {
+            addRasterLayer(filePath);
+        }*/
+        if (filePath.endsWith(".shp", Qt::CaseInsensitive) ||
+            filePath.endsWith(".gpkg", Qt::CaseInsensitive) ||
+            filePath.endsWith(".geojson", Qt::CaseInsensitive) ||
+            filePath.endsWith(".kml", Qt::CaseInsensitive))
+        {
+            addVectorLayer(filePath);
+        }
+        else if (filePath.isEmpty())
+        {
+            // Do nothing
+        }
+        else
+        {
+            QMessageBox::about(this, "Warning", QString("%1 NOT SUPPORT, support SHP file.").arg(filePath));
+        }
+    }
 }
 
 bool MainWindow::onActionOpen()

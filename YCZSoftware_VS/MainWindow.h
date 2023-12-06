@@ -80,6 +80,10 @@ private:
     void initUi();
     void connectFunc();
 
+    void addVectorLayer(const QString& filePath);
+    void dragEnterEvent(QDragEnterEvent* fileData) override;
+    void dropEvent(QDropEvent* fileData) override;
+
     void createStatusBar();
 
 private slots:
