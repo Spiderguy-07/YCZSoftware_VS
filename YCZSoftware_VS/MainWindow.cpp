@@ -26,12 +26,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::initUi()
 {
+
     // set window size
     this->setGeometry(this->_mConfig[X_LOCATION].asInt(),
         this->_mConfig[Y_LOCATION].asInt(),
         this->_mConfig[WIDTH].asInt(),
         this->_mConfig[HEIGHT].asInt());
-
 
     this->setWindowTitle(this->_mConfig[TITLE].asCString());  // set title
 

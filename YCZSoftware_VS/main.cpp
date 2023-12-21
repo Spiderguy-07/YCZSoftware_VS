@@ -39,6 +39,10 @@ int main(int argc, char *argv[])
     QgsApplication::initQgis(); 
 
     MainWindow w(config);
+    //w.setFixedHeight(60);
+    //QString styleSheet = "QHeaderView::section { height: 50px; }"; // 设置标题栏高度为50px
+    //w.setStyleSheet(styleSheet);
+    w.menuBar()->setFixedHeight(40);
     w.show();
     return a.exec();
 }

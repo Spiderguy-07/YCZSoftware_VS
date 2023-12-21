@@ -46,7 +46,7 @@ void YCZFilterPyThread::setParams()
 	_mParams = PyTuple_New(3);
 	PyTuple_SetItem(_mParams, 0, Py_BuildValue("O", obPtList));
 	PyTuple_SetItem(_mParams, 1, Py_BuildValue("O", unobPtList));
-	PyTuple_SetItem(_mParams, 2, Py_BuildValue("s", _mOutPath));
+	PyTuple_SetItem(_mParams, 2, Py_BuildValue("s", _mOutPath.toStdString().c_str()));
 	Py_DECREF(obPtList);
 	Py_DECREF(unobPtList);
 	_mPyFile = "GYangCZ";

@@ -10,12 +10,30 @@
     <height>400</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>50</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Microsoft YaHei UI</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>YCZSoftware_VS</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>C:/Users/Administrator/Desktop/杨赤中logo.png</normaloff>C:/Users/Administrator/Desktop/杨赤中logo.png</iconset>
+    <normaloff>../../../ycz.png</normaloff>../../../ycz.png</iconset>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>20</width>
+    <height>20</height>
+   </size>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -27,18 +45,40 @@
      <height>33</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="font">
     <font>
+     <family>Microsoft YaHei UI</family>
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::DefaultContextMenu</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <widget class="QMenu" name="menuFile">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>160</y>
+      <width>137</width>
+      <height>216</height>
+     </rect>
+    </property>
     <property name="title">
      <string>Project</string>
     </property>
     <widget class="QMenu" name="menuImport">
      <property name="font">
       <font>
+       <family>Microsoft YaHei UI</family>
        <pointsize>12</pointsize>
       </font>
      </property>
@@ -59,13 +99,13 @@
    </widget>
    <widget class="QMenu" name="menu3D">
     <property name="title">
-     <string>3D</string>
+     <string>3DAnalyst</string>
     </property>
     <addaction name="actionOpen3DWindow"/>
    </widget>
    <widget class="QMenu" name="menuYCZ">
     <property name="title">
-     <string>杨赤中</string>
+     <string>YangCZ</string>
     </property>
     <addaction name="actionYCZF"/>
     <addaction name="actionYCZFilter"/>
@@ -86,7 +126,7 @@
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string>Analyse</string>
+     <string>TOOL</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -100,18 +140,30 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuESDA">
+    <property name="title">
+     <string>ESDA</string>
+    </property>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menu3D"/>
    <addaction name="menu"/>
+   <addaction name="menuESDA"/>
    <addaction name="menuKriging"/>
    <addaction name="menuYCZ"/>
+   <addaction name="menu3D"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -142,6 +194,9 @@
      <family>Microsoft YaHei UI</family>
      <pointsize>9</pointsize>
     </font>
+   </property>
+   <property name="priority">
+    <enum>QAction::NormalPriority</enum>
    </property>
   </action>
   <action name="actionImportXYZ">
