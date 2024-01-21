@@ -1,0 +1,218 @@
+#include "Project.h"
+
+#include <QDomDocument>
+#include <QTextCodec>
+#include <QTextStream>
+
+#include <qgsmaplayer.h>
+#include <qgslayertree.h>
+#include <qgsrasterlayer.h>
+#include <qgsvectorlayer.h>
+
+
+Project* Project::sInstance = nullptr;
+
+Project* Project::instance()
+{
+	if (!sInstance)
+	{
+		sInstance = new Project();
+	}
+	return sInstance;
+}
+
+void Project::reset()
+{
+	m_name .clear();
+	m_file.clear();
+
+	for (QgsLayerTreeLayer* treeLayer : m_layerTree->findLayers())
+	{
+		delete treeLayer->layer();
+	}
+	m_layerTree->removeAllChildren();
+}
+
+bool Project::read()
+{
+	QFile file(m_file);
+	if (!file.open(QFile::ReadOnly))
+	{
+		return false;
+	}
+
+	QTextStream stream(&file);
+	QTextCodec* codec = QTextCodec::codecForName("UTF-8");
+	stream.setCodec(codec);
+	const QByteArray& content = stream.readAll().toUtf8();
+	file.close();
+
+	QDomDocument doc;
+	QString errorMsg;
+	int errorLine = -1;
+	int errorColumn = -1;
+	if (!doc.setContent(content, &errorMsg, &errorLine, &errorColumn))
+	{
+		return false;
+	}
+
+	const auto& LayerTreeNodeList = doc.elementsByTagName(m_elementLayerTree);
+	if (LayerTreeNodeList.isEmpty())
+	{
+		return false;
+	}
+	const QDomNode& layerTreeNode = LayerTreeNodeList.item(0);
+
+	const auto& layerTreeChildNodes = layerTreeNode.childNodes();
+
+	for (int i = 0; i < layerTreeChildNodes.size(); ++i)
+	{
+		const QDomElement& layerElement = layerTreeChildNodes.item(i).toElement();
+		if (layerElement.isNull())
+		{
+			continue;
+		}
+
+		bool ok = false;
+		const Qgis::LayerType type = static_cast<Qgis::LayerType>(layerElement.attribute(m_elementType).toInt(&ok));
+		if (!ok)
+		{
+			continue;
+		}
+
+		const QString& layerName = layerElement.attribute(m_elementName);
+		const QString& layerFile = layerElement.attribute(m_elementFile);
+		switch (type)
+		{
+		case Qgis::LayerType::Raster:
+		{
+			QgsRasterLayer* layer = new QgsRasterLayer(layerFile, layerName);
+
+			if (!layer->isValid())
+			{
+				continue;
+			}
+
+			addLayer(layer);
+		}
+		break;
+		case Qgis::LayerType::Vector:
+		{
+			QgsVectorLayer* layer = new QgsVectorLayer(layerFile, layerName);
+
+			if (!layer->isValid())
+			{
+				continue;
+			}
+
+			addLayer(layer);
+		}
+		break;
+		default:
+		break;
+		}
+	}
+
+	return true;
+}
+
+bool Project::write() const
+{
+	QFile file(m_file);
+	if (!file.open(QFile::WriteOnly))
+	{
+		return false;
+	}
+
+	QDomDocument doc;
+
+	QDomProcessingInstruction version;
+	version = doc.createProcessingInstruction("xml", R"(version = "1.0" encoding = "UTF-8")");
+	doc.appendChild(version);
+
+	QDomElement domRootElement = doc.createElement(m_elementLayerTree);
+	doc.appendChild(domRootElement);
+
+	for (const auto& layer : m_layerTree->findLayers())
+	{
+		writeLayer(domRootElement, layer);
+	}
+
+	for (const auto& group : m_layerTree->findGroups())
+	{
+		QDomElement groupElement = doc.createElement(m_elementGroup);
+		domRootElement.appendChild(groupElement);
+
+		for (const auto& node : group->findLayers())
+		{
+			writeLayer(domRootElement, node);
+		}
+	}
+
+	file.write(doc.toString().toUtf8());
+	file.close();
+	return true;
+}
+
+void  Project::addLayer(QgsMapLayer* layer)
+{
+	if (!layer||!layer->isValid())
+	{
+		return;
+	}
+	QgsProject::instance()->addMapLayer(layer);
+	m_layerTree->addLayer(layer);
+}
+
+void Project::addLayers(QList<QgsMapLayer*> layers)
+{
+	for (QgsMapLayer* layer : layers)
+	{
+		if (layer && layer->isValid())
+		{
+			
+			m_layerTree->addLayer(layer);
+
+		}
+	}
+}
+
+void Project::removeLayer(QgsMapLayer* layer)
+{
+  m_layerTree->removeLayer(layer);
+  delete layer;
+}
+
+Project::Project(QObject* parent)
+	:QObject(parent)
+	, m_layerTree(new QgsLayerTree())
+	, m_elementLayerTree("LayerTree")
+	, m_elementName("Name")
+	, m_elementFile("File")
+	, m_elementGroup("Group")
+	, m_elementLayer("Layer")
+	, m_elementType("Type")
+{
+}
+
+Project::~Project()
+{
+	delete m_layerTree;
+}
+
+void Project::writeLayer(QDomElement& parent, QgsLayerTreeLayer* layer) const
+{
+	if (!layer)
+	{
+		return;
+	}
+
+	QDomDocument doc;
+	QDomElement layerElement = doc.createElement(m_elementLayer);
+	parent.appendChild(layerElement);
+
+	layerElement.setAttribute(m_elementName, layer->name());
+	layerElement.setAttribute(m_elementFile, layer->layer()->dataProvider()->dataSourceUri());
+	QString Type = QString::number(static_cast<int>(layer->layer()->type()));
+	layerElement.setAttribute(m_elementType, Type);
+}

@@ -10,7 +10,7 @@
 #include "../entity/Entity3D.h"
 #include "ui_Canvas3DService.h"
 
-#define _USE_MATH_DEFINES
+//#define _USE_MATH_DEFINES
 #include <math.h>
 
 QT_BEGIN_NAMESPACE

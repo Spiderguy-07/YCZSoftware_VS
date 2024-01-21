@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
+#include <QAbstractItemModel>
+#include <QTextEdit>
 #include <qprocess.h>
 #include <qgsmapcanvas.h>
 #include <qgslayertree.h>
@@ -34,6 +36,7 @@
 #include "./src/service/YCZFilterPyThread.h"
 #include "./src/service/aboutsoftdialog.h"
 #include "./src/service/sqldialog.h"
+#include "Project.h"
 
 #include "ui_MainWindow.h"
 #include <qgsscalecombobox.h>
@@ -46,12 +49,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(Json::Value config, QWidget* parent = nullptr);
     ~MainWindow();
+    static  MainWindow* instance();
 
 private:
     Ui::YCZSoftware_VSClass ui;
     Json::Value _mConfig;
     Json::Value _mAppConfig;
-    QgsProject* _mProject;
+    static MainWindow* sInstance;
+    //QgsProject* _mProject;
     QgsDockWidget* _mLayerDock;
     QgsDockWidget* _mEagleEyeDock;
     QgsMapCanvas* _mCanvas2D;
@@ -69,11 +74,16 @@ private:
     QgsMapToolEmitPoint* _mToolEmitPoint;
     QgsMapToolIdentifyFeature* _mToolIdentifyFeature;
 
+    QLabel* m_workLabel;
+
     QLabel* m_scaleLabel; // 在状态栏中显示“scale 1:”
     QgsScaleComboBox* m_scaleEdit; //! 在状态栏中显示比例尺值
     QProgressBar* m_progressBar;
     QLabel* m_coordsLabel; //! 在状态栏显示"Coordinate / Extent"
     QLineEdit* m_coordsEdit; //! 在状态栏显示地理坐标
+
+    //QTextEdit* m_textEditLog;
+    //QDockWidget* m_dockWidgetLog;
 
     bool isProjectOpened;
 
@@ -86,12 +96,18 @@ private:
 
     void createStatusBar();
 
+    bool windowModified();
+    bool saveProject();
+    void closeProject();
+    void setWindowTitle();
+    void openProject(const QString& fileName);
 
 private slots:
     bool onActionOpen();
     bool onActionNew();
     bool onActionSave();
     bool onActionSaveAs();
+    bool onActionExit();
     bool onActionImportShpTriggered();
     bool onActionOpen3DWindowTriggered();
     bool onActionImportXYZTriggered();
@@ -117,6 +133,7 @@ private slots:
     void onActionSerchSQL();
 
     void onCanvasRefresh();
+    void onMapRefresh();
 
     void onClickSQLSearch();
 

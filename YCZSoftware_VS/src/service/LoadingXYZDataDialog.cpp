@@ -6,7 +6,8 @@
 #include <QUuid>
 #include <qgsvectorlayer.h>
 
-LoadingXYZDataDialog::LoadingXYZDataDialog(QString path, QgsProject* project, QWidget* parent)
+
+LoadingXYZDataDialog::LoadingXYZDataDialog(QString path, Project* project, QWidget* parent)
 	: QDialog(parent)
 	, ui(new Ui::LoadingXYZDataDialogClass())
 {
@@ -136,7 +137,8 @@ void LoadingXYZDataDialog::createLyrFromXYZ()
 	}
 	tmpVecLyr->commitChanges();
 	tmpVecLyr->updateExtents();
-	_mProject->addMapLayer(tmpVecLyr);
+	QgsProject::instance()->addMapLayer(tmpVecLyr);
+	_mProject->addLayer(tmpVecLyr);
 	file.close();
 	this->close();
 	return;

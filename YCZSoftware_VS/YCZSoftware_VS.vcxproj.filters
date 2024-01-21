@@ -61,15 +61,6 @@
     <ClCompile Include="src\service\MainWindow3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\service\RunPyService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\service\YCZFilterPyThread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\service\YCZFilterServiceDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LayerMenuProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -83,6 +74,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\service\sqldialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Project.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\RunPyService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\YCZFilterPyThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\YCZFilterServiceDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,15 +105,6 @@
     <QtMoc Include="src\service\MainWindow3D.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\service\RunPyService.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\service\YCZFilterPyThread.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\service\YCZFilterServiceDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="MapToolSelectFeatures.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -124,6 +118,18 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="LayerMenuProvider.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Project.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\RunPyService.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\YCZFilterPyThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\YCZFilterServiceDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -143,9 +149,6 @@
     <QtUic Include="src\service\MainWindow3D.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\service\YCZFilterServiceDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="src\service\aboutsoftdialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -153,6 +156,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\service\sqldialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\YCZFilterServiceDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

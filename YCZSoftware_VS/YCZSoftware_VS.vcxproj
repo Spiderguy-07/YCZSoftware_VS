@@ -125,6 +125,7 @@
     <ClCompile Include="LayerMenuProvider.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MapToolSelectFeatures.cpp" />
+    <ClCompile Include="Project.cpp" />
     <ClCompile Include="src\entity\Entity3D.cpp" />
     <ClCompile Include="src\service\aboutsoftdialog.cpp" />
     <ClCompile Include="src\service\Canvas3DService.cpp" />
@@ -149,17 +150,18 @@
     <None Include="resource\shader\gl.vert" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\service\YCZFilterServiceDialog.h" />
+    <QtMoc Include="src\service\YCZFilterPyThread.h" />
+    <QtMoc Include="src\service\RunPyService.h" />
     <QtMoc Include="src\service\sqldialog.h" />
     <QtMoc Include="src\service\layerpropform.h" />
     <QtMoc Include="LayerMenuProvider.h" />
     <QtMoc Include="MapToolSelectFeatures.h" />
+    <QtMoc Include="Project.h" />
     <ClInclude Include="src\entity\Entity3D.h" />
     <ClInclude Include="src\macro.h" />
     <QtMoc Include="src\service\aboutsoftdialog.h" />
     <ClInclude Include="src\service\FileLoadingService.h" />
-    <QtMoc Include="src\service\YCZFilterServiceDialog.h" />
-    <QtMoc Include="src\service\YCZFilterPyThread.h" />
-    <QtMoc Include="src\service\RunPyService.h" />
     <QtMoc Include="src\service\MainWindow3D.h" />
     <QtMoc Include="src\service\Lyr3DSelectDialog.h" />
     <QtMoc Include="src\service\LoadingXYZDataDialog.h" />

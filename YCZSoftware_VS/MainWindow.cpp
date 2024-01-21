@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+MainWindow* MainWindow::sInstance = nullptr;
 
 MainWindow::MainWindow(Json::Value config, QWidget* parent)
     : QMainWindow(parent)
@@ -24,8 +25,22 @@ MainWindow::MainWindow(Json::Value config, QWidget* parent)
 MainWindow::~MainWindow()
 {}
 
+MainWindow* MainWindow::instance()
+{
+    if (!sInstance)
+    {
+        sInstance = new MainWindow(nullptr);
+    }
+    return sInstance;
+}
+
 void MainWindow::initUi()
 {
+    //this->m_texteditlog = new qtextedit(this);
+    //this->m_dockwidgetlog = new qdockwidget(this);
+    //this->m_texteditlog->setreadonly(true);
+    //this->m_dockwidgetlog->setwidget(m_texteditlog);
+    //adddockwidget(qt::dockwidgetarea::bottomdockwidgetarea, m_dockwidgetlog);
 
     // set window size
     this->setGeometry(this->_mConfig[X_LOCATION].asInt(),
@@ -33,7 +48,9 @@ void MainWindow::initUi()
         this->_mConfig[WIDTH].asInt(),
         this->_mConfig[HEIGHT].asInt());
 
-    this->setWindowTitle(this->_mConfig[TITLE].asCString());  // set title
+    //this->setWindowTitle(this->_mConfig[TITLE].asCString());  // set title  1.20修改
+
+    this->setWindowTitle();
 
     // create left dock
     this->_mLayerDock = new QgsDockWidget(this);
@@ -82,7 +99,7 @@ void MainWindow::initUi()
     this->createStatusBar();
 
     // TODO: bind layer tree model to project, after functions of project is complete
-    QgsLayerTreeModel* model = new QgsLayerTreeModel(QgsProject::instance()->layerTreeRoot(), this);
+    QgsLayerTreeModel* model = new QgsLayerTreeModel(Project::instance()->layerTree(), this);
     model->setFlag(QgsLayerTreeModel::AllowNodeChangeVisibility);
     model->setFlag(QgsLayerTreeModel::AllowNodeRename);
     model->setFlag(QgsLayerTreeModel::AllowNodeReorder);
@@ -90,8 +107,7 @@ void MainWindow::initUi()
     model->setAutoCollapseLegendNodes(this->_mConfig[LAYER_TREE_COLLAPSE_NUM].asInt());
 
     this->_mLayerTreeView->setModel(model);
-    this->_mLayerTreeCanvasBridge = new QgsLayerTreeMapCanvasBridge(QgsProject::instance()->layerTreeRoot(),
-        this->_mCanvas2D, this);
+    this->_mLayerTreeCanvasBridge = new QgsLayerTreeMapCanvasBridge(Project::instance()->layerTree(),this->_mCanvas2D, this);
     this->_mLayerDock->setWidget(this->_mLayerTreeView);
     this->_mEagleEyeDock->setWidget(this->_mEagleEyeMapOverview);
 
@@ -117,6 +133,7 @@ void MainWindow::connectFunc()
     this->connect(ui.actionNew, &QAction::triggered, this, &MainWindow::onActionNew);
     this->connect(ui.actionSave, &QAction::triggered, this, &MainWindow::onActionSave);
     this->connect(ui.actionSaveAs, &QAction::triggered, this, &MainWindow::onActionSaveAs);
+    this->connect(ui.actionExit, &QAction::triggered, this, &MainWindow::onActionExit);
     this->connect(ui.actionImportShp, &QAction::triggered, this, &MainWindow::onActionImportShpTriggered);
     this->connect(ui.actionOpen3DWindow, &QAction::triggered, this, &MainWindow::onActionOpen3DWindowTriggered);
     this->connect(ui.actionImportXYZ, &QAction::triggered, this, &MainWindow::onActionImportXYZTriggered);
@@ -135,6 +152,11 @@ void MainWindow::connectFunc()
     this->connect(ui.actionSelectVector, &QAction::triggered, this, &MainWindow::onActionFeatureInfo);
     this->connect(ui.actionSerchSQL, &QAction::triggered, this, &MainWindow::onActionSerchSQL);
     this->connect(this->_mCanvas2D, SIGNAL(layersChanged()), this, SLOT(onCanvasRefresh()));
+
+    auto lambdaSetModified = [this] { setWindowModified(true); };
+    connect(_mLayerTreeView->layerTreeModel()->rootGroup(), &QgsLayerTreeNode::addedChildren, this, lambdaSetModified);
+    connect(_mLayerTreeView->layerTreeModel()->rootGroup(), &QgsLayerTreeNode::addedChildren, this, &MainWindow::onMapRefresh);
+    connect(_mLayerTreeView->layerTreeModel()->rootGroup(), &QgsLayerTreeNode::removedChildren, this, lambdaSetModified);
 }
 
 void MainWindow::addVectorLayer(const QString& filePath)
@@ -144,6 +166,7 @@ void MainWindow::addVectorLayer(const QString& filePath)
     if (vectorLayer->isValid())
     {
         QgsProject::instance()->addMapLayer(vectorLayer);
+        Project::instance()->addLayer(vectorLayer);
     }
     else
     {
@@ -201,53 +224,86 @@ void MainWindow::dropEvent(QDropEvent* fileData)
 
 bool MainWindow::onActionOpen()
 {
-    QString projectPath = QFileDialog::getOpenFileName(this, "Select Project File", QDir::homePath(), "QGIS Project Files (*.qgs)");
-
-    if (!projectPath.isEmpty()) {
-        QgsProject project;
-        project.read(projectPath);
+    if (!windowModified())
+    {
+        return false;
     }
-    this->isProjectOpened = true;
 
+    closeProject();
+
+    const QString& fileName = QFileDialog::getOpenFileName(this, tr("Open Project File"), {}, QString("YangCZ Software Project File(*.ycz)"));
+    if (fileName.isEmpty())
+    {
+        return false;
+    }
+
+    openProject(fileName);
+
+    //QList<QgsMapLayer*> mlayers = _mCanvas2D->layers();
+
+    //_mEagleEyeMapOverview->setLayers(mlayers);
+    //_mEagleEyeMapOverview->refresh();
+    onCanvasRefresh();
     return true;
 }
 
 bool MainWindow::onActionNew()
 {
-    QString projectPath = QFileDialog::getSaveFileName(this, "Select Project Location", QDir::homePath(), "QGIS Project Files (*.qgs)");
+    //qstring projectpath = qfiledialog::getsavefilename(this, "select project location", qdir::homepath(), "qgis project files (*.qgs)");
 
-    if (!projectPath.isEmpty()) {
-        QgsProject project;
-        project.setFileName(projectPath);
-        project.write();
+    //if (!projectpath.isempty()) {
+    //    qgsproject project;
+    //    project.setfilename(projectpath);
+    //    project.write();
+    //}
+    //this->isprojectopened = true;
+    if (!windowModified())
+    {
+        return false;
     }
-    this->isProjectOpened = true;
-
+    closeProject();
+    setWindowTitle();
+    setWindowModified(false);
+    onMapRefresh();
+    onCanvasRefresh();
     return true;
+
 }
 
 bool MainWindow::onActionSave()
 {
-    if (this->isProjectOpened) {
-        QgsProject* project = QgsProject::instance();
-        project->write();
+    if (!saveProject())
+    {
+        return false;
     }
-    else {
-        QString projectPath = QFileDialog::getSaveFileName(this, "Save Project As", QDir::homePath(), "QGIS Project Files (*.qgs)");
 
-        if (!projectPath.isEmpty()) {
-            QgsProject project;
-            project.setFileName(projectPath);
-            project.write();
-            this->isProjectOpened = true;
-        }
-    }
+    this->m_workLabel->setText(tr("Save project successfully."));
+    setWindowModified(false);
+    setWindowTitle();
     return true;
 }
 
 bool MainWindow::onActionSaveAs()
 {
-    return false;
+    const QString& fileName = QFileDialog::getSaveFileName(this, tr("Save Project File"), QString(), QString("YangCZ Software Project File(*.ycz)"));
+
+    if (fileName.isEmpty())
+    {
+        return false;
+    }
+
+    QFileInfo fileInfo(fileName);
+    Project::instance()->setFile(fileName);
+    Project::instance()->setName(fileInfo.baseName());
+
+    if (!Project::instance()->write())
+    {
+        return false;
+    }
+    this->m_workLabel->setText(tr("Save project successfully."));
+    setWindowModified(false);
+    setWindowTitle();
+    return true;
 }
 
 bool MainWindow::onActionImportShpTriggered()
@@ -255,11 +311,14 @@ bool MainWindow::onActionImportShpTriggered()
     QString title = QString(this->_mConfig[OPEN_VEC_DIALOG_TITLE].asCString());
     QString filterName = QString(this->_mConfig[VEC_FILTER_NAME].asCString());
     QgsProject* project = QgsProject::instance();
+
     QList<QgsMapLayer*> lyrsToBeAdded = FileLoadingService::loadVecLayers(title, filterName, project, this);
     if (lyrsToBeAdded.size() <= 0) {
         return false;
     }
     project->addMapLayers(lyrsToBeAdded);
+    Project::instance()->addLayers(lyrsToBeAdded);
+    
     return true;
     
 }
@@ -291,12 +350,10 @@ bool MainWindow::onActionImportXYZTriggered()
     }
 
     QString path = fileList.at(0);
-    LoadingXYZDataDialog* loadingXYZDialog = new LoadingXYZDataDialog(path, QgsProject::instance(), this);
+    LoadingXYZDataDialog* loadingXYZDialog = new LoadingXYZDataDialog(path, Project::instance(), this);
     loadingXYZDialog->show();
     _mCanvas2D->refresh();
     _mEagleEyeMapOverview->refresh();
-
-
     return true;
 }
 
@@ -544,9 +601,117 @@ void MainWindow::onActionSelectVector()
 
 }
 
+bool MainWindow::windowModified()
+{
+    if (!isWindowModified())
+    {
+        return true;
+    }
+
+    switch (QMessageBox::information(this, QString(), tr("Save current project?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+    {
+    case  QMessageBox::Ok:
+        saveProject();
+        break;
+    case  QMessageBox::No:
+        break;
+    case  QMessageBox::Cancel:
+        return false;
+    default:
+        break;
+    }
+
+    return true;
+}
+
+bool MainWindow::saveProject()
+{
+    if (Project::instance()->file().isEmpty())
+    {
+        const QString& fileName = QFileDialog::getSaveFileName(this, tr("Save Project File"), QString(), QString("YangCZ Software Project File(*.ycz)"));
+
+        if (fileName.isEmpty())
+        {
+            return false;
+        }
+
+        QFileInfo fileInfo(fileName);
+        Project::instance()->setFile(fileName);
+        Project::instance()->setName(fileInfo.baseName());
+    }
+
+    if (!Project::instance()->write())
+    {
+        return false;
+    }
+
+    return true;
+}
+
+void MainWindow::closeProject()
+{
+    Project::instance()->reset();
+}
+
+void MainWindow::setWindowTitle()
+{
+    QString projectName = Project::instance()->name();
+
+    if (projectName.isEmpty())
+    {
+        projectName = tr("Untitled Project");
+    }
+
+    QMainWindow::setWindowTitle(tr("[*]%1 - YangCZ Software").arg(projectName));
+}
+
 void MainWindow::onActionSerchSQL()
 {
     SQLDialog* SQL = new SQLDialog();
+}
+
+void MainWindow::openProject(const QString& fileName)
+{
+    QFileInfo fileInfo(fileName);
+    if (!fileInfo.exists() || fileInfo.suffix() != "ycz")
+    {
+        QMessageBox::information(this, tr("Information"), tr("The project file is not a valid file."));
+        //addLog(tr("The project file is not a valid file."));
+        return;
+    }
+
+    closeProject();
+    Project::instance()->setFile(fileName);
+    Project::instance()->setName(fileInfo.baseName());
+
+    if (Project::instance()->read())
+    {
+        //QMessageBox::information(this, tr("Information"), tr("Open project successfully."));
+        //addLog(tr("Open project successfully."));
+        this->m_workLabel->setText("Open project successfully.");
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Information"), tr("Failed to open project."));
+        //addLog(tr("Failed to open project."));
+    }
+
+    setWindowTitle();
+    setWindowModified(false);
+}
+
+bool MainWindow::onActionExit()
+{
+    onActionNew();
+    this->close();
+    onCanvasRefresh();
+    return true;
+}
+
+void MainWindow::onMapRefresh()
+{
+    _mCanvas2D->setLayers(Project::instance()->layerTree()->checkedLayers());
+    _mCanvas2D->refresh();
 }
 
 void MainWindow::onCanvasRefresh()
@@ -555,6 +720,7 @@ void MainWindow::onCanvasRefresh()
     _mEagleEyeMapOverview->setLayers(mlayers);
     _mEagleEyeMapOverview->refresh();
 }
+
 
 void MainWindow::onClickSQLSearch()
 {/*
@@ -596,6 +762,22 @@ void MainWindow::createStatusBar()
 {
     statusBar()->setStyleSheet("QStatusBar::item {border: none;}");
 
+    QFont myFont("Arial", 9);
+    statusBar()->setFont(myFont);
+
+    m_workLabel = new QLabel(QString(), statusBar());
+    m_workLabel->setObjectName("m_workLabel");
+    m_workLabel->setFont(myFont);
+    m_workLabel->setMargin(3);
+    m_workLabel->setAlignment(Qt::AlignLeft);
+    m_workLabel->setFrameStyle(QFrame::NoFrame);
+    m_workLabel->setText(tr("YangCZ Software is working."));
+    m_workLabel->setToolTip(tr("Working status"));
+
+    // 设置一个固定的宽度，根据需要调整值
+    m_workLabel->setFixedWidth(200); // 200 是一个示例值，请根据实际情况调整
+
+    /*
     //! 添加进度条
     m_progressBar = new QProgressBar(statusBar());
     m_progressBar->setObjectName("m_progressBar");
@@ -652,7 +834,7 @@ void MainWindow::createStatusBar()
     m_scaleEdit->setToolTip(tr("Current map scale (formatted as x:y)"));
     statusBar()->addPermanentWidget(m_scaleEdit, 0);
     //connect(m_scaleEdit, SIGNAL(scaleChanged()), this, SLOT(userScale()));
-
+    */
 }
 
 

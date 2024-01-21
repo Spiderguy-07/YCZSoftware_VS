@@ -3,6 +3,7 @@
 #include <QDialog>
 #include <qgsproject.h>
 #include "ui_LoadingXYZDataDialog.h"
+#include "../../Project.h"
 
 #define SEPERATOR_COMMA_TEXT "¶ººÅ(,)"
 #define SEPERATOR_SPACE_TEXT "¿Õ¸ñ( )"
@@ -20,7 +21,7 @@ class LoadingXYZDataDialog : public QDialog
 	Q_OBJECT
 
 public:
-	LoadingXYZDataDialog(QString path, QgsProject* project, QWidget *parent = nullptr);
+	LoadingXYZDataDialog(QString path, Project* project, QWidget *parent = nullptr);
 	~LoadingXYZDataDialog();
 
 private slots:
@@ -32,7 +33,7 @@ private:
 	QString _mPath;
 	QString _mSeperator;
 	QStringList _mColNames;
-	QgsProject* _mProject;
+	Project* _mProject;
 
 	void initUI();
 	void createLyrFromXYZ();
