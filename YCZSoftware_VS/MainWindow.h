@@ -34,6 +34,8 @@
 #include "./src/service/Lyr3DSelectDialog.h"
 #include "./src/service/YCZFilterServiceDialog.h"
 #include "./src/service/YCZFilterPyThread.h"
+#include "./src/service/oyczFilterServiceDialog.h"
+#include "./src/service/YCZFilterPyThread2D.h"
 #include "./src/service/aboutsoftdialog.h"
 #include "./src/service/sqldialog.h"
 #include "Project.h"
@@ -91,6 +93,7 @@ private:
     void connectFunc();
 
     void addVectorLayer(const QString& filePath);
+    void addRasterLayer(const QString& filePath);
     void dragEnterEvent(QDragEnterEvent* fileData) override;
     void dropEvent(QDropEvent* fileData) override;
 
@@ -112,12 +115,14 @@ private slots:
     bool onActionOpen3DWindowTriggered();
     bool onActionImportXYZTriggered();
     bool onActionYCZFilterTriggered();
+    bool onActionOYCZFilterTriggered();
     bool onActionAbout();
 
     void onSendSelected3DPathEmitted(QString path);
     void onSendSelected3DLyrEmitted(QString lyrName);
 
     void onYCZFilterParamsSended(QList<ObPt> obPts, QList<UnobPt> unobPts, QString outputPath);
+    void onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k);
 
     void onActionPanTriggered();
     void onActionZoomInTriggered();
@@ -136,5 +141,7 @@ private slots:
     void onMapRefresh();
 
     void onClickSQLSearch();
+
+    void onImportImg(QString path);
 
 };

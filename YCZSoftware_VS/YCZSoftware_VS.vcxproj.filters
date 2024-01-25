@@ -88,6 +88,12 @@
     <ClCompile Include="src\service\YCZFilterServiceDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\service\YCZFilterPyThread2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\oyczfilterservicedialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h">
@@ -132,6 +138,12 @@
     <QtMoc Include="src\service\YCZFilterServiceDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\service\YCZFilterPyThread2D.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\oyczfilterservicedialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
@@ -159,6 +171,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\service\YCZFilterServiceDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\oyczfilterservicedialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

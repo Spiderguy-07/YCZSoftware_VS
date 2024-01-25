@@ -107,9 +107,16 @@
     <property name="title">
      <string>YangCZ</string>
     </property>
+    <widget class="QMenu" name="menulocal_YCZ">
+     <property name="title">
+      <string>local YCZ</string>
+     </property>
+     <addaction name="actionCreatRster"/>
+     <addaction name="actionCheckAccuracy"/>
+    </widget>
     <addaction name="actionYCZF"/>
     <addaction name="actionYCZFilter"/>
-    <addaction name="actionLocalYCZ"/>
+    <addaction name="menulocal_YCZ"/>
     <addaction name="actionCoYCZ"/>
     <addaction name="actionSTYCZ"/>
     <addaction name="actionSTCoYCZ"/>
@@ -267,11 +274,6 @@
   <action name="actionYCZF">
    <property name="text">
     <string>YCZ Filter</string>
-   </property>
-  </action>
-  <action name="actionLocalYCZ">
-   <property name="text">
-    <string>local YCZ</string>
    </property>
   </action>
   <action name="actionCoYCZ">
@@ -445,6 +447,16 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionCreatRster">
+   <property name="text">
+    <string>Creat Rster</string>
+   </property>
+  </action>
+  <action name="actionCheckAccuracy">
+   <property name="text">
+    <string>Check Accuracy</string>
    </property>
   </action>
  </widget>

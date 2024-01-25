@@ -139,10 +139,14 @@ void LayerPropForm::renderApplyPbClicked(bool needClose)
             QgsFeatureRenderer* renderer = vectorSingleRenderWidget->renderer();
             vectorLayer->setRenderer(renderer);
         }
-        else
+        else if (ui->comboTabWidget->currentIndex() == 0)
         {
             QgsFeatureRenderer* renderer = vectorCateGoryRenderWidget->renderer();
             vectorLayer->setRenderer(renderer);
+        }
+        else
+        {
+
         }
 
         vectorLayer->triggerRepaint();

@@ -138,6 +138,9 @@ void MainWindow::connectFunc()
     this->connect(ui.actionOpen3DWindow, &QAction::triggered, this, &MainWindow::onActionOpen3DWindowTriggered);
     this->connect(ui.actionImportXYZ, &QAction::triggered, this, &MainWindow::onActionImportXYZTriggered);
     this->connect(ui.actionYCZFilter, &QAction::triggered, this, &MainWindow::onActionYCZFilterTriggered);
+    this->connect(ui.actionCreatRster, &QAction::triggered, this, &MainWindow::onActionOYCZFilterTriggered);
+    this->connect(ui.actionCheckAccuracy, &QAction::triggered, this, &MainWindow::onActionYCZFilterTriggered);
+
     this->connect(ui.actionAbout, &QAction::triggered, this, &MainWindow::onActionAbout);
     this->connect(ui.actionPan, &QAction::triggered, this, &MainWindow::onActionPanTriggered);
     this->connect(ui.actionZoomOut, &QAction::triggered, this, &MainWindow::onActionZoomOutTriggered);
@@ -175,6 +178,24 @@ void MainWindow::addVectorLayer(const QString& filePath)
     }
 }
 
+void MainWindow::addRasterLayer(const QString& filePath)
+{
+    QgsRasterLayer* rasterLayer = new QgsRasterLayer(filePath, QFileInfo(filePath).baseName(), "gdal");
+
+    if (rasterLayer && rasterLayer->isValid())
+    {
+        QgsProject::instance()->addMapLayer(rasterLayer);
+        // 如果你需要在Project类中添加图层，请确保你的Project类有相应的addLayer函数
+        Project::instance()->addLayer(rasterLayer);
+    }
+    else
+    {
+        QMessageBox::about(this, "ERROR", QString("CAN NOT LOADING：%1").arg(filePath));
+        delete rasterLayer;
+    }
+}
+
+
 void MainWindow::dragEnterEvent(QDragEnterEvent* fileData)
 {
     if (fileData->mimeData()->hasUrls())
@@ -196,15 +217,15 @@ void MainWindow::dropEvent(QDropEvent* fileData)
 
     for (const QString& filePath : filePathList)
     {
-        /*if (filePath.endsWith(".tif", Qt::CaseInsensitive) ||
+        if (filePath.endsWith(".tif", Qt::CaseInsensitive) ||
             filePath.endsWith(".tiff", Qt::CaseInsensitive) ||
             filePath.endsWith(".png", Qt::CaseInsensitive) ||
             filePath.endsWith(".jpg", Qt::CaseInsensitive) ||
             filePath.endsWith(".pdf", Qt::CaseInsensitive))
         {
             addRasterLayer(filePath);
-        }*/
-        if (filePath.endsWith(".shp", Qt::CaseInsensitive) ||
+        }
+        else if (filePath.endsWith(".shp", Qt::CaseInsensitive) ||
             filePath.endsWith(".gpkg", Qt::CaseInsensitive) ||
             filePath.endsWith(".geojson", Qt::CaseInsensitive) ||
             filePath.endsWith(".kml", Qt::CaseInsensitive))
@@ -366,6 +387,34 @@ bool MainWindow::onActionYCZFilterTriggered()
     return false;
 }
 
+bool MainWindow::onActionOYCZFilterTriggered()
+{
+    QgsProject* project = QgsProject::instance();
+    OYCZFilterServiceDialog* oyczFilterDialog = new OYCZFilterServiceDialog(project,this);
+    connect(oyczFilterDialog, &OYCZFilterServiceDialog::sendPyParams, this, &MainWindow::onOYCZFilterParamsSended);
+    oyczFilterDialog->show();
+    //QString path = oyczFilterDialog->getOutPath();
+    connect(oyczFilterDialog, SIGNAL(getOutPath(QString)), this, SLOT(onImportImg(QString)));
+
+    /*
+    
+    QString path = oyczFilterDialog->getOutPath();
+    switch (QMessageBox::information(this, QString(), tr("Loading the Image?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+    {
+    case  QMessageBox::Ok:
+        addRasterLayer(path);
+        break;
+    case  QMessageBox::No:
+        break;
+    case  QMessageBox::Cancel:
+        return false;
+    default:
+        break;
+    }
+    return false;
+    */
+    return false;
+}
 
 bool MainWindow::onActionAbout()
 {
@@ -409,6 +458,12 @@ void MainWindow::onYCZFilterParamsSended(QList<ObPt> obPts, QList<UnobPt> unobPt
 {
     YCZFilterPyThread* YCZThread = new YCZFilterPyThread(obPts, unobPts, outputPath);
     YCZThread->start();
+}
+
+void MainWindow::onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k)
+{
+    YCZFilterPyThread2D* YCZThread2D = new YCZFilterPyThread2D(obpts, rangeA, outputPath, s, k);
+    YCZThread2D->start();
 }
 
 void MainWindow::onActionPanTriggered()
@@ -712,6 +767,23 @@ void MainWindow::onMapRefresh()
 {
     _mCanvas2D->setLayers(Project::instance()->layerTree()->checkedLayers());
     _mCanvas2D->refresh();
+}
+
+void MainWindow::onImportImg(QString path)
+{
+    switch (QMessageBox::information(this, QString(), tr("Loading the Image?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+    {
+    case  QMessageBox::Ok:
+        addRasterLayer(path);
+        break;
+    case  QMessageBox::No:
+        break;
+    case  QMessageBox::Cancel:
+        return ;
+    default:
+        break;
+    }
+    return ;
 }
 
 void MainWindow::onCanvasRefresh()

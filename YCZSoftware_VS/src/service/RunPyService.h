@@ -19,5 +19,8 @@ protected:
 	QString _mPyFile;
 	QString _mPyFunc;
 	PyObject* _mParams;
+
+signals:
+	void escT();
 };
 

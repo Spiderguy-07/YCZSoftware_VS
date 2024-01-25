@@ -35,7 +35,7 @@ PyObject* RunPyService::callPyFunc(QString pyFile, QString pyFunc, PyObject* par
     PyObject * result =  PyObject_CallFunction(func, "O", params);
     Py_DECREF(func);
     Py_DECREF(module);
-    
+    //emit escT();
     return result;
 }
 
@@ -64,6 +64,7 @@ void RunPyService::run()
 
     Py_DECREF(_mParams);
     Py_Finalize();
+    emit escT();
 }
 
 void RunPyService::setParams()

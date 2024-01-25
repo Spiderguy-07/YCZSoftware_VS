@@ -123,6 +123,7 @@ void YCZFilterServiceDialog::onBtnConfirmClicked()
 		}
 	}
 	emit sendPyParams(obPts, unobPts, outputPath);
+
 	this->close();
 }
 
@@ -134,7 +135,7 @@ void YCZFilterServiceDialog::onBtnCancelClicked()
 void YCZFilterServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
 {
 	for (const auto& vecLyr : pjLyr) {
-		if (vecLyr->wkbType() != Qgis::WkbType::PointZ && 
+		if (vecLyr->wkbType() != Qgis::WkbType::PointZ &&
 			vecLyr->wkbType() != Qgis::WkbType::MultiPointZ &&
 			vecLyr->wkbType() != Qgis::WkbType::PointZM &&
 			vecLyr->wkbType() != Qgis::WkbType::MultiPointZM) {

@@ -118,6 +118,7 @@
     <QtUic Include="src\service\LoadingXYZDataDialog.ui" />
     <QtUic Include="src\service\Lyr3DSelectDialog.ui" />
     <QtUic Include="src\service\MainWindow3D.ui" />
+    <QtUic Include="src\service\oyczfilterservicedialog.ui" />
     <QtUic Include="src\service\sqldialog.ui" />
     <QtUic Include="src\service\YCZFilterServiceDialog.ui" />
     <QtUic Include="YCZSoftware_VS.ui" />
@@ -134,9 +135,11 @@
     <ClCompile Include="src\service\LoadingXYZDataDialog.cpp" />
     <ClCompile Include="src\service\Lyr3DSelectDialog.cpp" />
     <ClCompile Include="src\service\MainWindow3D.cpp" />
+    <ClCompile Include="src\service\oyczfilterservicedialog.cpp" />
     <ClCompile Include="src\service\RunPyService.cpp" />
     <ClCompile Include="src\service\sqldialog.cpp" />
     <ClCompile Include="src\service\YCZFilterPyThread.cpp" />
+    <ClCompile Include="src\service\YCZFilterPyThread2D.cpp" />
     <ClCompile Include="src\service\YCZFilterServiceDialog.cpp" />
     <ClCompile Include="YCZSoftware_VS.cpp" />
     <ClCompile Include="main.cpp" />
@@ -150,6 +153,8 @@
     <None Include="resource\shader\gl.vert" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\service\oyczfilterservicedialog.h" />
+    <QtMoc Include="src\service\YCZFilterPyThread2D.h" />
     <QtMoc Include="src\service\YCZFilterServiceDialog.h" />
     <QtMoc Include="src\service\YCZFilterPyThread.h" />
     <QtMoc Include="src\service\RunPyService.h" />
