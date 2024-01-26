@@ -92,6 +92,7 @@ private:
     bool isProjectOpened;
 
     void initUi();
+    void PythonInit();
     void connectFunc();
 
     void addVectorLayer(const QString& filePath);

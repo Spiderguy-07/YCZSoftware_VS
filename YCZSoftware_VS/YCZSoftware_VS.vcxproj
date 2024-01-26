@@ -163,6 +163,7 @@
     <QtMoc Include="LayerMenuProvider.h" />
     <QtMoc Include="MapToolSelectFeatures.h" />
     <QtMoc Include="Project.h" />
+    <ClInclude Include="pythreadstatelock.h" />
     <ClInclude Include="src\entity\Entity3D.h" />
     <ClInclude Include="src\macro.h" />
     <QtMoc Include="src\service\aboutsoftdialog.h" />

@@ -198,5 +198,8 @@
     <ClInclude Include="src\macro.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pythreadstatelock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

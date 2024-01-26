@@ -19,7 +19,7 @@ MainWindow::MainWindow(Json::Value config, QWidget* parent)
     Py_SetPythonHome(L"E:/Anaconda3/InstallPos/envs/cluster");
     //this->setupEagleEyeMap();
     this->initUi();
-
+    this->PythonInit();
 }
 
 MainWindow::~MainWindow()
@@ -655,6 +655,30 @@ void MainWindow::onActionSelectPoint()
 void MainWindow::onActionSelectVector()
 {
 
+}
+
+void MainWindow::PythonInit()
+{
+    if (!Py_IsInitialized())
+    {
+        //1.初始化Python解释器，这是调用操作的第一步
+        Py_SetPythonHome((wchar_t*)L"../x64/Release/python"); //TODO: 打包时改为相对路径
+        Py_Initialize();
+        if (!Py_IsInitialized()) {
+            QMessageBox::critical(nullptr, "Error about python.exe", "Fail to initialize python!");
+            //return;
+        }
+        else {
+            PyRun_SimpleString("import sys");
+            PyRun_SimpleString("sys.path.append(r'../x64/Release/python')");
+            PyRun_SimpleString("sys.path.append(r'../x64/Release/plugins')");
+
+            PyEval_InitThreads();
+            // 启动子线程前执行，为了释放PyEval_InitThreads获得的全局锁，否则子线程可能无法获取到全局锁。
+            PyEval_ReleaseThread(PyThreadState_Get());
+            qDebug("Initial Python Success!");
+        }
+    }
 }
 
 bool MainWindow::windowModified()
