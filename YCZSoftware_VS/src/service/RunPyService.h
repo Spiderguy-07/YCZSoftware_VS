@@ -21,6 +21,7 @@ protected:
 	PyObject* _mParams;
 
 signals:
-	void escT();
+	void escT(PyObject* result_re);
+	void _end();
 };
 

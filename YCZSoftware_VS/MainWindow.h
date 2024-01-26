@@ -84,6 +84,8 @@ private:
     QLabel* m_coordsLabel; //! 在状态栏显示"Coordinate / Extent"
     QLineEdit* m_coordsEdit; //! 在状态栏显示地理坐标
 
+    QString imgPath;
+
     //QTextEdit* m_textEditLog;
     //QDockWidget* m_dockWidgetLog;
 
@@ -122,7 +124,7 @@ private slots:
     void onSendSelected3DLyrEmitted(QString lyrName);
 
     void onYCZFilterParamsSended(QList<ObPt> obPts, QList<UnobPt> unobPts, QString outputPath);
-    void onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k);
+    void onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k, double c);
 
     void onActionPanTriggered();
     void onActionZoomInTriggered();
@@ -142,6 +144,7 @@ private slots:
 
     void onClickSQLSearch();
 
-    void onImportImg(QString path);
+    void onGetPath(QString path);
+    void onImportImg(PyObject* result_re);
 
 };

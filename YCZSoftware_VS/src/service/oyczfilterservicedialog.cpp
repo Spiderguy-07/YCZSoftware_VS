@@ -8,7 +8,6 @@ OYCZFilterServiceDialog::OYCZFilterServiceDialog(QgsProject* project, QWidget* p
 {
     ui->setupUi(this);
     initUI(project->layers<QgsVectorLayer*>());
-	connect(ui->btnComfirm, SIGNAL(clicked(bool)), this, SLOT(GetPath()));
 }
 
 OYCZFilterServiceDialog::~OYCZFilterServiceDialog()
@@ -87,8 +86,10 @@ void OYCZFilterServiceDialog::onBtnConfirmClicked()
 
 	double sizeA = ui->lineSize->text().toDouble();
 	int k_num = ui->lineK_num->text().toInt();
+	double c_val = ui->lineC_val->text().toDouble();
 
-	emit sendPyParams(obPts, rangeA, outputPath,sizeA,k_num);
+	emit sendPyParams(obPts, rangeA, outputPath,sizeA,k_num,c_val);
+	emit getOutPath(outputPath);
 	this->close();
 }
 
@@ -97,10 +98,6 @@ void OYCZFilterServiceDialog::onBtnCancelClicked()
 	this->close();
 }
 
-void OYCZFilterServiceDialog::onGetPath()
-{
-	emit getOutPath(ui->lineOutputPath->text());
-}
 
 void OYCZFilterServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
 {
@@ -126,5 +123,6 @@ void OYCZFilterServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
 	connect(ui->btnBrowseOutput, &QPushButton::clicked, this, &OYCZFilterServiceDialog::onBtnBrowseOutputClicked);
 	connect(ui->btnComfirm, &QPushButton::clicked, this, &OYCZFilterServiceDialog::onBtnConfirmClicked);
 	connect(ui->btnCancel, &QPushButton::clicked, this, &OYCZFilterServiceDialog::onBtnCancelClicked);
+
 
 }

@@ -38,6 +38,7 @@ private:
 	QString _mOutPath;
 	double _msize;
 	int _mk_num;
+	double _mc_val;
 
 	PyObject* getObPt2DList();
 	PyObject* getRange2DList();
@@ -46,6 +47,6 @@ protected:
 	void setParams() override;
 
 public:
-	YCZFilterPyThread2D(QList<ObPt2D> obPts, QList<Range2D> rangeA, QString outPath, double s, int k);
+	YCZFilterPyThread2D(QList<ObPt2D> obPts, QList<Range2D> rangeA, QString outPath, double s, int k, double c);
 	~YCZFilterPyThread2D();
 };

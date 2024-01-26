@@ -119,6 +119,8 @@ void MainWindow::initUi()
     //layermenuprovider
     _mLayerTreeView->setMenuProvider(new LayerMenuProvider(_mLayerTreeView, _mCanvas2D));
 
+    this->imgPath = "";
+
     setAcceptDrops(true);
 
     this->connectFunc();
@@ -392,27 +394,12 @@ bool MainWindow::onActionOYCZFilterTriggered()
     QgsProject* project = QgsProject::instance();
     OYCZFilterServiceDialog* oyczFilterDialog = new OYCZFilterServiceDialog(project,this);
     connect(oyczFilterDialog, &OYCZFilterServiceDialog::sendPyParams, this, &MainWindow::onOYCZFilterParamsSended);
-    oyczFilterDialog->show();
-    //QString path = oyczFilterDialog->getOutPath();
-    connect(oyczFilterDialog, SIGNAL(getOutPath(QString)), this, SLOT(onImportImg(QString)));
-
-    /*
     
-    QString path = oyczFilterDialog->getOutPath();
-    switch (QMessageBox::information(this, QString(), tr("Loading the Image?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
-    {
-    case  QMessageBox::Ok:
-        addRasterLayer(path);
-        break;
-    case  QMessageBox::No:
-        break;
-    case  QMessageBox::Cancel:
-        return false;
-    default:
-        break;
-    }
-    return false;
-    */
+    //QString path = oyczFilterDialog->getOutPath();
+    connect(oyczFilterDialog, &OYCZFilterServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+    oyczFilterDialog->show();
+
+    
     return false;
 }
 
@@ -460,10 +447,24 @@ void MainWindow::onYCZFilterParamsSended(QList<ObPt> obPts, QList<UnobPt> unobPt
     YCZThread->start();
 }
 
-void MainWindow::onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k)
+void MainWindow::onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k, double c)
 {
-    YCZFilterPyThread2D* YCZThread2D = new YCZFilterPyThread2D(obpts, rangeA, outputPath, s, k);
+    YCZFilterPyThread2D* YCZThread2D = new YCZFilterPyThread2D(obpts, rangeA, outputPath, s, k, c);
     YCZThread2D->start();
+    
+    connect(YCZThread2D, &YCZFilterPyThread2D::escT, this, &MainWindow::onImportImg);
+    connect(YCZThread2D, &YCZFilterPyThread2D::_end, YCZThread2D, &YCZFilterPyThread2D::quit);
+    //connect(YCZThread2D, &YCZFilterPyThread2D::_end, YCZThread2D, &YCZFilterPyThread2D::terminate);
+    // 等待线程完成
+    YCZThread2D->wait();
+
+    // 断开连接
+    //QObject::disconnect(YCZThread2D, &YCZFilterPyThread2D::escT, this, &MainWindow::onImportImg);
+    //QObject::disconnect(YCZThread2D, &YCZFilterPyThread2D::_end, YCZThread2D, &YCZFilterPyThread2D::quit);
+
+    // 删除线程对象
+    delete YCZThread2D;
+
 }
 
 void MainWindow::onActionPanTriggered()
@@ -769,20 +770,57 @@ void MainWindow::onMapRefresh()
     _mCanvas2D->refresh();
 }
 
-void MainWindow::onImportImg(QString path)
+void MainWindow::onGetPath(QString path)
 {
-    switch (QMessageBox::information(this, QString(), tr("Loading the Image?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+    this->imgPath = path;
+}
+
+void MainWindow::onImportImg(PyObject* result_re)
+{
+    int if_run = 2;
+    if (result_re != nullptr)
     {
-    case  QMessageBox::Ok:
-        addRasterLayer(path);
-        break;
-    case  QMessageBox::No:
-        break;
-    case  QMessageBox::Cancel:
-        return ;
-    default:
-        break;
+        long longValue = PyLong_AsLong(result_re);
+        if_run = static_cast<int>(longValue);
     }
+
+    //if_run = PyArg_Parse(result_re, "i", if_run);
+    if (if_run == 1)
+    {
+        switch (QMessageBox::information(this, QString(), tr("Loading the Image?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+        {
+        case  QMessageBox::Ok:
+            addRasterLayer(this->imgPath);
+            this->imgPath = "";
+            break;
+        case  QMessageBox::No:
+            break;
+        case  QMessageBox::Cancel:
+            return;
+        default:
+            break;
+        }
+    }
+    else if(if_run == 2)
+    {
+        switch (QMessageBox::information(this, QString(), tr("Adjust the parameters and try again ?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+        {
+        case  QMessageBox::Ok:
+            onActionOYCZFilterTriggered();
+            break;
+        case  QMessageBox::No:
+            break;
+        case  QMessageBox::Cancel:
+            return;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Wronging"), tr(" Something was wrong,please check."));
+    }
+        
     return ;
 }
 

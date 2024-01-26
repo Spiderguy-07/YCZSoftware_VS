@@ -19,7 +19,7 @@ RunPyService::RunPyService(QString pyFile, QString pyFunc, PyObject* params)
 
 PyObject* RunPyService::callPyFunc(QString pyFile, QString pyFunc, PyObject* params)
 {
-    
+    std::cout << pyFile.toStdString().c_str() ;
     PyObject* module = PyImport_ImportModule(pyFile.toStdString().c_str());
     if (!module) {
         QMessageBox::critical(nullptr, "Error about python.exe", "Fail to import python file!");
@@ -34,8 +34,8 @@ PyObject* RunPyService::callPyFunc(QString pyFile, QString pyFunc, PyObject* par
 
     PyObject * result =  PyObject_CallFunction(func, "O", params);
     Py_DECREF(func);
-    Py_DECREF(module);
-    //emit escT();
+    //Py_DECREF(module);
+
     return result;
 }
 
@@ -60,11 +60,12 @@ void RunPyService::run()
         return;
     }
     
-    callPyFunc(_mPyFile, _mPyFunc, _mParams);
+    PyObject* final = callPyFunc(_mPyFile, _mPyFunc, _mParams);
 
     Py_DECREF(_mParams);
     Py_Finalize();
-    emit escT();
+    emit escT(final);
+    emit _end();
 }
 
 void RunPyService::setParams()
