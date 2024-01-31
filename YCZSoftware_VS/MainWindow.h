@@ -125,7 +125,7 @@ private slots:
     void onSendSelected3DLyrEmitted(QString lyrName);
 
     void onYCZFilterParamsSended(QList<ObPt> obPts, QList<UnobPt> unobPts, QString outputPath);
-    void onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k, double c);
+    void onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k, double c, bool e);
 
     void onActionPanTriggered();
     void onActionZoomInTriggered();

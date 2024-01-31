@@ -39,13 +39,14 @@ void YCZFilterPyThread2D::setParams()
 	PyObject* obPt2DList = getObPt2DList();
 	PyObject* range2DList = getRange2DList();
 
-	_mParams = PyTuple_New(6);
+	_mParams = PyTuple_New(7);
 	PyTuple_SetItem(_mParams, 0, Py_BuildValue("O", obPt2DList));
 	PyTuple_SetItem(_mParams, 1, Py_BuildValue("O", range2DList));
 	PyTuple_SetItem(_mParams, 2, Py_BuildValue("s", _mOutPath.toStdString().c_str()));
 	PyTuple_SetItem(_mParams, 3, Py_BuildValue("d", _msize));
 	PyTuple_SetItem(_mParams, 4, Py_BuildValue("i", _mk_num));
 	PyTuple_SetItem(_mParams, 5, Py_BuildValue("d", _mc_val));
+	PyTuple_SetItem(_mParams, 6, Py_BuildValue("b", _merror_1));
 
 	Py_DECREF(obPt2DList);
 	Py_DECREF(range2DList);
@@ -53,7 +54,7 @@ void YCZFilterPyThread2D::setParams()
 	_mPyFunc = "run_for_soft";
 }
 
-YCZFilterPyThread2D::YCZFilterPyThread2D(QList<ObPt2D> obPts2D, QList<Range2D> rangeA, QString outPath, double s, int k,double c)
+YCZFilterPyThread2D::YCZFilterPyThread2D(QList<ObPt2D> obPts2D, QList<Range2D> rangeA, QString outPath, double s, int k,double c, bool e)
 {
 	_mObPts2D = obPts2D;
 	_mRange2D = rangeA;
@@ -61,6 +62,7 @@ YCZFilterPyThread2D::YCZFilterPyThread2D(QList<ObPt2D> obPts2D, QList<Range2D> r
 	_msize = s;
 	_mk_num = k;
 	_mc_val = c;
+	_merror_1 = e;
 }
 
 YCZFilterPyThread2D::~YCZFilterPyThread2D()

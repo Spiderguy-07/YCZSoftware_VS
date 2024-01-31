@@ -447,9 +447,9 @@ void MainWindow::onYCZFilterParamsSended(QList<ObPt> obPts, QList<UnobPt> unobPt
     YCZThread->start();
 }
 
-void MainWindow::onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k, double c)
+void MainWindow::onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k, double c, bool e)
 {
-    YCZFilterPyThread2D* YCZThread2D = new YCZFilterPyThread2D(obpts, rangeA, outputPath, s, k, c);
+    YCZFilterPyThread2D* YCZThread2D = new YCZFilterPyThread2D(obpts, rangeA, outputPath, s, k, c, e);
     YCZThread2D->start();
     
     connect(YCZThread2D, &YCZFilterPyThread2D::escT, this, &MainWindow::onImportImg);

@@ -85,10 +85,13 @@ void OYCZFilterServiceDialog::onBtnConfirmClicked()
 	rangeA.append(r_xy);
 
 	double sizeA = ui->lineSize->text().toDouble();
-	int k_num = ui->lineK_num->text().toInt();
-	double c_val = ui->lineC_val->text().toDouble();
+	int k_num = ui->sb_k_num->value();
+	double c_val = ui->dsb_c_num->value();
+	bool error_1 = false;
+	if (ui->cb_error->isChecked())
+		error_1 = true;
 
-	emit sendPyParams(obPts, rangeA, outputPath,sizeA,k_num,c_val);
+	emit sendPyParams(obPts, rangeA, outputPath, sizeA, k_num, c_val, error_1);
 	emit getOutPath(outputPath);
 	this->close();
 }
