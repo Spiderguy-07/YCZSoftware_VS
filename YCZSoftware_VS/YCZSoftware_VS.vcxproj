@@ -121,6 +121,7 @@
     <QtUic Include="src\service\oyczfilterservicedialog.ui" />
     <QtUic Include="src\service\sqldialog.ui" />
     <QtUic Include="src\service\YCZFilterServiceDialog.ui" />
+    <QtUic Include="src\service\yczprogressdialog.ui" />
     <QtUic Include="YCZSoftware_VS.ui" />
     <QtMoc Include="YCZSoftware_VS.h" />
     <ClCompile Include="LayerMenuProvider.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="src\service\YCZFilterPyThread.cpp" />
     <ClCompile Include="src\service\YCZFilterPyThread2D.cpp" />
     <ClCompile Include="src\service\YCZFilterServiceDialog.cpp" />
+    <ClCompile Include="src\service\yczprogressdialog.cpp" />
     <ClCompile Include="YCZSoftware_VS.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -153,6 +155,7 @@
     <None Include="resource\shader\gl.vert" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\service\yczprogressdialog.h" />
     <QtMoc Include="src\service\oyczfilterservicedialog.h" />
     <QtMoc Include="src\service\YCZFilterPyThread2D.h" />
     <QtMoc Include="src\service\YCZFilterServiceDialog.h" />

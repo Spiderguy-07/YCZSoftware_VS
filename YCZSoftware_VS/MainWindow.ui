@@ -109,7 +109,7 @@
     </property>
     <widget class="QMenu" name="menulocal_YCZ">
      <property name="title">
-      <string>local YCZ</string>
+      <string>Ordinary YCZ</string>
      </property>
      <addaction name="actionCreatRster"/>
      <addaction name="actionCheckAccuracy"/>
@@ -248,7 +248,7 @@
   </action>
   <action name="actionYCZFilter">
    <property name="text">
-    <string>全局杨赤中</string>
+    <string>Local YCZ</string>
    </property>
   </action>
   <action name="actionNormalKriging">

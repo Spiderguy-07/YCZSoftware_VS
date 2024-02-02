@@ -16,6 +16,7 @@ MainWindow::MainWindow(Json::Value config, QWidget* parent)
     this->_mConfig = config[MAINWINDOW_2D];
     this->_mHighlight = nullptr;
     this->isProjectOpened = false;
+    this->_mprogress = nullptr;
     Py_SetPythonHome(L"E:/Anaconda3/InstallPos/envs/cluster");
     //this->setupEagleEyeMap();
     this->initUi();
@@ -126,6 +127,12 @@ void MainWindow::initUi()
     this->connectFunc();
 
     this->showMaximized();
+    //_mprogress = new yczprogressDialog(this);
+    //_mprogress->show();
+
+    //yczprogressDialog* newdialog = new yczprogressDialog(nullptr);
+    //newdialog->show();
+
 }
 
 void MainWindow::connectFunc()
@@ -393,10 +400,15 @@ bool MainWindow::onActionOYCZFilterTriggered()
 {
     QgsProject* project = QgsProject::instance();
     OYCZFilterServiceDialog* oyczFilterDialog = new OYCZFilterServiceDialog(project,this);
+    connect(oyczFilterDialog, &OYCZFilterServiceDialog::begin, this, &MainWindow::onNewProgress);
+
     connect(oyczFilterDialog, &OYCZFilterServiceDialog::sendPyParams, this, &MainWindow::onOYCZFilterParamsSended);
     
     //QString path = oyczFilterDialog->getOutPath();
     connect(oyczFilterDialog, &OYCZFilterServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+
+    
+   // connect(oyczFilterDialog, &OYCZFilterServiceDialog::begin, this, )
     oyczFilterDialog->show();
 
     
@@ -454,16 +466,21 @@ void MainWindow::onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> ra
     
     connect(YCZThread2D, &YCZFilterPyThread2D::escT, this, &MainWindow::onImportImg);
     connect(YCZThread2D, &YCZFilterPyThread2D::_end, YCZThread2D, &YCZFilterPyThread2D::quit);
+    
+    connect(_mprogress, &yczprogressDialog::canceled, YCZThread2D, &YCZFilterPyThread2D::quit);
+    //connect(_mprogress, &yczprogressDialog::canceled, YCZThread2D, &YCZFilterPyThread2D::wait);
+    
+    
     //connect(YCZThread2D, &YCZFilterPyThread2D::_end, YCZThread2D, &YCZFilterPyThread2D::terminate);
     // 等待线程完成
-    YCZThread2D->wait();
+    //YCZThread2D->wait();
 
     // 断开连接
     //QObject::disconnect(YCZThread2D, &YCZFilterPyThread2D::escT, this, &MainWindow::onImportImg);
     //QObject::disconnect(YCZThread2D, &YCZFilterPyThread2D::_end, YCZThread2D, &YCZFilterPyThread2D::quit);
 
     // 删除线程对象
-    delete YCZThread2D;
+    //delete YCZThread2D;
 
 }
 
@@ -797,6 +814,15 @@ void MainWindow::onMapRefresh()
 void MainWindow::onGetPath(QString path)
 {
     this->imgPath = path;
+    //_mprogress->show();
+}
+
+void MainWindow::onNewProgress(QString name)
+{
+    _mprogress = new yczprogressDialog(this);
+    _mprogress->setWindowTitle(name);
+    _mprogress->show();
+    _mprogress->onMessage("Ordinary YangCZ interpolation is running.");
 }
 
 void MainWindow::onImportImg(PyObject* result_re)
@@ -811,6 +837,8 @@ void MainWindow::onImportImg(PyObject* result_re)
     //if_run = PyArg_Parse(result_re, "i", if_run);
     if (if_run == 1)
     {
+        _mprogress->onMessage("YangCZ is successful.");
+        _mprogress->onSuccess();
         switch (QMessageBox::information(this, QString(), tr("Loading the Image?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
         {
         case  QMessageBox::Ok:
@@ -827,6 +855,8 @@ void MainWindow::onImportImg(PyObject* result_re)
     }
     else if(if_run == 2)
     {
+        _mprogress->onMessage("YangCZ interpolation stop running.");
+        _mprogress->close();
         switch (QMessageBox::information(this, QString(), tr("Adjust the parameters and try again ?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
         {
         case  QMessageBox::Ok:
@@ -842,6 +872,7 @@ void MainWindow::onImportImg(PyObject* result_re)
     }
     else
     {
+        _mprogress->onError("error");
         QMessageBox::information(this, tr("Wronging"), tr(" Something was wrong,please check."));
     }
         

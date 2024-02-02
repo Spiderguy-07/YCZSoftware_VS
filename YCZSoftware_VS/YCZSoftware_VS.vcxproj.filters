@@ -94,6 +94,9 @@
     <ClCompile Include="src\service\oyczfilterservicedialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\service\yczprogressdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h">
@@ -144,6 +147,9 @@
     <QtMoc Include="src\service\oyczfilterservicedialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\service\yczprogressdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
@@ -174,6 +180,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\service\oyczfilterservicedialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\yczprogressdialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

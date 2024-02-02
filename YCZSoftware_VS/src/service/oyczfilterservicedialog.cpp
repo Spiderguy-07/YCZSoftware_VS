@@ -91,9 +91,12 @@ void OYCZFilterServiceDialog::onBtnConfirmClicked()
 	if (ui->cb_error->isChecked())
 		error_1 = true;
 
+	this->close();
+	emit begin("Ordinary YangCZ");
 	emit sendPyParams(obPts, rangeA, outputPath, sizeA, k_num, c_val, error_1);
 	emit getOutPath(outputPath);
-	this->close();
+	//emit begin("Ordinary YangCZ");
+	
 }
 
 void OYCZFilterServiceDialog::onBtnCancelClicked()

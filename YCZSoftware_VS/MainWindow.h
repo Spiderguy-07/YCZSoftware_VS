@@ -38,6 +38,8 @@
 #include "./src/service/YCZFilterPyThread2D.h"
 #include "./src/service/aboutsoftdialog.h"
 #include "./src/service/sqldialog.h"
+#include "./src/service/yczprogressdialog.h"
+#include "./src/service/yczprogressdialog.h"
 #include "Project.h"
 
 #include "ui_MainWindow.h"
@@ -86,6 +88,7 @@ private:
 
     QString imgPath;
 
+    yczprogressDialog* _mprogress;
     //QTextEdit* m_textEditLog;
     //QDockWidget* m_dockWidgetLog;
 
@@ -148,4 +151,5 @@ private slots:
     void onGetPath(QString path);
     void onImportImg(PyObject* result_re);
 
+    void onNewProgress(QString name);
 };

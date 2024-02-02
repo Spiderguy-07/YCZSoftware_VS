@@ -18,6 +18,7 @@ class OYCZFilterServiceDialog : public QDialog
 signals:
     void sendPyParams(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k,double c, bool e);
 	void getOutPath(QString);
+	void begin(QString);
 
 
 public:
