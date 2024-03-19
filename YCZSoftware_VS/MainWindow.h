@@ -40,6 +40,7 @@
 #include "./src/service/sqldialog.h"
 #include "./src/service/yczprogressdialog.h"
 #include "./src/service/yczprogressdialog.h"
+#include "basewindow.h"
 #include "Project.h"
 
 #include "ui_MainWindow.h"
@@ -152,4 +153,6 @@ private slots:
     void onImportImg(PyObject* result_re);
 
     void onNewProgress(QString name);
+
+    void onWaiting();
 };

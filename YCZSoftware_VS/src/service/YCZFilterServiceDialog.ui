@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>369</width>
+    <width>423</width>
     <height>337</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>108</x>
      <y>30</y>
-     <width>171</width>
+     <width>231</width>
      <height>22</height>
     </rect>
    </property>
@@ -26,7 +26,7 @@
   <widget class="QPushButton" name="btnComfirm">
    <property name="geometry">
     <rect>
-     <x>44</x>
+     <x>60</x>
      <y>290</y>
      <width>71</width>
      <height>23</height>
@@ -39,7 +39,7 @@
   <widget class="QPushButton" name="btnCancel">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>300</x>
      <y>290</y>
      <width>71</width>
      <height>23</height>
@@ -65,7 +65,7 @@
   <widget class="QPushButton" name="btnBrowseObserved">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>350</x>
      <y>30</y>
      <width>41</width>
      <height>23</height>
@@ -87,7 +87,7 @@
     <rect>
      <x>108</x>
      <y>70</y>
-     <width>171</width>
+     <width>231</width>
      <height>22</height>
     </rect>
    </property>
@@ -108,7 +108,7 @@
   <widget class="QPushButton" name="btnBrowseUnob">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>350</x>
      <y>70</y>
      <width>41</width>
      <height>23</height>
@@ -130,7 +130,7 @@
     <rect>
      <x>40</x>
      <y>150</y>
-     <width>111</width>
+     <width>151</width>
      <height>21</height>
     </rect>
    </property>
@@ -141,9 +141,9 @@
   <widget class="QComboBox" name="cmbObVal">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>180</x>
      <y>150</y>
-     <width>171</width>
+     <width>211</width>
      <height>22</height>
     </rect>
    </property>
@@ -153,7 +153,7 @@
     <rect>
      <x>40</x>
      <y>190</y>
-     <width>111</width>
+     <width>151</width>
      <height>21</height>
     </rect>
    </property>
@@ -164,9 +164,9 @@
   <widget class="QComboBox" name="cmbObLbl">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>180</x>
      <y>190</y>
-     <width>171</width>
+     <width>211</width>
      <height>22</height>
     </rect>
    </property>
@@ -176,7 +176,7 @@
     <rect>
      <x>40</x>
      <y>230</y>
-     <width>111</width>
+     <width>151</width>
      <height>21</height>
     </rect>
    </property>
@@ -187,9 +187,9 @@
   <widget class="QComboBox" name="cmbUnobLbl">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>180</x>
      <y>230</y>
-     <width>171</width>
+     <width>211</width>
      <height>22</height>
     </rect>
    </property>
@@ -210,7 +210,7 @@
   <widget class="QPushButton" name="btnBrowseOutput">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>350</x>
      <y>110</y>
      <width>41</width>
      <height>23</height>
@@ -232,7 +232,7 @@
     <rect>
      <x>110</x>
      <y>110</y>
-     <width>171</width>
+     <width>231</width>
      <height>21</height>
     </rect>
    </property>

@@ -124,9 +124,11 @@
     <QtUic Include="src\service\yczprogressdialog.ui" />
     <QtUic Include="YCZSoftware_VS.ui" />
     <QtMoc Include="YCZSoftware_VS.h" />
+    <ClCompile Include="basewindow.cpp" />
     <ClCompile Include="LayerMenuProvider.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MapToolSelectFeatures.cpp" />
+    <ClCompile Include="mytitlebar.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="src\entity\Entity3D.cpp" />
     <ClCompile Include="src\service\aboutsoftdialog.cpp" />
@@ -166,6 +168,8 @@
     <QtMoc Include="LayerMenuProvider.h" />
     <QtMoc Include="MapToolSelectFeatures.h" />
     <QtMoc Include="Project.h" />
+    <QtMoc Include="basewindow.h" />
+    <QtMoc Include="mytitlebar.h" />
     <ClInclude Include="pythreadstatelock.h" />
     <ClInclude Include="src\entity\Entity3D.h" />
     <ClInclude Include="src\macro.h" />

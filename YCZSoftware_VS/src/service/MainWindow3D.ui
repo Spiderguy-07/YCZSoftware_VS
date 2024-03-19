@@ -20,29 +20,128 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile3D">
     <property name="title">
-     <string>文件</string>
+     <string>File</string>
     </property>
     <addaction name="actionImport3D"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuESDA">
+    <property name="title">
+     <string>ESDA</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuKriging">
+    <property name="title">
+     <string>Kriging</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuYangCZ">
+    <property name="title">
+     <string>YangCZ</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu3DAnalyst">
+    <property name="title">
+     <string>3DAnalyst</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+   </widget>
    <addaction name="menuFile3D"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuESDA"/>
+   <addaction name="menuKriging"/>
+   <addaction name="menuYangCZ"/>
+   <addaction name="menu3DAnalyst"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="iconSize">
+    <size>
+     <width>25</width>
+     <height>25</height>
+    </size>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionImport3D"/>
+   <addaction name="actionUnset"/>
+   <addaction name="actionPan"/>
+   <addaction name="actionZoomIn"/>
+   <addaction name="actionZoomOut"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionImport3D">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Action_Open_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Action_Open_32x32.png</iconset>
+   </property>
    <property name="text">
-    <string>导入3D数据</string>
+    <string>Import 3D Data</string>
+   </property>
+  </action>
+  <action name="actionUnset">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/SelectTool_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/SelectTool_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>Unset</string>
+   </property>
+   <property name="toolTip">
+    <string>Unset</string>
+   </property>
+  </action>
+  <action name="actionPan">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/ArcGIS图标/ArcGIS/PanTool32.png</normaloff>D:/GIS_todo/ArcGIS图标/ArcGIS/PanTool32.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pan</string>
+   </property>
+   <property name="toolTip">
+    <string>Pan</string>
+   </property>
+  </action>
+  <action name="actionZoomIn">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/ArcGIS图标/ArcGIS/ZoomInTool32.png</normaloff>D:/GIS_todo/ArcGIS图标/ArcGIS/ZoomInTool32.png</iconset>
+   </property>
+   <property name="text">
+    <string>ZoomIn</string>
+   </property>
+   <property name="toolTip">
+    <string>ZoomIn</string>
+   </property>
+  </action>
+  <action name="actionZoomOut">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/ArcGIS图标/ArcGIS/ZoomOutTool32.png</normaloff>D:/GIS_todo/ArcGIS图标/ArcGIS/ZoomOutTool32.png</iconset>
+   </property>
+   <property name="text">
+    <string>ZoomOut</string>
+   </property>
+   <property name="toolTip">
+    <string>ZoomOut</string>
    </property>
   </action>
  </widget>

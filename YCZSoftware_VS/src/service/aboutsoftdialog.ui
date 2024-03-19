@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>886</width>
+    <width>712</width>
     <height>417</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>About YangCZ Software</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>150</x>
      <y>340</y>
-     <width>721</width>
+     <width>551</width>
      <height>30</height>
     </rect>
    </property>
@@ -50,7 +50,7 @@
     <rect>
      <x>150</x>
      <y>10</y>
-     <width>725</width>
+     <width>551</width>
      <height>280</height>
     </rect>
    </property>
@@ -69,8 +69,8 @@
     <rect>
      <x>140</x>
      <y>300</y>
-     <width>725</width>
-     <height>15</height>
+     <width>561</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -100,6 +100,11 @@
      <width>150</width>
      <height>16777215</height>
     </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="horizontalScrollBarPolicy">
     <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -173,8 +178,8 @@
     <rect>
      <x>150</x>
      <y>320</y>
-     <width>725</width>
-     <height>15</height>
+     <width>551</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -187,7 +192,7 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>780</x>
+     <x>610</x>
      <y>380</y>
      <width>93</width>
      <height>28</height>

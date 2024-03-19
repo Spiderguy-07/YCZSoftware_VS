@@ -19,7 +19,7 @@
   <property name="font">
    <font>
     <family>Microsoft YaHei UI</family>
-    <pointsize>10</pointsize>
+    <pointsize>9</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../ycz.png</normaloff>../../../ycz.png</iconset>
+    <normaloff>../../../ycz_l.png</normaloff>../../../ycz_l.png</iconset>
   </property>
   <property name="iconSize">
    <size>
@@ -42,7 +42,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>33</height>
+     <height>29</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -54,11 +54,17 @@
    <property name="font">
     <font>
      <family>Microsoft YaHei UI</family>
-     <pointsize>12</pointsize>
+     <pointsize>10</pointsize>
     </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="contextMenuPolicy">
     <enum>Qt::DefaultContextMenu</enum>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
@@ -66,8 +72,8 @@
    <widget class="QMenu" name="menuFile">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>160</y>
+      <x>328</x>
+      <y>156</y>
       <width>137</width>
       <height>216</height>
      </rect>
@@ -79,11 +85,11 @@
      <property name="font">
       <font>
        <family>Microsoft YaHei UI</family>
-       <pointsize>12</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="title">
-      <string>导入</string>
+      <string>Import</string>
      </property>
      <addaction name="actionImportXYZ"/>
      <addaction name="actionImportShp"/>
@@ -133,13 +139,15 @@
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string>TOOL</string>
+     <string>Tool</string>
     </property>
+    <addaction name="actionTo_be_developed_2"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionTo_be_developed"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -151,6 +159,7 @@
     <property name="title">
      <string>ESDA</string>
     </property>
+    <addaction name="actionTo_be_developed_3"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -168,8 +177,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>30</width>
-     <height>30</height>
+     <width>25</width>
+     <height>25</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -208,7 +217,7 @@
   </action>
   <action name="actionImportXYZ">
    <property name="text">
-    <string>导入csv/txt</string>
+    <string>Import csv/txt</string>
    </property>
    <property name="toolTip">
     <string>导入csv/txt</string>
@@ -216,7 +225,7 @@
    <property name="font">
     <font>
      <family>Microsoft YaHei UI</family>
-     <pointsize>12</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
   </action>
@@ -226,23 +235,23 @@
      <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/OpenHyperlink_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/OpenHyperlink_32x32.png</iconset>
    </property>
    <property name="text">
-    <string>导入shp</string>
+    <string>Import shp</string>
    </property>
    <property name="font">
     <font>
      <family>Microsoft YaHei UI</family>
-     <pointsize>12</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
   </action>
   <action name="actionOpen3DWindow">
    <property name="text">
-    <string>打开3D窗口</string>
+    <string>Open 3D Window</string>
    </property>
    <property name="font">
     <font>
      <family>Microsoft YaHei UI</family>
-     <pointsize>12</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
   </action>
@@ -457,6 +466,21 @@
   <action name="actionCheckAccuracy">
    <property name="text">
     <string>Check Accuracy</string>
+   </property>
+  </action>
+  <action name="actionTo_be_developed">
+   <property name="text">
+    <string>To be developed</string>
+   </property>
+  </action>
+  <action name="actionTo_be_developed_2">
+   <property name="text">
+    <string>To be developed</string>
+   </property>
+  </action>
+  <action name="actionTo_be_developed_3">
+   <property name="text">
+    <string>To be developed</string>
    </property>
   </action>
  </widget>

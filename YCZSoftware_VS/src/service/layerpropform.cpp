@@ -139,7 +139,7 @@ void LayerPropForm::renderApplyPbClicked(bool needClose)
             QgsFeatureRenderer* renderer = vectorSingleRenderWidget->renderer();
             vectorLayer->setRenderer(renderer);
         }
-        else if (ui->comboTabWidget->currentIndex() == 0)
+        else if (ui->comboTabWidget->currentIndex() == 1)
         {
             QgsFeatureRenderer* renderer = vectorCateGoryRenderWidget->renderer();
             vectorLayer->setRenderer(renderer);

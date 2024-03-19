@@ -51,6 +51,9 @@ void MainWindow::initUi()
 
     //this->setWindowTitle(this->_mConfig[TITLE].asCString());  // set title  1.20ÐÞ¸Ä
 
+    //setWindowFlags(Qt::FramelessWindowHint);//Òþ²Ø±ß¿ò 
+
+
     this->setWindowTitle();
 
     // create left dock
@@ -164,6 +167,8 @@ void MainWindow::connectFunc()
     this->connect(ui.actionSelectVector, &QAction::triggered, this, &MainWindow::onActionFeatureInfo);
     this->connect(ui.actionSerchSQL, &QAction::triggered, this, &MainWindow::onActionSerchSQL);
     this->connect(this->_mCanvas2D, SIGNAL(layersChanged()), this, SLOT(onCanvasRefresh()));
+
+    this->connect(ui.actionTo_be_developed, &QAction::triggered, this, &MainWindow::onWaiting);
 
     auto lambdaSetModified = [this] { setWindowModified(true); };
     connect(_mLayerTreeView->layerTreeModel()->rootGroup(), &QgsLayerTreeNode::addedChildren, this, lambdaSetModified);
@@ -823,6 +828,11 @@ void MainWindow::onNewProgress(QString name)
     _mprogress->setWindowTitle(name);
     _mprogress->show();
     _mprogress->onMessage("Ordinary YangCZ interpolation is running.");
+}
+
+void MainWindow::onWaiting()
+{
+    QMessageBox::information(this, tr("Waiting"), tr(" This function is still exploiting, please waiting."));
 }
 
 void MainWindow::onImportImg(PyObject* result_re)

@@ -111,7 +111,11 @@ void OYCZFilterServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
 		if (vecLyr->wkbType() != Qgis::WkbType::Point &&
 			vecLyr->wkbType() != Qgis::WkbType::MultiPoint &&
 			vecLyr->wkbType() != Qgis::WkbType::PointM &&
-			vecLyr->wkbType() != Qgis::WkbType::MultiPointM) {
+			vecLyr->wkbType() != Qgis::WkbType::MultiPointM &&
+			vecLyr->wkbType() != Qgis::WkbType::PointZ &&
+			vecLyr->wkbType() != Qgis::WkbType::MultiPointZ &&
+			vecLyr->wkbType() != Qgis::WkbType::PointZM &&
+			vecLyr->wkbType() != Qgis::WkbType::MultiPointZM) {
 			continue;
 		}
 		lyrs.append(vecLyr);
