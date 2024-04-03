@@ -14,64 +14,11 @@
    <string>MainWindow3D</string>
   </property>
   <widget class="QWidget" name="centralWidget"/>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>600</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile3D">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionImport3D"/>
-   </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuESDA">
-    <property name="title">
-     <string>ESDA</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuKriging">
-    <property name="title">
-     <string>Kriging</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuYangCZ">
-    <property name="title">
-     <string>YangCZ</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menu3DAnalyst">
-    <property name="title">
-     <string>3DAnalyst</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-   </widget>
-   <addaction name="menuFile3D"/>
-   <addaction name="menuEdit"/>
-   <addaction name="menuESDA"/>
-   <addaction name="menuKriging"/>
-   <addaction name="menuYangCZ"/>
-   <addaction name="menu3DAnalyst"/>
-   <addaction name="menuHelp"/>
-  </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="iconSize">
     <size>
-     <width>25</width>
-     <height>25</height>
+     <width>30</width>
+     <height>30</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -85,8 +32,22 @@
    <addaction name="actionPan"/>
    <addaction name="actionZoomIn"/>
    <addaction name="actionZoomOut"/>
+   <addaction name="separator"/>
+   <addaction name="actioncolor"/>
+   <addaction name="actionmore"/>
+   <addaction name="actioncube"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
   <action name="actionImport3D">
    <property name="icon">
     <iconset>
@@ -142,6 +103,33 @@
    </property>
    <property name="toolTip">
     <string>ZoomOut</string>
+   </property>
+  </action>
+  <action name="actioncolor">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Colors_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/Colors_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>color</string>
+   </property>
+  </action>
+  <action name="actionmore">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/BlueWhiteRed_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/BlueWhiteRed_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>more</string>
+   </property>
+  </action>
+  <action name="actioncube">
+   <property name="icon">
+    <iconset>
+     <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/3DFullStackedArea_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/3DFullStackedArea_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>cube</string>
    </property>
   </action>
  </widget>

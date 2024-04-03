@@ -82,7 +82,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(OSGEO_HOME)\apps\qgis-rel-dev\lib;.\resource\lib\json;..\x64\Release\python\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qgis_app.lib;qgis_core.lib;qgis_gui.lib;jsoncpp.lib;python39.lib;python3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qgis_app.lib;qgis_core.lib;qgis_gui.lib;jsoncpp.lib;python39.lib;python3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -114,6 +114,8 @@
     <QtUic Include="MainWindow.ui" />
     <QtUic Include="src\service\aboutsoftdialog.ui" />
     <QtUic Include="src\service\Canvas3DService.ui" />
+    <QtUic Include="src\service\ColorGradientWidget.ui" />
+    <QtUic Include="src\service\CubeDialog.ui" />
     <QtUic Include="src\service\layerpropform.ui" />
     <QtUic Include="src\service\LoadingXYZDataDialog.ui" />
     <QtUic Include="src\service\Lyr3DSelectDialog.ui" />
@@ -133,6 +135,10 @@
     <ClCompile Include="src\entity\Entity3D.cpp" />
     <ClCompile Include="src\service\aboutsoftdialog.cpp" />
     <ClCompile Include="src\service\Canvas3DService.cpp" />
+    <ClCompile Include="src\service\ColorGradientPreview.cpp" />
+    <ClCompile Include="src\service\ColorGradientWidget.cpp" />
+    <ClCompile Include="src\service\ColorWidget.cpp" />
+    <ClCompile Include="src\service\CubeDialog.cpp" />
     <ClCompile Include="src\service\FileLoadingService.cpp" />
     <ClCompile Include="src\service\layerpropform.cpp" />
     <ClCompile Include="src\service\LoadingXYZDataDialog.cpp" />
@@ -174,6 +180,10 @@
     <ClInclude Include="src\entity\Entity3D.h" />
     <ClInclude Include="src\macro.h" />
     <QtMoc Include="src\service\aboutsoftdialog.h" />
+    <QtMoc Include="src\service\ColorGradientWidget.h" />
+    <QtMoc Include="src\service\ColorGradientPreview.h" />
+    <QtMoc Include="src\service\ColorWidget.h" />
+    <QtMoc Include="src\service\CubeDialog.h" />
     <ClInclude Include="src\service\FileLoadingService.h" />
     <QtMoc Include="src\service\MainWindow3D.h" />
     <QtMoc Include="src\service\Lyr3DSelectDialog.h" />

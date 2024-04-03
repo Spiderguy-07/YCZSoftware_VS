@@ -3,10 +3,14 @@
 #include <QMainWindow>
 #include <qgsdockwidget.h>
 #include <json.h>
+#include <QColorDialog>
 
 #include "ui_MainWindow3D.h"
 #include "Canvas3DService.h"
 #include "FileLoadingService.h"
+#include "ColorGradientWidget.h"
+#include "CubeDialog.h"
+
 
 class MainWindow3D : public QMainWindow
 {
@@ -30,4 +34,9 @@ private:
 
 	void initUi();
 	bool onActionImport3DTriggered();
+	void onActionColor();
+	void onActionGrade();
+	void onActionCube();
+
+	void GradeColor(QColor begin_color, QColor end_color, int steps, QString name);
 };

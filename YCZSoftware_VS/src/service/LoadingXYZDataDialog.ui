@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>导入XY数据</string>
+   <string>Import CSV</string>
   </property>
   <widget class="QWidget" name="formLayoutWidget">
    <property name="geometry">
@@ -26,7 +26,7 @@
     <item row="0" column="0">
      <widget class="QLabel" name="lblPath">
       <property name="text">
-       <string>文件路径：</string>
+       <string>File Path：</string>
       </property>
      </widget>
     </item>
@@ -40,7 +40,7 @@
     <item row="2" column="0">
      <widget class="QLabel" name="lblX">
       <property name="text">
-       <string>X坐标字段：</string>
+       <string>X field：</string>
       </property>
      </widget>
     </item>
@@ -50,7 +50,7 @@
     <item row="3" column="0">
      <widget class="QLabel" name="lblY">
       <property name="text">
-       <string>Y坐标字段：</string>
+       <string>Y field：</string>
       </property>
      </widget>
     </item>
@@ -60,7 +60,7 @@
     <item row="4" column="0">
      <widget class="QLabel" name="lblZ">
       <property name="text">
-       <string>Z坐标字段：</string>
+       <string>Z field：</string>
       </property>
      </widget>
     </item>
@@ -70,7 +70,7 @@
     <item row="1" column="0">
      <widget class="QLabel" name="lblSeperator">
       <property name="text">
-       <string>分隔符：</string>
+       <string>Separator：</string>
       </property>
      </widget>
     </item>

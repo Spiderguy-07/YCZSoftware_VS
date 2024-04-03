@@ -26,6 +26,13 @@ public:
 	Canvas3D(Entity3D entity, QWidget *parent = nullptr);
 	~Canvas3D();
 
+	void changColor(QVector4D newColor);
+
+	void gradeColor(QVector4D startColor, QVector4D endColor, int steps, QString filed);
+
+public slots:
+	void cubeDraw(int index, double size);
+
 
 protected:
 	virtual void initializeGL() override;
@@ -36,9 +43,13 @@ protected:
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 
+	void RGBToHSL(const QVector4D& color, float& H, float& S, float& L);
+	QVector4D HSLToRGB(float Hue, float Saturation, float Lightness, float alpha);
+
 private:
 	Ui::Canvas3DServiceClass *ui;
 	QOpenGLShaderProgram _mShaderProgram;
+	//QOpenGLShaderProgram _mCubeShaderProgram;
 	QVector<std::shared_ptr<QOpenGLVertexArrayObject>> _mVAOs;
 	QVector<QOpenGLBuffer> _mVBOs;
 	QVector<QOpenGLBuffer> _mEBOs;
@@ -48,6 +59,7 @@ private:
 	QVector3D _mViewAt;
 	QVector3D _mViewUp;
 
+	double _mSizeCube;
 
 	double _mAspect;
 	double _mFov;
