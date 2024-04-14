@@ -1,21 +1,21 @@
-#include "boxplotdialog.h"
-#include "ui_boxplotdialog.h"
+#include "qqplotdialog.h"
+#include "ui_qqplotdialog.h"
 
-BoxPlotDialog::BoxPlotDialog(QgsProject* project, QWidget *parent) :
+QQPlotDialog::QQPlotDialog(QgsProject* project, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::BoxPlotDialog)
+    ui(new Ui::QQPlotDialog)
 {
     ui->setupUi(this);
     initUI(project->layers<QgsVectorLayer*>());
-    connect(ui->bt_draw, &QPushButton::clicked, this, &BoxPlotDialog::onBtnDrawClicked);
+    connect(ui->bt_draw, &QPushButton::clicked, this, &QQPlotDialog::onBtnDrawClicked);
 }
 
-BoxPlotDialog::~BoxPlotDialog()
+QQPlotDialog::~QQPlotDialog()
 {
     delete ui;
 }
 
-void BoxPlotDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
+void QQPlotDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
 {
     //ui->sb_number->setValue(5);
     for (const auto& vecLyr : pjLyr) {
@@ -23,10 +23,10 @@ void BoxPlotDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
         ui->cmb_layer->addItem(vecLyr->name());
     }
     ui->cmb_layer->setCurrentIndex(-1);
-    connect(ui->cmb_layer, &QComboBox::currentTextChanged, this, &BoxPlotDialog::onCmbLayerChange);
+    connect(ui->cmb_layer, &QComboBox::currentTextChanged, this, &QQPlotDialog::onCmbLayerChange);
 }
 
-void BoxPlotDialog::onCmbLayerChange()
+void QQPlotDialog::onCmbLayerChange()
 {
     ui->cmb_field->clear();
     int index = ui->cmb_layer->currentIndex();
@@ -42,7 +42,7 @@ void BoxPlotDialog::onCmbLayerChange()
 
 }
 
-void BoxPlotDialog::onBtnDrawClicked()
+void QQPlotDialog::onBtnDrawClicked()
 {
     int obInd = ui->cmb_layer->currentIndex();
     QgsVectorLayer* obLyr = lyrs.at(obInd);
@@ -64,6 +64,6 @@ void BoxPlotDialog::onBtnDrawClicked()
         data.append(val);
     }
 
-    ui->BoxPlotWidget->setData(data);
+    ui->QQPlotWidget->setData(data);
 
 }

@@ -115,6 +115,42 @@
     <ClCompile Include="src\service\CubeDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\service\histogramdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\HistogramView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\QQPlotDraw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\qqplotdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\boxplotdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\BoxPlotDraw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\logtransdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\inverselogdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\oyangczservicedialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\YangCZPyThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\coanalysisdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\CorrelationMatrixWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h">
@@ -186,6 +222,42 @@
     <QtMoc Include="src\service\CubeDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\service\histogramdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\HistogramView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\qqplotdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\QQPlotDraw.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\boxplotdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\BoxPlotDraw.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\logtransdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\inverselogdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\oyangczservicedialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\YangCZPyThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\coanalysisdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\service\CorrelationMatrixWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
@@ -225,6 +297,27 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\service\CubeDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\histogramdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\qqplotdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\boxplotdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\logtransdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\inverselogdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\oyangczservicedialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\service\coanalysisdialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

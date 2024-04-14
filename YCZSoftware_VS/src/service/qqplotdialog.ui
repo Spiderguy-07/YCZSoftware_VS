@@ -1,79 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BoxPlotDialog</class>
- <widget class="QDialog" name="BoxPlotDialog">
+ <class>QQPlotDialog</class>
+ <widget class="QDialog" name="QQPlotDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>523</width>
-    <height>583</height>
+    <width>559</width>
+    <height>423</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="bt_close">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>420</y>
-     <width>88</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Close</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cmb_layer">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>150</y>
-     <width>121</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cmb_field">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>220</y>
-     <width>121</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>170</x>
      <y>20</y>
-     <width>321</width>
-     <height>551</height>
+     <width>372</width>
+     <height>380</height>
     </rect>
    </property>
    <property name="title">
-    <string>Box Plot</string>
+    <string>QQ Plot</string>
    </property>
-   <widget class="BoxPlotDraw" name="BoxPlotWidget" native="true">
+   <widget class="QQPlotDraw" name="QQPlotWidget" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>300</width>
-      <height>521</height>
+      <width>350</width>
+      <height>350</height>
      </rect>
     </property>
    </widget>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>120</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Value:</string>
+   </property>
   </widget>
   <widget class="QPushButton" name="bt_draw">
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>360</y>
+     <y>260</y>
      <width>88</width>
      <height>31</height>
     </rect>
@@ -86,7 +66,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>120</y>
+     <y>50</y>
      <width>41</width>
      <height>16</height>
     </rect>
@@ -95,25 +75,45 @@
     <string>Data:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QComboBox" name="cmb_field">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>190</y>
-     <width>51</width>
-     <height>16</height>
+     <y>150</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="bt_close">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>320</y>
+     <width>88</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Value:</string>
+    <string>Close</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cmb_layer">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>80</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
    </property>
   </widget>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>BoxPlotDraw</class>
+   <class>QQPlotDraw</class>
    <extends>QWidget</extends>
-   <header location="global">boxplotdraw.h</header>
+   <header location="global">qqplotdraw.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

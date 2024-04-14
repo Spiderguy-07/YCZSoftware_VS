@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>573</width>
-    <height>521</height>
+    <height>609</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -252,6 +252,29 @@
    </property>
    <property name="value">
     <double>0.300000000000000</double>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cmbRangePath_2">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>542</y>
+     <width>789</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_area">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>520</y>
+     <width>789</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Extent of the study area((Optional,the default is the same as Observed Data Layer)：</string>
    </property>
   </widget>
  </widget>

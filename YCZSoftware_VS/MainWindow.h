@@ -30,6 +30,12 @@
 #include <qgis.h>	
 #include <qgsfield.h>	
 
+#include "./src/service/inverselogdialog.h"
+#include "./src/service/logtransdialog.h"
+#include "./src/service/qcustomplot.h"
+#include "./src/service/boxplotdialog.h"
+#include "./src/service/qqplotdialog.h"
+#include "./src/service/histogramdialog.h"
 #include "./src/service/MainWindow3D.h"
 #include "./src/service/Lyr3DSelectDialog.h"
 #include "./src/service/YCZFilterServiceDialog.h"
@@ -40,12 +46,15 @@
 #include "./src/service/sqldialog.h"
 #include "./src/service/yczprogressdialog.h"
 #include "./src/service/yczprogressdialog.h"
+#include "./src/service/coanalysisdialog.h"
 #include "basewindow.h"
 #include "Project.h"
 
 #include "ui_MainWindow.h"
 #include <qgsscalecombobox.h>
 #include <qprogressbar.h>
+
+#include "./src/service/oyangczservicedialog.h"
 
 class MainWindow : public QMainWindow
 {
@@ -87,7 +96,8 @@ private:
     QLabel* m_coordsLabel; //! 在状态栏显示"Coordinate / Extent"
     QLineEdit* m_coordsEdit; //! 在状态栏显示地理坐标
 
-    QString imgPath;
+    QString resultPath;
+    bool isTIF;
 
     yczprogressDialog* _mprogress;
     //QTextEdit* m_textEditLog;
@@ -121,15 +131,25 @@ private slots:
     bool onActionImportShpTriggered();
     bool onActionOpen3DWindowTriggered();
     bool onActionImportXYZTriggered();
-    bool onActionYCZFilterTriggered();
-    bool onActionOYCZFilterTriggered();
+    //bool onActionYCZFilterTriggered();
+    //bool onActionOYCZFilterTriggered();
     bool onActionAbout();
 
     void onSendSelected3DPathEmitted(QString path);
     void onSendSelected3DLyrEmitted(QString lyrName);
 
-    void onYCZFilterParamsSended(QList<ObPt> obPts, QList<UnobPt> unobPts, QString outputPath);
-    void onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k, double c, bool e);
+    //void onYCZFilterParamsSended(QList<ObPt> obPts, QList<UnobPt> unobPts, QString outputPath);
+    //void onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> rangeA, QString outputPath, double s, int k, double c, bool e);
+
+    void onActionHistogram();
+
+    void onActionQQPlot();
+    void onActionBoxPlot();
+
+    void onActionLog();
+    void onActionInLog();
+
+    void onActionCoAnalyse();
 
     void onActionPanTriggered();
     void onActionZoomInTriggered();
@@ -149,10 +169,13 @@ private slots:
 
     void onClickSQLSearch();
 
-    void onGetPath(QString path);
-    void onImportImg(PyObject* result_re);
+    void onGetPath(QString path, bool is);
+    void onImportResult(PyObject* result_re);
 
     void onNewProgress(QString name);
 
     void onWaiting();
+
+    void onActionOYangCZ();
+    void onOYangCZParamsSended(QList<double>observed_data, QList<ObPtXYZ> obpts, QList<ObPtXYZ> un_obpts, double c, int k, int dim, QString outputPath, bool e, bool isTIF);
 };

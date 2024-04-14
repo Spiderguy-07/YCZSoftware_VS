@@ -1,27 +1,27 @@
-#ifndef BOXPLOTDIALOG_H
-#define BOXPLOTDIALOG_H
+#ifndef QQPLOTDIALOG_H
+#define QQPLOTDIALOG_H
 
 #include <QDialog>
 #include <QVector>
 #include <qgsvectorlayer.h>
 #include <qgsproject.h>
 #include <qmessagebox.h>
-#include "BoxPlotDraw.h"
+#include "QQPlotDraw.h"
 
 namespace Ui {
-class BoxPlotDialog;
+class QQPlotDialog;
 }
 
-class BoxPlotDialog : public QDialog
+class QQPlotDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit BoxPlotDialog(QgsProject* project, QWidget *parent = nullptr);
-    ~BoxPlotDialog();
+    explicit QQPlotDialog(QgsProject* project, QWidget *parent = nullptr);
+    ~QQPlotDialog();
 
 private:
-    Ui::BoxPlotDialog *ui;
+    Ui::QQPlotDialog *ui;
     QVector<QgsVectorLayer*> lyrs;
     void initUI(QVector<QgsVectorLayer*> pjLyr);
 
@@ -30,4 +30,4 @@ private slots:
     void onBtnDrawClicked();
 };
 
-#endif // BOXPLOTDIALOG_H
+#endif // QQPLOTDIALOG_H

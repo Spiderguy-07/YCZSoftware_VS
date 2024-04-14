@@ -33,6 +33,7 @@ private slots:
 	void onBtnBrowseOutputClicked();
 	void onBtnConfirmClicked();
 	void onBtnCancelClicked();
+	
 	//void onPyThreadFinished();
 
 private:

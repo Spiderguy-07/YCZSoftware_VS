@@ -1,27 +1,26 @@
-#ifndef BOXPLOTDIALOG_H
-#define BOXPLOTDIALOG_H
+#ifndef INVERSELOGDIALOG_H
+#define INVERSELOGDIALOG_H
 
 #include <QDialog>
 #include <QVector>
 #include <qgsvectorlayer.h>
 #include <qgsproject.h>
 #include <qmessagebox.h>
-#include "BoxPlotDraw.h"
 
 namespace Ui {
-class BoxPlotDialog;
+class InverseLogDialog;
 }
 
-class BoxPlotDialog : public QDialog
+class InverseLogDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit BoxPlotDialog(QgsProject* project, QWidget *parent = nullptr);
-    ~BoxPlotDialog();
+    explicit InverseLogDialog(QgsProject* project, QWidget *parent = nullptr);
+    ~InverseLogDialog();
 
 private:
-    Ui::BoxPlotDialog *ui;
+    Ui::InverseLogDialog *ui;
     QVector<QgsVectorLayer*> lyrs;
     void initUI(QVector<QgsVectorLayer*> pjLyr);
 
@@ -30,4 +29,4 @@ private slots:
     void onBtnDrawClicked();
 };
 
-#endif // BOXPLOTDIALOG_H
+#endif // INVERSELOGDIALOG_H

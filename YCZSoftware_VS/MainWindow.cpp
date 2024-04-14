@@ -123,7 +123,8 @@ void MainWindow::initUi()
     //layermenuprovider
     _mLayerTreeView->setMenuProvider(new LayerMenuProvider(_mLayerTreeView, _mCanvas2D));
 
-    this->imgPath = "";
+    this->resultPath = "";
+    this->isTIF = false;
 
     setAcceptDrops(true);
 
@@ -149,10 +150,16 @@ void MainWindow::connectFunc()
     this->connect(ui.actionImportShp, &QAction::triggered, this, &MainWindow::onActionImportShpTriggered);
     this->connect(ui.actionOpen3DWindow, &QAction::triggered, this, &MainWindow::onActionOpen3DWindowTriggered);
     this->connect(ui.actionImportXYZ, &QAction::triggered, this, &MainWindow::onActionImportXYZTriggered);
-    this->connect(ui.actionYCZFilter, &QAction::triggered, this, &MainWindow::onActionYCZFilterTriggered);
-    this->connect(ui.actionCreatRster, &QAction::triggered, this, &MainWindow::onActionOYCZFilterTriggered);
-    this->connect(ui.actionCheckAccuracy, &QAction::triggered, this, &MainWindow::onActionYCZFilterTriggered);
-
+    //this->connect(ui.actionYCZFilter, &QAction::triggered, this, &MainWindow::onActionYCZFilterTriggered);
+    //this->connect(ui.actionCreatRster, &QAction::triggered, this, &MainWindow::onActionOYCZFilterTriggered);
+    //this->connect(ui.actionCheckAccuracy, &QAction::triggered, this, &MainWindow::onActionYCZFilterTriggered);
+    this->connect(ui.actionHistogram, &QAction::triggered, this, &MainWindow::onActionHistogram);
+    this->connect(ui.actionQQ_Plot, &QAction::triggered, this, &MainWindow::onActionQQPlot);
+    this->connect(ui.actionBox_Plot, &QAction::triggered, this, &MainWindow::onActionBoxPlot);
+    this->connect(ui.actionLog_Transform, &QAction::triggered, this, &MainWindow::onActionLog);
+    this->connect(ui.actionInverse_Log_Transform, &QAction::triggered, this, &MainWindow::onActionInLog);
+    this->connect(ui.actionCorrelation_Analysis, &QAction::triggered, this, &MainWindow::onActionCoAnalyse);
+    
     this->connect(ui.actionAbout, &QAction::triggered, this, &MainWindow::onActionAbout);
     this->connect(ui.actionPan, &QAction::triggered, this, &MainWindow::onActionPanTriggered);
     this->connect(ui.actionZoomOut, &QAction::triggered, this, &MainWindow::onActionZoomOutTriggered);
@@ -174,6 +181,8 @@ void MainWindow::connectFunc()
     connect(_mLayerTreeView->layerTreeModel()->rootGroup(), &QgsLayerTreeNode::addedChildren, this, lambdaSetModified);
     connect(_mLayerTreeView->layerTreeModel()->rootGroup(), &QgsLayerTreeNode::addedChildren, this, &MainWindow::onMapRefresh);
     connect(_mLayerTreeView->layerTreeModel()->rootGroup(), &QgsLayerTreeNode::removedChildren, this, lambdaSetModified);
+
+    this->connect(ui.actionOrdinary_YCZ, &QAction::triggered, this, &MainWindow::onActionOYangCZ);
 }
 
 void MainWindow::addVectorLayer(const QString& filePath)
@@ -391,7 +400,7 @@ bool MainWindow::onActionImportXYZTriggered()
     _mEagleEyeMapOverview->refresh();
     return true;
 }
-
+/*
 bool MainWindow::onActionYCZFilterTriggered()
 {
     QgsProject* project = QgsProject::instance();
@@ -419,7 +428,7 @@ bool MainWindow::onActionOYCZFilterTriggered()
     
     return false;
 }
-
+*/
 bool MainWindow::onActionAbout()
 {
     AboutSoftDialog* abloutDialog = new AboutSoftDialog(this);
@@ -457,7 +466,7 @@ void MainWindow::onSendSelected3DLyrEmitted(QString lyrName)
     MainWindow3D* mainWindow3D = new MainWindow3D(entity, this->_mAppConfig[MAINWINDOW_3D], this);
     mainWindow3D->show();
 }
-
+/*
 void MainWindow::onYCZFilterParamsSended(QList<ObPt> obPts, QList<UnobPt> unobPts, QString outputPath)
 {
     YCZFilterPyThread* YCZThread = new YCZFilterPyThread(obPts, unobPts, outputPath);
@@ -469,24 +478,53 @@ void MainWindow::onOYCZFilterParamsSended(QList<ObPt2D> obpts, QList<Range2D> ra
     YCZFilterPyThread2D* YCZThread2D = new YCZFilterPyThread2D(obpts, rangeA, outputPath, s, k, c, e);
     YCZThread2D->start();
     
-    connect(YCZThread2D, &YCZFilterPyThread2D::escT, this, &MainWindow::onImportImg);
+    connect(YCZThread2D, &YCZFilterPyThread2D::escT, this, &MainWindow::onImportResult);
     connect(YCZThread2D, &YCZFilterPyThread2D::_end, YCZThread2D, &YCZFilterPyThread2D::quit);
     
     connect(_mprogress, &yczprogressDialog::canceled, YCZThread2D, &YCZFilterPyThread2D::quit);
-    //connect(_mprogress, &yczprogressDialog::canceled, YCZThread2D, &YCZFilterPyThread2D::wait);
-    
-    
-    //connect(YCZThread2D, &YCZFilterPyThread2D::_end, YCZThread2D, &YCZFilterPyThread2D::terminate);
-    // 等待线程完成
-    //YCZThread2D->wait();
+}
+*/
+void MainWindow::onActionHistogram()
+{
+    QgsProject* project = QgsProject::instance();
+    HistogramDialog* Histogram = new HistogramDialog(project, this);
+    Histogram->show();
+}
 
-    // 断开连接
-    //QObject::disconnect(YCZThread2D, &YCZFilterPyThread2D::escT, this, &MainWindow::onImportImg);
-    //QObject::disconnect(YCZThread2D, &YCZFilterPyThread2D::_end, YCZThread2D, &YCZFilterPyThread2D::quit);
+void MainWindow::onActionQQPlot()
+{
+    QgsProject* project = QgsProject::instance();
+    QQPlotDialog* QQPlot = new QQPlotDialog(project, this);
+    QQPlot->show();
+}
 
-    // 删除线程对象
-    //delete YCZThread2D;
+void MainWindow::onActionBoxPlot()
+{
+    QgsProject* project = QgsProject::instance();
+    BoxPlotDialog* BoxPlot = new BoxPlotDialog(project, this);
+    BoxPlot->show();
+}
 
+void MainWindow::onActionLog()
+{
+    QgsProject* project = QgsProject::instance();
+    LogTransDialog* LogTrans = new LogTransDialog(project, this);
+    LogTrans->show();
+}
+
+void MainWindow::onActionInLog()
+{
+    QgsProject* project = QgsProject::instance();
+    InverseLogDialog* InLogTrans = new InverseLogDialog(project, this);
+    InLogTrans->show();
+}
+
+void MainWindow::onActionCoAnalyse()
+{
+    QgsProject* project = QgsProject::instance();
+    CoAnalysisDialog* CoAnalyse = new CoAnalysisDialog(project, this);
+
+    CoAnalyse->show();
 }
 
 void MainWindow::onActionPanTriggered()
@@ -525,49 +563,24 @@ void MainWindow::onActionShowTableTriggered()
         QgsMapLayer* layer = QgsLayerTree::toLayer(node)->layer();
         if (layer && dynamic_cast<QgsVectorLayer*>(layer)) {
             QgsVectorLayer* vectorLayer = qobject_cast<QgsVectorLayer*>(layer);
-            this->_mVectorLayerCache = new QgsVectorLayerCache(vectorLayer, vectorLayer->featureCount());
-            this->_mAttrTableModel = new QgsAttributeTableModel(_mVectorLayerCache);
-            this->_mAttrTableModel->loadLayer();
-            _mAttrTableFilterModel = new QgsAttributeTableFilterModel(this->_mCanvas2D, this->_mAttrTableModel);
-            _mAttrTableFilterModel->setSourceModel(_mAttrTableModel);
-
-            QgsAttributeTableView* pView = new QgsAttributeTableView(this);
             
-            pView->setSelectionBehavior(QAbstractItemView::SelectRows);
-            pView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+            QgsVectorLayerCache* lc = new QgsVectorLayerCache(vectorLayer, vectorLayer->featureCount());
 
-            pView->setWindowModality(Qt::WindowModality::WindowModal);
-            pView->setWindowFlag(Qt::Window);
-            pView->setWindowTitle("LayerTable");
-            pView->setModel(_mAttrTableFilterModel);
-            pView->resize(700, 450);
-            //pView->setSelectionBehavior(QAbstractItemView::SelectRows);
+            QgsAttributeTableView* tv = new QgsAttributeTableView();
+            QIcon windowIcon = this->windowIcon(); 
+            tv->setWindowIcon(windowIcon);
+            QgsAttributeTableModel* tm = new QgsAttributeTableModel(lc);
+            tm->loadLayer(); 
 
-            //QItemSelectionModel* selectionModel = pView->selectionModel();
-            //QItemSelectionModel* selectionModel = new QItemSelectionModel(_mAttrTableModel);
-            //pView->setSelectionModel(selectionModel);
-            //pView->setSelectionBehavior(QAbstractItemView::SelectItems);
-            //pView->setSelectionBehavior(QAbstractItemView::SelectRows);
-            //pView->setSelectionBehavior(QAbstractItemView::SelectColumns);
-            /*
-            connect(selectionModel, &QItemSelectionModel::selectionChanged, [=](const QItemSelection& selected, const QItemSelection& deselected) {
+            QgsAttributeTableFilterModel* tfm = new QgsAttributeTableFilterModel(this->_mCanvas2D, tm, tm);
+            tfm->setFilterMode(QgsAttributeTableFilterModel::ShowAll);
+            tv->setModel(tfm);
+            tv->setWindowModality(Qt::WindowModality::WindowModal);
+            tv->setWindowFlag(Qt::Window);
+            tv->setWindowTitle("LayerTable");
+            tv->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-                QModelIndexList selectedIndexes = selected.indexes();
-
-                QModelIndexList deselectedIndexes = deselected.indexes();
-
-                for (const QModelIndex& index : selectedIndexes) {
-                    pView->model()->setData(index, QBrush(Qt::blue), Qt::BackgroundRole); // 你可以更改颜色
-                }
-
-                for (const QModelIndex& index : deselectedIndexes) {
-                    pView->model()->setData(index, QVariant(), Qt::BackgroundRole);
-                }
-                });*/
-
-            this->_mLayerTreeView->setCurrentIndex(QModelIndex());
-
-            pView->show();
+            tv->show();
 
         }
         else {
@@ -816,9 +829,10 @@ void MainWindow::onMapRefresh()
     _mCanvas2D->refresh();
 }
 
-void MainWindow::onGetPath(QString path)
+void MainWindow::onGetPath(QString path,bool is)
 {
-    this->imgPath = path;
+    this->resultPath = path;
+    this->isTIF = is;
     //_mprogress->show();
 }
 
@@ -827,7 +841,7 @@ void MainWindow::onNewProgress(QString name)
     _mprogress = new yczprogressDialog(this);
     _mprogress->setWindowTitle(name);
     _mprogress->show();
-    _mprogress->onMessage("Ordinary YangCZ interpolation is running.");
+    _mprogress->onMessage(name + " interpolation is running.");
 }
 
 void MainWindow::onWaiting()
@@ -835,7 +849,32 @@ void MainWindow::onWaiting()
     QMessageBox::information(this, tr("Waiting"), tr(" This function is still exploiting, please waiting."));
 }
 
-void MainWindow::onImportImg(PyObject* result_re)
+void MainWindow::onActionOYangCZ()
+{
+    QgsProject* project = QgsProject::instance();
+    OYangCZServiceDialog* OYangCZ = new OYangCZServiceDialog(project, this);
+    OYangCZ->show();
+
+    connect(OYangCZ, &OYangCZServiceDialog::begin, this, &MainWindow::onNewProgress);
+
+    connect(OYangCZ, &OYangCZServiceDialog::sendPyParams, this, &MainWindow::onOYangCZParamsSended);
+
+    //QString path = oyczFilterDialog->getOutPath();
+    connect(OYangCZ, &OYangCZServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+}
+
+void MainWindow::onOYangCZParamsSended(QList<double>observed_data, QList<ObPtXYZ> obpts, QList<ObPtXYZ> un_obpts, double c, int k, int dim, QString outputPath, bool e, bool isTIF)
+{
+    YangCZPyThread* OYangCZThread = new YangCZPyThread(observed_data, obpts, un_obpts, c, k, dim, outputPath, e, isTIF);
+    OYangCZThread->start();
+
+    connect(OYangCZThread, &YangCZPyThread::escT, this, &MainWindow::onImportResult);
+    connect(OYangCZThread, &YangCZPyThread::_end, OYangCZThread, &YCZFilterPyThread2D::quit);
+
+    connect(_mprogress, &yczprogressDialog::canceled, OYangCZThread, &YCZFilterPyThread2D::quit);
+}
+
+void MainWindow::onImportResult(PyObject* result_re)
 {
     int if_run = 2;
     if (result_re != nullptr)
@@ -852,9 +891,20 @@ void MainWindow::onImportImg(PyObject* result_re)
         switch (QMessageBox::information(this, QString(), tr("Loading the Image?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
         {
         case  QMessageBox::Ok:
-            addRasterLayer(this->imgPath);
-            this->imgPath = "";
-            break;
+            if (this->isTIF) {
+                addRasterLayer(this->resultPath);
+                this->resultPath = "";
+                this->isTIF = false;
+                break;
+            }
+            else {
+                LoadingXYZDataDialog* loadingXYZDialog = new LoadingXYZDataDialog(resultPath, Project::instance(), this);
+                loadingXYZDialog->show();
+                _mCanvas2D->refresh();
+                _mEagleEyeMapOverview->refresh();
+                this->resultPath = "";
+            }
+            
         case  QMessageBox::No:
             break;
         case  QMessageBox::Cancel:
@@ -870,7 +920,7 @@ void MainWindow::onImportImg(PyObject* result_re)
         switch (QMessageBox::information(this, QString(), tr("Adjust the parameters and try again ?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
         {
         case  QMessageBox::Ok:
-            onActionOYCZFilterTriggered();
+            onActionOYangCZ();
             break;
         case  QMessageBox::No:
             break;
