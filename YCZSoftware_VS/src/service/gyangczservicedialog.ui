@@ -1,42 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OYangCZServiceDialog</class>
- <widget class="QDialog" name="OYangCZServiceDialog">
+ <class>GYangCZServiceDialog</class>
+ <widget class="QDialog" name="GYangCZServiceDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>731</width>
-    <height>720</height>
+    <width>849</width>
+    <height>795</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>0</width>
-    <height>50</height>
-   </size>
   </property>
   <property name="font">
    <font>
-    <pointsize>9</pointsize>
+    <pointsize>11</pointsize>
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>GYangCZ</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>10</y>
-     <width>691</width>
-     <height>690</height>
+     <width>821</width>
+     <height>773</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -46,7 +34,7 @@
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Observed Data Layer:</string>
+       <string>Input Data:</string>
       </property>
      </widget>
     </item>
@@ -182,7 +170,7 @@
     <item>
      <widget class="QLabel" name="label_12">
       <property name="text">
-       <string>Observed Data Field:</string>
+       <string>Interested Field:</string>
       </property>
      </widget>
     </item>
@@ -194,9 +182,23 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="label_label">
+      <property name="text">
+       <string>Label Field:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="cmbObLab">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Choose the type of output:</string>
+       <string>Choose The Type of Output:</string>
       </property>
      </widget>
     </item>
@@ -204,12 +206,12 @@
      <widget class="QComboBox" name="cmb_choose">
       <item>
        <property name="text">
-        <string>Input Unknow Data; Output CSV</string>
+        <string>Input Unobserved Data; Output CSV</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>No Unknow Data; 1dimension Output CSV, 2dimension Output Raster(.tif)</string>
+        <string>No Unobserved Data; 1dimension Output CSV, 2dimension Output Raster(.tif)</string>
        </property>
       </item>
      </widget>
@@ -217,7 +219,7 @@
     <item>
      <widget class="QLabel" name="label_unknow">
       <property name="text">
-       <string>Unknow Data Layer:</string>
+       <string>Input Unobserved Data:</string>
       </property>
      </widget>
     </item>
@@ -227,7 +229,7 @@
     <item>
      <widget class="QLabel" name="label_unknow_c">
       <property name="text">
-       <string>Unknow Data Coodinate：</string>
+       <string>Unobserved Coodinate：</string>
       </property>
      </widget>
     </item>
@@ -350,9 +352,23 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="label_label_un">
+      <property name="text">
+       <string>Label Field:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="cmbObUnLab">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QLabel" name="label_grid">
       <property name="text">
-       <string>The interval size (consistent with input coordinate units, if no Unknow Data input and not 3 dim)</string>
+       <string>Unit Size:</string>
       </property>
      </widget>
     </item>
@@ -362,7 +378,7 @@
     <item>
      <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>The random variation function c value(Optional,the default is 0.3)：</string>
+       <string>The Parameter c of R Function：</string>
       </property>
      </widget>
     </item>
@@ -382,7 +398,7 @@
     <item>
      <widget class="QLabel" name="label_8">
       <property name="text">
-       <string>The number of nearest points(Optional,the default is 15)：</string>
+       <string>The Number of Neighbors for Constructing R Function：</string>
       </property>
      </widget>
     </item>
@@ -400,9 +416,29 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="label_16">
+      <property name="text">
+       <string>The Number of Neighbors for Interpolation：</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="sb_k_num_2">
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>9999</number>
+      </property>
+      <property name="value">
+       <number>15</number>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QCheckBox" name="cb_error">
       <property name="text">
-       <string>The leave-out-one method was used for precision estimation during model fitting.</string>
+       <string>The leave-out-one method for optimizing parameters.</string>
       </property>
       <property name="checked">
        <bool>true</bool>
@@ -415,7 +451,7 @@
     <item>
      <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>Output Path(If there is unknown data, the output is CSV, otherwise output is IMG)：</string>
+       <string>Output Data：</string>
       </property>
      </widget>
     </item>
@@ -498,28 +534,6 @@
      </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QWidget" name="widget_grid" native="true">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>760</y>
-     <width>569</width>
-     <height>55</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>55</height>
-    </size>
-   </property>
   </widget>
  </widget>
  <resources/>

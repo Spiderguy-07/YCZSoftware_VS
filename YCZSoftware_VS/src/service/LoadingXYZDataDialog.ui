@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>355</width>
-    <height>222</height>
+    <width>395</width>
+    <height>270</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>10</x>
      <y>20</y>
-     <width>331</width>
-     <height>138</height>
+     <width>371</width>
+     <height>191</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -37,45 +37,97 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="4" column="0">
      <widget class="QLabel" name="lblX">
       <property name="text">
        <string>X field：</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
+    <item row="4" column="1">
      <widget class="QComboBox" name="cmbXField"/>
     </item>
-    <item row="3" column="0">
+    <item row="6" column="0">
      <widget class="QLabel" name="lblY">
       <property name="text">
        <string>Y field：</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
+    <item row="6" column="1">
      <widget class="QComboBox" name="cmbYField"/>
     </item>
-    <item row="4" column="0">
+    <item row="8" column="0">
      <widget class="QLabel" name="lblZ">
       <property name="text">
        <string>Z field：</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
+    <item row="8" column="1">
      <widget class="QComboBox" name="cmbZField"/>
     </item>
-    <item row="1" column="0">
+    <item row="2" column="0">
      <widget class="QLabel" name="lblSeperator">
       <property name="text">
-       <string>Separator：</string>
+       <string>Delimiters：</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
+    <item row="2" column="1">
      <widget class="QComboBox" name="cmbSeperator"/>
+    </item>
+    <item row="7" column="0">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="5" column="0">
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="0">
+     <spacer name="verticalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="0">
+     <spacer name="verticalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
     </item>
    </layout>
   </widget>
@@ -83,9 +135,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>170</y>
-     <width>331</width>
-     <height>31</height>
+     <y>220</y>
+     <width>371</width>
+     <height>41</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">

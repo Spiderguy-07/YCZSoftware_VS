@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>738</width>
-    <height>400</height>
+    <width>736</width>
+    <height>393</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -41,8 +41,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>738</width>
-     <height>25</height>
+     <width>736</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -72,10 +72,10 @@
    <widget class="QMenu" name="menuFile">
     <property name="geometry">
      <rect>
-      <x>327</x>
-      <y>147</y>
-      <width>120</width>
-      <height>200</height>
+      <x>391</x>
+      <y>323</y>
+      <width>121</width>
+      <height>204</height>
      </rect>
     </property>
     <property name="title">
@@ -114,7 +114,7 @@
      <string>YangCZ</string>
     </property>
     <addaction name="actionOrdinary_YCZ"/>
-    <addaction name="actionYCZFilter"/>
+    <addaction name="actionGYCZ"/>
     <addaction name="actionCoYCZ"/>
     <addaction name="actionSTYCZ"/>
     <addaction name="actionSTCoYCZ"/>
@@ -154,7 +154,8 @@
     <addaction name="actionQQ_Plot"/>
     <addaction name="actionBox_Plot"/>
     <addaction name="separator"/>
-    <addaction name="actionHot_Spot"/>
+    <addaction name="actionAmoeba_G"/>
+    <addaction name="actionHTMSCAN"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu"/>
@@ -211,7 +212,7 @@
   </action>
   <action name="actionImportXYZ">
    <property name="text">
-    <string>Import csv/txt</string>
+    <string>Import csv/txt data</string>
    </property>
    <property name="toolTip">
     <string>导入csv/txt</string>
@@ -229,7 +230,7 @@
      <normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/OpenHyperlink_32x32.png</normaloff>D:/GIS_todo/Dev20图标 (1)/Dev20/OpenHyperlink_32x32.png</iconset>
    </property>
    <property name="text">
-    <string>Import shp</string>
+    <string>Import layer data</string>
    </property>
    <property name="font">
     <font>
@@ -249,7 +250,7 @@
     </font>
    </property>
   </action>
-  <action name="actionYCZFilter">
+  <action name="actionGYCZ">
    <property name="text">
     <string>GYangCZ</string>
    </property>
@@ -487,9 +488,9 @@
     <string>Log Transform</string>
    </property>
   </action>
-  <action name="actionHot_Spot">
+  <action name="actionAmoeba_G">
    <property name="text">
-    <string>Hot Spot</string>
+    <string>AMOEBA</string>
    </property>
   </action>
   <action name="actionCorrelation_Analysis">
@@ -505,6 +506,11 @@
   <action name="actionOrdinary_YCZ">
    <property name="text">
     <string>OYangCZ</string>
+   </property>
+  </action>
+  <action name="actionHTMSCAN">
+   <property name="text">
+    <string>HTMSCAN</string>
    </property>
   </action>
  </widget>

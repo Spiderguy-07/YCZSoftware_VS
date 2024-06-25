@@ -17,7 +17,7 @@ Canvas3D::Canvas3D(Entity3D entity, QWidget *parent)
 	// TODO: get translate and rotate speed from configuration file
 	_mTransSpeed = 0.05f;
 	_mRotSpeed = M_PI / 180.0f / 3.0f;
-	_mZoomSpeed = 0.03f;
+	_mZoomSpeed = 0.015f;
 	_mRotX = 0.0f;
 	_mRotY = 0.0f;
 	_mZoom = 1.0f;

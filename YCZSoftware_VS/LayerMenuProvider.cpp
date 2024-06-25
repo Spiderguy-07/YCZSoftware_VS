@@ -24,7 +24,7 @@ LayerMenuProvider::~LayerMenuProvider()
 QMenu* LayerMenuProvider::createContextMenu()
 {
     // icon path
-    QString iconDir = "../images/";
+    QString iconDir = "./icon/";
 
     QMenu* menu = new QMenu;
     QgsLayerTreeViewDefaultActions* actions = mView->defaultActions();

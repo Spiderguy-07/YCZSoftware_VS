@@ -5,9 +5,9 @@
 #include "ui_LoadingXYZDataDialog.h"
 #include "../../Project.h"
 
-#define SEPERATOR_COMMA_TEXT "¶ººÅ(,)"
-#define SEPERATOR_SPACE_TEXT "¿Õ¸ñ( )"
-#define SEPERATOR_TAB_TEXT "ÖÆ±í·û(\\t)"
+#define SEPERATOR_COMMA_TEXT "Comma(,)"
+#define SEPERATOR_SPACE_TEXT "Space( )"
+#define SEPERATOR_TAB_TEXT "Tabs(\\t)"
 #define SEPERATOR_COMMA ","
 #define SEPERATOR_SPACE " "
 #define SEPERATOR_TAB "\t"

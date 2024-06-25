@@ -121,6 +121,9 @@ void LogTransDialog::onBtnDrawClicked()
         layer->updateFeature(feature_l);
         //layer->updateFeature(feature);
     }
+    layer->commitChanges(); // ±£´æÐÞ¸Ä
+    //QgsVectorLayerEditUtils::stopEditing(layer); // Í£Ö¹±à¼­
+
     QMessageBox::information(this, "Success", QString("The offset of the dataset is : %1.").arg(offset));
     this->close();
 }

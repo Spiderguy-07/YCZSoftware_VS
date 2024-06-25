@@ -37,6 +37,20 @@ MainWindow* MainWindow::instance()
 
 void MainWindow::initUi()
 {
+    QString iconDir = "./icon/";
+
+    this->setWindowIcon(QIcon(iconDir + "YangCZ.png"));
+
+    ui.actionImportShp->setIcon(QIcon(iconDir + "OpenHyperlink_32x32.png"));
+    ui.actionPan->setIcon(QIcon(iconDir + "PanTool32.png"));
+    ui.actionZoomOut->setIcon(QIcon(iconDir + "ZoomOut_32x32.png"));
+    ui.actionZoomIn->setIcon(QIcon(iconDir + "ZoomIn_32x32.png"));
+    ui.actionZoomFull->setIcon(QIcon(iconDir + "FullExtent_32x32.png"));
+    ui.actionShowTable->setIcon(QIcon(iconDir + "Table_32x32.png"));
+    ui.actionUnset->setIcon(QIcon(iconDir + "Pointer_32x32.png"));
+    ui.actionFeatureInfo->setIcon(QIcon(iconDir + "Info_32x32.png"));
+    ui.actionClearSelect->setIcon(QIcon(iconDir + "No_Border_32x32.png"));
+    ui.actionEmitPoint->setIcon(QIcon(iconDir + "GeoPoint_32x32.png"));
     //this->m_texteditlog = new qtextedit(this);
     //this->m_dockwidgetlog = new qdockwidget(this);
     //this->m_texteditlog->setreadonly(true);
@@ -183,6 +197,13 @@ void MainWindow::connectFunc()
     connect(_mLayerTreeView->layerTreeModel()->rootGroup(), &QgsLayerTreeNode::removedChildren, this, lambdaSetModified);
 
     this->connect(ui.actionOrdinary_YCZ, &QAction::triggered, this, &MainWindow::onActionOYangCZ);
+    this->connect(ui.actionYCZF, &QAction::triggered, this, &MainWindow::onActionYangCZF);
+    this->connect(ui.actionGYCZ, &QAction::triggered, this, &MainWindow::onActionGYangCZ);
+    this->connect(ui.actionSTYCZ, &QAction::triggered, this, &MainWindow::onActionSTYangCZ);
+    this->connect(ui.actionCoYCZ, &QAction::triggered, this, &MainWindow::onActionCoYangCZ);
+
+    this->connect(ui.actionAmoeba_G, &QAction::triggered, this, &MainWindow::onActionAmoebaG);
+    this->connect(ui.actionHTMSCAN, &QAction::triggered, this, &MainWindow::onActionHTMSCAN);
 }
 
 void MainWindow::addVectorLayer(const QString& filePath)
@@ -553,7 +574,6 @@ void MainWindow::onActionUnsetTriggered()
     _mCanvas2D->unsetMapTool(lastMapTool);
 }
 
-
 void MainWindow::onActionShowTableTriggered()
 {
     QModelIndex idx = this->_mLayerTreeView->currentIndex();
@@ -563,14 +583,15 @@ void MainWindow::onActionShowTableTriggered()
         QgsMapLayer* layer = QgsLayerTree::toLayer(node)->layer();
         if (layer && dynamic_cast<QgsVectorLayer*>(layer)) {
             QgsVectorLayer* vectorLayer = qobject_cast<QgsVectorLayer*>(layer);
-            
-            QgsVectorLayerCache* lc = new QgsVectorLayerCache(vectorLayer, vectorLayer->featureCount());
 
+            QgsVectorLayerCache* lc = new QgsVectorLayerCache(vectorLayer, vectorLayer->featureCount());
             QgsAttributeTableView* tv = new QgsAttributeTableView();
-            QIcon windowIcon = this->windowIcon(); 
+            QIcon windowIcon = this->windowIcon();
             tv->setWindowIcon(windowIcon);
             QgsAttributeTableModel* tm = new QgsAttributeTableModel(lc);
-            tm->loadLayer(); 
+
+            // 加载图层数据
+            tm->loadLayer();
 
             QgsAttributeTableFilterModel* tfm = new QgsAttributeTableFilterModel(this->_mCanvas2D, tm, tm);
             tfm->setFilterMode(QgsAttributeTableFilterModel::ShowAll);
@@ -580,17 +601,28 @@ void MainWindow::onActionShowTableTriggered()
             tv->setWindowTitle("LayerTable");
             tv->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-            tv->show();
+            // 连接destroyed信号到清理槽函数，使用Qt::DirectConnection确保立即执行
+            connect(tv, &QObject::destroyed, lc, &QObject::deleteLater, Qt::DirectConnection);
+            connect(tv, &QObject::destroyed, tm, &QObject::deleteLater, Qt::DirectConnection);
+            connect(tv, &QObject::destroyed, tfm, &QObject::deleteLater, Qt::DirectConnection);
 
+            // 添加断言检查指针是否有效
+            Q_ASSERT(lc != nullptr);
+            Q_ASSERT(tm != nullptr);
+            Q_ASSERT(tfm != nullptr);
+            Q_ASSERT(tv != nullptr);
+
+            tv->show();
         }
         else {
             QMessageBox::information(this, tr("Information"), tr("NO LAYER IS SELECTED"));
-        } 
+        }
     }
     else {
         QMessageBox::information(this, tr("Information"), tr("NO LAYER IS SELECTED"));
     }
 }
+
 
 void MainWindow::onActionFeatureInfo()
 {
@@ -697,7 +729,7 @@ void MainWindow::PythonInit()
     if (!Py_IsInitialized())
     {
         //1.初始化Python解释器，这是调用操作的第一步
-        Py_SetPythonHome((wchar_t*)L"../x64/Release/python"); //TODO: 打包时改为相对路径
+        Py_SetPythonHome((wchar_t*)L"./python"); //TODO: 打包时改为相对路径
         Py_Initialize();
         if (!Py_IsInitialized()) {
             QMessageBox::critical(nullptr, "Error about python.exe", "Fail to initialize python!");
@@ -705,8 +737,8 @@ void MainWindow::PythonInit()
         }
         else {
             PyRun_SimpleString("import sys");
-            PyRun_SimpleString("sys.path.append(r'../x64/Release/python')");
-            PyRun_SimpleString("sys.path.append(r'../x64/Release/plugins')");
+            PyRun_SimpleString("sys.path.append(r'./python')");
+            PyRun_SimpleString("sys.path.append(r'./plugins')");
 
             PyEval_InitThreads();
             // 启动子线程前执行，为了释放PyEval_InitThreads获得的全局锁，否则子线程可能无法获取到全局锁。
@@ -854,7 +886,7 @@ void MainWindow::onActionOYangCZ()
     QgsProject* project = QgsProject::instance();
     OYangCZServiceDialog* OYangCZ = new OYangCZServiceDialog(project, this);
     OYangCZ->show();
-
+    _moyangcz = OYangCZ;
     connect(OYangCZ, &OYangCZServiceDialog::begin, this, &MainWindow::onNewProgress);
 
     connect(OYangCZ, &OYangCZServiceDialog::sendPyParams, this, &MainWindow::onOYangCZParamsSended);
@@ -869,10 +901,180 @@ void MainWindow::onOYangCZParamsSended(QList<double>observed_data, QList<ObPtXYZ
     OYangCZThread->start();
 
     connect(OYangCZThread, &YangCZPyThread::escT, this, &MainWindow::onImportResult);
-    connect(OYangCZThread, &YangCZPyThread::_end, OYangCZThread, &YCZFilterPyThread2D::quit);
+    connect(OYangCZThread, &YangCZPyThread::_end, OYangCZThread, &YangCZPyThread::quit);
 
-    connect(_mprogress, &yczprogressDialog::canceled, OYangCZThread, &YCZFilterPyThread2D::quit);
+    connect(_mprogress, &yczprogressDialog::canceled, OYangCZThread, &YangCZPyThread::quit);
 }
+
+void MainWindow::onNewOYangCZ()
+{
+    _moyangcz->show();
+
+    connect(_moyangcz, &OYangCZServiceDialog::begin, this, &MainWindow::onNewProgress);
+
+    connect(_moyangcz, &OYangCZServiceDialog::sendPyParams, this, &MainWindow::onOYangCZParamsSended);
+
+    //QString path = oyczFilterDialog->getOutPath();
+    connect(_moyangcz, &OYangCZServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+}
+
+void MainWindow::onActionYangCZF()
+{
+    QgsProject* project = QgsProject::instance();
+    YangCZFServiceDialog* YangCZF = new YangCZFServiceDialog(project, this);
+    YangCZF->show();
+    _myangczf = YangCZF;
+    connect(YangCZF, &YangCZFServiceDialog::begin, this, &MainWindow::onNewProgress);
+    connect(YangCZF, &YangCZFServiceDialog::sendPyParams, this, &MainWindow::onYangCZFParamsSended);
+}
+
+void MainWindow::onYangCZFParamsSended(QList<double> observed_data, QList<ObPtXYZ> obpts, double c, int k, int dim)
+{
+    YangCZFPyThread* YangCZFThread = new YangCZFPyThread(observed_data, obpts, c, k, dim);
+    YangCZFThread->start();
+
+    connect(YangCZFThread, &YangCZFPyThread::escT, this, &MainWindow::onEndProgress);
+    connect(YangCZFThread, &YangCZFPyThread::_end, YangCZFThread, &YangCZFPyThread::quit);
+    connect(_mprogress, &yczprogressDialog::canceled, YangCZFThread, &YangCZFPyThread::quit);
+}
+
+void MainWindow::onNewYangCZF()
+{
+    _myangczf->show();
+    connect(_myangczf, &YangCZFServiceDialog::begin, this, &MainWindow::onNewProgress);
+    connect(_myangczf, &YangCZFServiceDialog::sendPyParams, this, &MainWindow::onYangCZFParamsSended);
+}
+
+void MainWindow::onActionGYangCZ()
+{
+    QgsProject* project = QgsProject::instance();
+    GYangCZServiceDialog* GYangCZ = new GYangCZServiceDialog(project, this);
+    GYangCZ->show();
+    _mgyangcz = GYangCZ;
+    connect(GYangCZ, &GYangCZServiceDialog::begin, this, &MainWindow::onNewProgress);
+
+    connect(GYangCZ, &GYangCZServiceDialog::sendPyParams, this, &MainWindow::onGYangCZParamsSended);
+
+    //QString path = oyczFilterDialog->getOutPath();
+    connect(GYangCZ, &GYangCZServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+}
+
+void MainWindow::onGYangCZParamsSended(QList<double> observed_data, QList<ObPtXYZ> obpts, QList<double> train_index_matrix, QList<double> test_index_matrix, QList<ObPtXYZ> un_obpts, double c, int k, int k2, int dim, QString outputPath, bool e, bool isTIF)
+{
+    GYangCZPyThread* GYangCZThread = new GYangCZPyThread(observed_data, obpts, train_index_matrix, test_index_matrix, un_obpts, c, k, k2, dim, outputPath, e, isTIF);
+    GYangCZThread->start();
+
+    connect(GYangCZThread, &GYangCZPyThread::escT, this, &MainWindow::onImportResult);
+    connect(GYangCZThread, &GYangCZPyThread::_end, GYangCZThread, &GYangCZPyThread::quit);
+
+    connect(_mprogress, &yczprogressDialog::canceled, GYangCZThread, &GYangCZPyThread::quit);
+}
+
+void MainWindow::onNewGYangCZ()
+{
+    _mgyangcz->show();
+
+    connect(_mgyangcz, &GYangCZServiceDialog::begin, this, &MainWindow::onNewProgress);
+
+    connect(_mgyangcz, &GYangCZServiceDialog::sendPyParams, this, &MainWindow::onGYangCZParamsSended);
+
+    //QString path = oyczFilterDialog->getOutPath();
+    connect(_mgyangcz, &GYangCZServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+}
+
+
+void MainWindow::onActionSTYangCZ()
+{
+    QgsProject* project = QgsProject::instance();
+    STYangCZServiceDialog* STYangCZ = new STYangCZServiceDialog(project, this);
+    STYangCZ->show();
+    connect(STYangCZ, &STYangCZServiceDialog::begin, this, &MainWindow::onNewProgress);
+
+    connect(STYangCZ, &STYangCZServiceDialog::sendPyParams, this, &MainWindow::onSTYangCZParamsSended);
+
+    connect(STYangCZ, &STYangCZServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+}
+
+void MainWindow::onSTYangCZParamsSended(QList<QList<double>> observed_data, QList<ObPtXYZ> obpts, double c_s, double c_t, int k_s, int k_t, int dim, QString outputPath, bool e)
+{
+    STYangCZPyThread* STYangCZThread = new STYangCZPyThread(observed_data, obpts, c_s, c_t, k_s, k_t, dim, outputPath, e);
+    STYangCZThread->start();
+
+    connect(STYangCZThread, &STYangCZPyThread::escT, this, &MainWindow::onImportResult);
+    connect(STYangCZThread, &STYangCZPyThread::_end, STYangCZThread, &STYangCZPyThread::quit);
+
+    connect(_mprogress, &yczprogressDialog::canceled, STYangCZThread, &STYangCZPyThread::quit);
+}
+
+
+void MainWindow::onActionCoYangCZ()
+{
+    QgsProject* project = QgsProject::instance();
+    CoYangCZServiceDialog* CoYangCZ = new CoYangCZServiceDialog(project, this);
+    CoYangCZ->show();
+    connect(CoYangCZ, &CoYangCZServiceDialog::begin, this, &MainWindow::onNewProgress);
+    connect(CoYangCZ, &CoYangCZServiceDialog::sendPyParams, this, &MainWindow::onCoYangCZParamsSended);
+    connect(CoYangCZ, &CoYangCZServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+}
+
+void MainWindow::onCoYangCZParamsSended(QList<double> observed_data, QList<ObPtXYZ> co_observed_data, QList<ObPtXYZ> obpts, QList<ObPtXYZ> co_obpts, QList<ObPtXYZ> un_obpts, QList<double> c_list, int k, int dim, int n_co, QString outputPath, bool isnugget, bool isTIF)
+{
+    CoYangCZPyThread* CoYangCZThread = new CoYangCZPyThread(observed_data, co_observed_data, obpts, co_obpts, un_obpts, c_list, k, dim, n_co, outputPath, isnugget, isTIF);
+    CoYangCZThread->start();
+    connect(CoYangCZThread, &CoYangCZPyThread::escT, this, &MainWindow::onImportResult);
+    connect(CoYangCZThread, &CoYangCZPyThread::_end, CoYangCZThread, &CoYangCZPyThread::quit);
+
+    connect(_mprogress, &yczprogressDialog::canceled, CoYangCZThread, &CoYangCZPyThread::quit);
+}
+
+
+
+void MainWindow::onActionAmoebaG()
+{
+    QgsProject* project = QgsProject::instance();
+    AmoebaGServiceDialog* AmoebaG = new AmoebaGServiceDialog(project, this);
+    AmoebaG->show();
+    connect(AmoebaG, &AmoebaGServiceDialog::begin, this, &MainWindow::onNewProgress);
+
+    connect(AmoebaG, &AmoebaGServiceDialog::sendPyParams, this, &MainWindow::onAmoebaGParamsSended);
+
+    connect(AmoebaG, &AmoebaGServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+}
+
+void MainWindow::onAmoebaGParamsSended(QList<double> observed_data, QList<ObPtXYZ> obpts, double length, QString neiPath, int id_sep, bool is_nei, QString outputPath, int dim, double Significant, int repeat_num)
+{
+    AmoebaGPyThread* AmobeaGThread = new AmoebaGPyThread(observed_data, obpts, length, neiPath, id_sep, is_nei, outputPath, dim, Significant, repeat_num);
+    AmobeaGThread->start();
+
+    connect(AmobeaGThread, &STYangCZPyThread::escT, this, &MainWindow::onImportResult);
+    connect(AmobeaGThread, &STYangCZPyThread::_end, AmobeaGThread, &AmoebaGPyThread::quit);
+
+    connect(_mprogress, &yczprogressDialog::canceled, AmobeaGThread, &AmoebaGPyThread::quit);
+}
+
+void MainWindow::onActionHTMSCAN()
+{
+    QgsProject* project = QgsProject::instance();
+    HTMSCANServiceDialog* HTMSACN = new HTMSCANServiceDialog(project, this);
+    HTMSACN->show();
+    connect(HTMSACN, &HTMSCANServiceDialog::begin, this, &MainWindow::onNewProgress);
+
+    connect(HTMSACN, &HTMSCANServiceDialog::sendPyParams, this, &MainWindow::onHTMSCANParamsSended);
+
+    connect(HTMSACN, &HTMSCANServiceDialog::getOutPath, this, &MainWindow::onGetPath);
+}
+
+void MainWindow::onHTMSCANParamsSended(QList<double> observed_data, QList<ObPtXYZ> obpts, double length, QString neiPath, int id_sep, bool is_nei, QString outputPath, int dim, double Significant, int repeat_num)
+{
+    HTMSCANPyThread* HTMSCANThread = new HTMSCANPyThread(observed_data, obpts, length, neiPath, id_sep, is_nei, outputPath, dim, Significant, repeat_num);
+    HTMSCANThread->start();
+
+    connect(HTMSCANThread, &HTMSCANPyThread::escT, this, &MainWindow::onImportResult);
+    connect(HTMSCANThread, &HTMSCANPyThread::_end, HTMSCANThread, &HTMSCANPyThread::quit);
+
+    connect(_mprogress, &yczprogressDialog::canceled, HTMSCANThread, &HTMSCANPyThread::quit);
+}
+
 
 void MainWindow::onImportResult(PyObject* result_re)
 {
@@ -888,7 +1090,8 @@ void MainWindow::onImportResult(PyObject* result_re)
     {
         _mprogress->onMessage("YangCZ is successful.");
         _mprogress->onSuccess();
-        switch (QMessageBox::information(this, QString(), tr("Loading the Image?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+        _moyangcz = nullptr;
+        switch (QMessageBox::information(this, QString(), tr("Loading the result?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
         {
         case  QMessageBox::Ok:
             if (this->isTIF) {
@@ -920,7 +1123,7 @@ void MainWindow::onImportResult(PyObject* result_re)
         switch (QMessageBox::information(this, QString(), tr("Adjust the parameters and try again ?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
         {
         case  QMessageBox::Ok:
-            onActionOYangCZ();
+            onNewOYangCZ();
             break;
         case  QMessageBox::No:
             break;
@@ -937,6 +1140,114 @@ void MainWindow::onImportResult(PyObject* result_re)
     }
         
     return ;
+}
+
+void MainWindow::onEndProgress(PyObject* result_re)
+{
+    int if_run = 2;
+    if (result_re != nullptr)
+    {
+        long longValue = PyLong_AsLong(result_re);
+        if_run = static_cast<int>(longValue);
+    }
+
+    //if_run = PyArg_Parse(result_re, "i", if_run);
+    if (if_run == 1)
+    {
+        _mprogress->onMessage("YangCZ is successful.");
+        _mprogress->onSuccess();
+        _myangczf = nullptr;
+    }
+    else if (if_run == 2)
+    {
+        _mprogress->onMessage("YangCZ interpolation stop running.");
+        _mprogress->close();
+        switch (QMessageBox::information(this, QString(), tr("Adjust the parameters and try again ?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+        {
+        case  QMessageBox::Ok:
+            onNewYangCZF();
+            break;
+        case  QMessageBox::No:
+            break;
+        case  QMessageBox::Cancel:
+            return;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        _mprogress->onError("error");
+        QMessageBox::information(this, tr("Wronging"), tr(" Something was wrong,please check."));
+    }
+
+    return;
+}
+
+void MainWindow::onImportResultG(PyObject* result_re)
+{
+    int if_run = 2;
+    if (result_re != nullptr)
+    {
+        long longValue = PyLong_AsLong(result_re);
+        if_run = static_cast<int>(longValue);
+    }
+
+    //if_run = PyArg_Parse(result_re, "i", if_run);
+    if (if_run == 1)
+    {
+        _mprogress->onMessage("YangCZ is successful.");
+        _mprogress->onSuccess();
+        _mgyangcz = nullptr;
+        switch (QMessageBox::information(this, QString(), tr("Loading the result?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+        {
+        case  QMessageBox::Ok:
+            if (this->isTIF) {
+                addRasterLayer(this->resultPath);
+                this->resultPath = "";
+                this->isTIF = false;
+                break;
+            }
+            else {
+                LoadingXYZDataDialog* loadingXYZDialog = new LoadingXYZDataDialog(resultPath, Project::instance(), this);
+                loadingXYZDialog->show();
+                _mCanvas2D->refresh();
+                _mEagleEyeMapOverview->refresh();
+                this->resultPath = "";
+            }
+
+        case  QMessageBox::No:
+            break;
+        case  QMessageBox::Cancel:
+            return;
+        default:
+            break;
+        }
+    }
+    else if (if_run == 2)
+    {
+        _mprogress->onMessage("YangCZ interpolation stop running.");
+        _mprogress->close();
+        switch (QMessageBox::information(this, QString(), tr("Adjust the parameters and try again ?"), QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel))
+        {
+        case  QMessageBox::Ok:
+            onNewGYangCZ();
+            break;
+        case  QMessageBox::No:
+            break;
+        case  QMessageBox::Cancel:
+            return;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        _mprogress->onError("error");
+        QMessageBox::information(this, tr("Wronging"), tr(" Something was wrong,please check."));
+    }
+
+    return;
 }
 
 void MainWindow::onCanvasRefresh()

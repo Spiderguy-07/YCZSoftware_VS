@@ -20,7 +20,7 @@
     <ProjectGuid>{1D920B6E-8FD0-476F-BBAF-A7765277460E}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.22621.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -113,12 +113,16 @@
     <QtRcc Include="YCZSoftware_VS.qrc" />
     <QtUic Include="MainWindow.ui" />
     <QtUic Include="src\service\aboutsoftdialog.ui" />
+    <QtUic Include="src\service\amoebagservicedialog.ui" />
     <QtUic Include="src\service\boxplotdialog.ui" />
     <QtUic Include="src\service\Canvas3DService.ui" />
     <QtUic Include="src\service\coanalysisdialog.ui" />
     <QtUic Include="src\service\ColorGradientWidget.ui" />
+    <QtUic Include="src\service\coyangczservicedialog.ui" />
     <QtUic Include="src\service\CubeDialog.ui" />
+    <QtUic Include="src\service\gyangczservicedialog.ui" />
     <QtUic Include="src\service\histogramdialog.ui" />
+    <QtUic Include="src\service\htmscanservicedialog.ui" />
     <QtUic Include="src\service\inverselogdialog.ui" />
     <QtUic Include="src\service\layerpropform.ui" />
     <QtUic Include="src\service\LoadingXYZDataDialog.ui" />
@@ -129,6 +133,8 @@
     <QtUic Include="src\service\oyczfilterservicedialog.ui" />
     <QtUic Include="src\service\qqplotdialog.ui" />
     <QtUic Include="src\service\sqldialog.ui" />
+    <QtUic Include="src\service\styangczservicedialog.ui" />
+    <QtUic Include="src\service\yangczfservicedialog.ui" />
     <QtUic Include="src\service\YCZFilterServiceDialog.ui" />
     <QtUic Include="src\service\yczprogressdialog.ui" />
     <QtUic Include="YCZSoftware_VS.ui" />
@@ -141,6 +147,8 @@
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="src\entity\Entity3D.cpp" />
     <ClCompile Include="src\service\aboutsoftdialog.cpp" />
+    <ClCompile Include="src\service\AmoebaGPyThread.cpp" />
+    <ClCompile Include="src\service\amoebagservicedialog.cpp" />
     <ClCompile Include="src\service\boxplotdialog.cpp" />
     <ClCompile Include="src\service\BoxPlotDraw.cpp" />
     <ClCompile Include="src\service\Canvas3DService.cpp" />
@@ -149,10 +157,16 @@
     <ClCompile Include="src\service\ColorGradientWidget.cpp" />
     <ClCompile Include="src\service\ColorWidget.cpp" />
     <ClCompile Include="src\service\CorrelationMatrixWidget.cpp" />
+    <ClCompile Include="src\service\CoYangCZPyThread.cpp" />
+    <ClCompile Include="src\service\coyangczservicedialog.cpp" />
     <ClCompile Include="src\service\CubeDialog.cpp" />
     <ClCompile Include="src\service\FileLoadingService.cpp" />
+    <ClCompile Include="src\service\GYangCZPyThread.cpp" />
+    <ClCompile Include="src\service\gyangczservicedialog.cpp" />
     <ClCompile Include="src\service\histogramdialog.cpp" />
     <ClCompile Include="src\service\HistogramView.cpp" />
+    <ClCompile Include="src\service\HTMSCANPyThread.cpp" />
+    <ClCompile Include="src\service\htmscanservicedialog.cpp" />
     <ClCompile Include="src\service\inverselogdialog.cpp" />
     <ClCompile Include="src\service\layerpropform.cpp" />
     <ClCompile Include="src\service\LoadingXYZDataDialog.cpp" />
@@ -165,6 +179,10 @@
     <ClCompile Include="src\service\QQPlotDraw.cpp" />
     <ClCompile Include="src\service\RunPyService.cpp" />
     <ClCompile Include="src\service\sqldialog.cpp" />
+    <ClCompile Include="src\service\STYangCZPyThread.cpp" />
+    <ClCompile Include="src\service\styangczservicedialog.cpp" />
+    <ClCompile Include="src\service\YangCZFPyThread.cpp" />
+    <ClCompile Include="src\service\yangczfservicedialog.cpp" />
     <ClCompile Include="src\service\YangCZPyThread.cpp" />
     <ClCompile Include="src\service\YCZFilterPyThread.cpp" />
     <ClCompile Include="src\service\YCZFilterPyThread2D.cpp" />
@@ -182,6 +200,14 @@
     <None Include="resource\shader\gl.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\service\HTMSCANPyThread.h" />
+    <QtMoc Include="src\service\htmscanservicedialog.h" />
+    <QtMoc Include="src\service\styangczservicedialog.h" />
+    <QtMoc Include="src\service\STYangCZPyThread.h" />
+    <QtMoc Include="src\service\GYangCZPyThread.h" />
+    <QtMoc Include="src\service\gyangczservicedialog.h" />
+    <QtMoc Include="src\service\yangczfservicedialog.h" />
+    <QtMoc Include="src\service\YangCZFPyThread.h" />
     <QtMoc Include="src\service\YangCZPyThread.h" />
     <QtMoc Include="src\service\oyangczservicedialog.h" />
     <QtMoc Include="src\service\inverselogdialog.h" />
@@ -204,6 +230,7 @@
     <QtMoc Include="basewindow.h" />
     <QtMoc Include="mytitlebar.h" />
     <ClInclude Include="pythreadstatelock.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\entity\Entity3D.h" />
     <ClInclude Include="src\macro.h" />
     <QtMoc Include="src\service\aboutsoftdialog.h" />
@@ -215,11 +242,21 @@
     <QtMoc Include="src\service\BoxPlotDraw.h" />
     <QtMoc Include="src\service\coanalysisdialog.h" />
     <QtMoc Include="src\service\CorrelationMatrixWidget.h" />
+    <QtMoc Include="src\service\coyangczservicedialog.h" />
+    <QtMoc Include="src\service\amoebagservicedialog.h" />
+    <ClInclude Include="src\service\AmoebaGPyThread.h" />
+    <QtMoc Include="src\service\CoYangCZPyThread.h" />
     <ClInclude Include="src\service\FileLoadingService.h" />
     <QtMoc Include="src\service\MainWindow3D.h" />
     <QtMoc Include="src\service\Lyr3DSelectDialog.h" />
     <QtMoc Include="src\service\LoadingXYZDataDialog.h" />
     <QtMoc Include="src\service\Canvas3DService.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="YCZSoftware_VS.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\x64\Release\icon\YangCZ.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -1,12 +1,12 @@
-#include "oyangczservicedialog.h"
-#include "ui_oyangczservicedialog.h"
+#include "gyangczservicedialog.h"
+#include "ui_gyangczservicedialog.h"
 
-OYangCZServiceDialog::OYangCZServiceDialog(QgsProject* project, QWidget *parent) :
+GYangCZServiceDialog::GYangCZServiceDialog(QgsProject* project, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::OYangCZServiceDialog)
+    ui(new Ui::GYangCZServiceDialog)
 {
     ui->setupUi(this);
-    
+
     ui->cmb_choose->setCurrentIndex(-1);
     ui->label_unknow->setVisible(false);
     ui->cmb_unknow->setVisible(false);
@@ -14,20 +14,22 @@ OYangCZServiceDialog::OYangCZServiceDialog(QgsProject* project, QWidget *parent)
     ui->label_grid->setVisible(false);
     ui->line_size->setVisible(false);
     ui->xyz_widget->setVisible(false);
+    ui->label_label_un->setVisible(false);
+    ui->cmbObUnLab->setVisible(false);
     //ui->label_area->setVisible(false);
     //ui->cmbRangePath->setVisible(false);
 
     this->initUI(project->layers<QgsVectorLayer*>());
-    connect(ui->cmb_choose, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::InputChanged);
-    connect(ui->btnComfirm, &QPushButton::clicked, this, &OYangCZServiceDialog::onBtnConfirmClicked);
+    connect(ui->cmb_choose, &QComboBox::currentTextChanged, this, &GYangCZServiceDialog::InputChanged);
+    connect(ui->btnComfirm, &QPushButton::clicked, this, &GYangCZServiceDialog::onBtnConfirmClicked);
 }
 
-OYangCZServiceDialog::~OYangCZServiceDialog()
+GYangCZServiceDialog::~GYangCZServiceDialog()
 {
     delete ui;
 }
 
-void OYangCZServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
+void GYangCZServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
 {
     dim = 0;
     isTIF = false;
@@ -48,13 +50,13 @@ void OYangCZServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
     }
     ui->cmbObPath->setCurrentIndex(-1);
     ui->cmb_unknow->setCurrentIndex(-1);
-    connect(ui->cmbObPath, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::onCmbObPathChange);
-    connect(ui->cmb_unknow, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::onCmbUnknowChange);
-    connect(ui->btnBrowseOutput, &QPushButton::clicked, this, &OYangCZServiceDialog::onBtnBrowseOutputClicked);
+    connect(ui->cmbObPath, &QComboBox::currentTextChanged, this, &GYangCZServiceDialog::onCmbObPathChange);
+    connect(ui->cmb_unknow, &QComboBox::currentTextChanged, this, &GYangCZServiceDialog::onCmbUnknowChange);
+    connect(ui->btnBrowseOutput, &QPushButton::clicked, this, &GYangCZServiceDialog::onBtnBrowseOutputClicked);
 }
 
 
-void OYangCZServiceDialog::InputChanged()
+void GYangCZServiceDialog::InputChanged()
 {
     int choose = ui->cmb_choose->currentIndex();
     ui->lineOutputPath->clear();
@@ -66,6 +68,8 @@ void OYangCZServiceDialog::InputChanged()
         ui->xyz_widget->setVisible(true);
         ui->label_grid->setVisible(false);
         ui->line_size->setVisible(false);
+        ui->label_label_un->setVisible(true);
+        ui->cmbObUnLab->setVisible(true);
         //ui->label_area->setVisible(false);
         //ui->cmbRangePath->setVisible(false);
     }
@@ -77,6 +81,11 @@ void OYangCZServiceDialog::InputChanged()
         ui->cmb_unknow->setVisible(false);
         ui->label_unknow_c->setVisible(false);
         ui->xyz_widget->setVisible(false);
+        ui->label_label_un->setVisible(true);
+        ui->cmbObUnLab->setVisible(true);
+        ui->cmbObUnLab->clear();
+        ui->cmbObUnLab->addItem("All value 1:[1,1,1,1,1...,1]");
+        ui->cmbObUnLab->setCurrentIndex(0);
         //ui->label_area->setVisible(true);
         //ui->cmbRangePath->setVisible(true);
     }
@@ -88,14 +97,17 @@ void OYangCZServiceDialog::InputChanged()
         ui->label_grid->setVisible(false);
         ui->line_size->setVisible(false);
         ui->xyz_widget->setVisible(false);
+        ui->label_label_un->setVisible(false);
+        ui->cmbObUnLab->setVisible(false);
         //ui->label_area->setVisible(false);
         //ui->cmbRangePath->setVisible(false);
     }
 }
 
-void OYangCZServiceDialog::onCmbObPathChange()
+void GYangCZServiceDialog::onCmbObPathChange()
 {
     ui->cmbObVal->clear();
+    ui->cmbObLab->clear();
     ui->cmb_x->clear();
     ui->cmb_y->clear();
     ui->cmb_z->clear();
@@ -105,16 +117,19 @@ void OYangCZServiceDialog::onCmbObPathChange()
     QgsVectorLayer* lyr = lyrs.at(index);
     const QgsAttributeList attrList = lyr->attributeList();
     QgsAttributeList::const_iterator it = attrList.constBegin();
+    ui->cmbObLab->addItem("All value 1:[1,1,1,1,1...,1]");
     ui->cmb_y->addItem("<None>");
     ui->cmb_z->addItem("<None>");
     for (; it != attrList.constEnd(); it++) {
         //QMessageBox::warning(this, "111", lyr->attributeDisplayName(*it));
         ui->cmbObVal->addItem(lyr->attributeDisplayName(*it));
+        ui->cmbObLab->addItem(lyr->attributeDisplayName(*it));
         ui->cmb_x->addItem(lyr->attributeDisplayName(*it));
         ui->cmb_y->addItem(lyr->attributeDisplayName(*it));
         ui->cmb_z->addItem(lyr->attributeDisplayName(*it));
     }
     ui->cmbObVal->setCurrentIndex(-1);
+    ui->cmbObLab->setCurrentIndex(0);
     ui->cmb_x->setCurrentIndex(0);
     ui->cmb_y->setCurrentIndex(0);
     ui->cmb_z->setCurrentIndex(0);
@@ -125,32 +140,36 @@ void OYangCZServiceDialog::onCmbObPathChange()
     ui->cmb_y_u->setCurrentIndex(-1);
     ui->cmb_z_u->setCurrentIndex(-1);
 
-    connect(ui->cmb_z, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::onXYZChanged);
-    connect(ui->cmb_y, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::onXYZChanged);
+    connect(ui->cmb_z, &QComboBox::currentTextChanged, this, &GYangCZServiceDialog::onXYZChanged);
+    connect(ui->cmb_y, &QComboBox::currentTextChanged, this, &GYangCZServiceDialog::onXYZChanged);
 }
 
-void OYangCZServiceDialog::onCmbUnknowChange()
+void GYangCZServiceDialog::onCmbUnknowChange()
 {
     ui->cmb_x_u->clear();
     ui->cmb_y_u->clear();
     ui->cmb_z_u->clear();
+    ui->cmbObUnLab->clear();
     int index = ui->cmb_unknow->currentIndex();
     QgsVectorLayer* lyr = lyrs.at(index);
     const QgsAttributeList attrList = lyr->attributeList();
     QgsAttributeList::const_iterator it = attrList.constBegin();
+    ui->cmbObUnLab->addItem("All value 1:[1,1,1,1,1...,1]");
     for (; it != attrList.constEnd(); it++) {
         //QMessageBox::warning(this, "111", lyr->attributeDisplayName(*it));
         ui->cmb_x_u->addItem(lyr->attributeDisplayName(*it));
         ui->cmb_y_u->addItem(lyr->attributeDisplayName(*it));
         ui->cmb_z_u->addItem(lyr->attributeDisplayName(*it));
+        ui->cmbObUnLab->addItem(lyr->attributeDisplayName(*it));
     }
     ui->cmb_x_u->setCurrentIndex(-1);
     ui->cmb_y_u->setCurrentIndex(-1);
     ui->cmb_z_u->setCurrentIndex(-1);
+    ui->cmbObUnLab->setCurrentIndex(0);
 
 }
 
-void OYangCZServiceDialog::onBtnBrowseOutputClicked()
+void GYangCZServiceDialog::onBtnBrowseOutputClicked()
 {
     int choose = ui->cmb_choose->currentIndex();
     if (choose == 1)
@@ -160,9 +179,9 @@ void OYangCZServiceDialog::onBtnBrowseOutputClicked()
             QString fileName = QFileDialog::getSaveFileName(this, tr("output file"), "untitled", tr("TIF file(*.tif)"));
             ui->lineOutputPath->setText(fileName);
         }
-        else if(ui->cmbObPath->currentIndex() != -1)
+        else if (ui->cmbObPath->currentIndex() != -1)
         {
-            QString fileName = QFileDialog::getSaveFileName(this, tr("output file"), "untitled", tr("CSV file(*.csv)"));
+            QString fileName = QFileDialog::getSaveFileName(this, tr("output file"), "untitled", tr("TIF file(*.csv)"));
             ui->lineOutputPath->setText(fileName);
         }
         else
@@ -170,11 +189,11 @@ void OYangCZServiceDialog::onBtnBrowseOutputClicked()
             QString fileName = QFileDialog::getSaveFileName(this, tr("output file"), "untitled", tr("Unknow file(*.)"));
             ui->lineOutputPath->setText(fileName);
         }
-        
+
     }
     else if (choose == 0)
     {
-        QString fileName = QFileDialog::getSaveFileName(this, tr("output file"), "untitled", tr("CSV file(*.csv)"));
+        QString fileName = QFileDialog::getSaveFileName(this, tr("output file"), "untitled", tr("TIF file(*.csv)"));
         ui->lineOutputPath->setText(fileName);
     }
     else
@@ -184,12 +203,12 @@ void OYangCZServiceDialog::onBtnBrowseOutputClicked()
     }
 }
 
-void OYangCZServiceDialog::onXYZChanged()
+void GYangCZServiceDialog::onXYZChanged()
 {
     if (ui->cmb_y->currentIndex() > 0)
     {
         ui->cmb_z->setEnabled(true);
-        
+
         ui->cmb_y_u->setEnabled(true);
         if (ui->cmb_z->currentIndex() > 0)
         {
@@ -216,7 +235,7 @@ void OYangCZServiceDialog::onXYZChanged()
     }
 }
 
-void OYangCZServiceDialog::onBtnConfirmClicked()
+void GYangCZServiceDialog::onBtnConfirmClicked()
 {
     if (ui->lineOutputPath->text().isEmpty()) {
         QMessageBox::critical(nullptr, "Error about output path", "output path is empty!");
@@ -244,7 +263,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
             return;
         }
     }
-    else if(ui->cmb_choose->currentIndex() == 1)
+    else if (ui->cmb_choose->currentIndex() == 1)
     {
         if (ui->line_size->text().isEmpty()) {
             QMessageBox::critical(nullptr, "Error about output input", "The interval size is empty!");
@@ -254,6 +273,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
 
     QString outputPath = ui->lineOutputPath->text();
     int k_num = ui->sb_k_num->value();
+    int k2_num = ui->sb_k_num_2->value();
     double c_val = ui->dsb_c_num->value();
     bool error_1 = false;
     if (ui->cb_error->isChecked())
@@ -262,6 +282,8 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
     QList<ObPtXYZ> obPts_c;
     QList<ObPtXYZ> un_obPts_c;
     QList<double> obPt_val;
+    QList<double> obPt_train;
+    QList<double> obPt_test;
 
     int obInd = ui->cmbObPath->currentIndex();
     QgsVectorLayer* obLyr = lyrs.at(obInd);
@@ -289,12 +311,20 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 double X = obFeat.attribute(ui->cmb_x->currentIndex()).toDouble(&valOk);
                 double Y = 0;
                 double Z = 0;
+                double train_lab = 1;
+                if (ui->cmbObLab->currentIndex() > 0)
+                    double train_lab = obFeat.attribute(ui->cmbObLab->currentIndex()-1).toDouble(&valOk);
 
                 if (!valOk) {
                     QString valStr = obFeat.attribute(ui->cmbObVal->currentIndex()).toString();
                     QString XStr = obFeat.attribute(ui->cmb_x->currentIndex()).toString();
                     val = valStr.toDouble(&valOk);
                     X = XStr.toDouble(&valOk);
+                    if (ui->cmbObLab->currentIndex() > 0)
+                    {
+                        QString train_lab_str = obFeat.attribute(ui->cmbObLab->currentIndex()-1).toString();
+                        train_lab = train_lab_str.toDouble(&valOk);
+                    }
                     if (!valOk) {
                         QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
                         return;
@@ -304,6 +334,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 ObPtXYZ xyz(X, Y, Z);
                 obPts_c.append(xyz);
                 obPt_val.append(val);
+                obPt_train.append(train_lab);
             }
 
             while (obIter_u.nextFeature(obFeat_u)) {
@@ -311,10 +342,17 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 double X_u = obFeat_u.attribute(ui->cmb_x_u->currentIndex()).toDouble(&valOk);
                 double Y_u = 0;
                 double Z_u = 0;
+                double test_lab = 1;
+                if (ui->cmbObUnLab->currentIndex() > 0)
+                    test_lab = obFeat.attribute(ui->cmbObUnLab->currentIndex() - 1).toDouble(&valOk);
                 if (!valOk) {
                     QString XStr_u = obFeat_u.attribute(ui->cmb_x_u->currentIndex()).toString();
                     X_u = XStr_u.toDouble(&valOk);
-
+                    if (ui->cmbObUnLab->currentIndex() > 0)
+                    {
+                        QString test_lab_str = obFeat.attribute(ui->cmbObUnLab->currentIndex() - 1).toString();
+                        test_lab = test_lab_str.toDouble(&valOk);
+                    }
                     if (!valOk) {
                         QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
                         return;
@@ -323,6 +361,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
 
                 ObPtXYZ xyz_u(X_u, Y_u, Z_u);
                 un_obPts_c.append(xyz_u);
+                obPt_test.append(test_lab);
             }
         }
         else if (ui->cmb_y->currentIndex() > 0 && ui->cmb_z->currentIndex() == 0) {
@@ -333,7 +372,9 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 double X = obFeat.attribute(ui->cmb_x->currentIndex()).toDouble(&valOk);
                 double Y = obFeat.attribute(ui->cmb_y->currentIndex() - 1).toDouble(&valOk);
                 double Z = 0;
-
+                double train_lab = 1;
+                if (ui->cmbObLab->currentIndex() > 0)
+                    double train_lab = obFeat.attribute(ui->cmbObLab->currentIndex() - 1).toDouble(&valOk);
                 if (!valOk) {
                     QString valStr = obFeat.attribute(ui->cmbObVal->currentIndex()).toString();
                     QString XStr = obFeat.attribute(ui->cmb_x->currentIndex()).toString();
@@ -341,6 +382,11 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                     val = valStr.toDouble(&valOk);
                     X = XStr.toDouble(&valOk);
                     Y = YStr.toDouble(&valOk);
+                    if (ui->cmbObLab->currentIndex() > 0)
+                    {
+                        QString train_lab_str = obFeat.attribute(ui->cmbObLab->currentIndex() - 1).toString();
+                        train_lab = train_lab_str.toDouble(&valOk);
+                    }
                     if (!valOk) {
                         QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
                         return;
@@ -350,6 +396,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 ObPtXYZ xyz(X, Y, Z);
                 obPts_c.append(xyz);
                 obPt_val.append(val);
+                obPt_train.append(train_lab);
             }
 
             while (obIter_u.nextFeature(obFeat_u)) {
@@ -357,10 +404,17 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 double X_u = obFeat_u.attribute(ui->cmb_x_u->currentIndex()).toDouble(&valOk);
                 double Y_u = obFeat_u.attribute(ui->cmb_y_u->currentIndex()).toDouble(&valOk);
                 double Z_u = 0;
+                double test_lab = 1;
+                if (ui->cmbObUnLab->currentIndex() > 0)
+                    test_lab = obFeat.attribute(ui->cmbObUnLab->currentIndex() - 1).toDouble(&valOk);
                 if (!valOk) {
                     QString XStr_u = obFeat_u.attribute(ui->cmb_x_u->currentIndex()).toString();
                     QString YStr_u = obFeat_u.attribute(ui->cmb_y_u->currentIndex()).toString();
-
+                    if (ui->cmbObUnLab->currentIndex() > 0)
+                    {
+                        QString test_lab_str = obFeat.attribute(ui->cmbObUnLab->currentIndex() - 1).toString();
+                        test_lab = test_lab_str.toDouble(&valOk);
+                    }
                     X_u = XStr_u.toDouble(&valOk);
                     Y_u = YStr_u.toDouble(&valOk);
                     if (!valOk) {
@@ -371,6 +425,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
 
                 ObPtXYZ xyz_u(X_u, Y_u, Z_u);
                 un_obPts_c.append(xyz_u);
+                obPt_test.append(test_lab);
             }
         }
         else {
@@ -381,6 +436,9 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 double X = obFeat.attribute(ui->cmb_x->currentIndex()).toDouble(&valOk);
                 double Y = obFeat.attribute(ui->cmb_y->currentIndex() - 1).toDouble(&valOk);
                 double Z = obFeat.attribute(ui->cmb_z->currentIndex() - 1).toDouble(&valOk);
+                double train_lab = 1;
+                if (ui->cmbObLab->currentIndex() > 0)
+                    double train_lab = obFeat.attribute(ui->cmbObLab->currentIndex() - 1).toDouble(&valOk);
 
                 if (!valOk) {
                     QString valStr = obFeat.attribute(ui->cmbObVal->currentIndex()).toString();
@@ -391,6 +449,11 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                     X = XStr.toDouble(&valOk);
                     Y = YStr.toDouble(&valOk);
                     Z = ZStr.toDouble(&valOk);
+                    if (ui->cmbObLab->currentIndex() > 0)
+                    {
+                        QString train_lab_str = obFeat.attribute(ui->cmbObLab->currentIndex() - 1).toString();
+                        train_lab = train_lab_str.toDouble(&valOk);
+                    }
                     if (!valOk) {
                         QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
                         return;
@@ -400,6 +463,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 ObPtXYZ xyz(X, Y, Z);
                 obPts_c.append(xyz);
                 obPt_val.append(val);
+                obPt_train.append(train_lab);
             }
 
             while (obIter_u.nextFeature(obFeat_u)) {
@@ -407,11 +471,18 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 double X_u = obFeat_u.attribute(ui->cmb_x_u->currentIndex()).toDouble(&valOk);
                 double Y_u = obFeat_u.attribute(ui->cmb_y_u->currentIndex()).toDouble(&valOk);
                 double Z_u = obFeat_u.attribute(ui->cmb_z_u->currentIndex()).toDouble(&valOk);
+                double test_lab = 1;
+                if (ui->cmbObUnLab->currentIndex() > 0)
+                    test_lab = obFeat.attribute(ui->cmbObUnLab->currentIndex() - 1).toDouble(&valOk);
                 if (!valOk) {
                     QString XStr_u = obFeat_u.attribute(ui->cmb_x_u->currentIndex()).toString();
                     QString YStr_u = obFeat_u.attribute(ui->cmb_y_u->currentIndex()).toString();
                     QString ZStr_u = obFeat_u.attribute(ui->cmb_z_u->currentIndex()).toString();
-                    
+                    if (ui->cmbObUnLab->currentIndex() > 0)
+                    {
+                        QString test_lab_str = obFeat.attribute(ui->cmbObUnLab->currentIndex() - 1).toString();
+                        test_lab = test_lab_str.toDouble(&valOk);
+                    }
                     X_u = XStr_u.toDouble(&valOk);
                     Y_u = YStr_u.toDouble(&valOk);
                     Z_u = ZStr_u.toDouble(&valOk);
@@ -423,19 +494,20 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
 
                 ObPtXYZ xyz_u(X_u, Y_u, Z_u);
                 un_obPts_c.append(xyz_u);
+                obPt_test.append(test_lab);
             }
-        }       
+        }
     }
     else
     {
         double size = ui->line_size->text().toDouble();
-        
+
         if (ui->cmb_y->currentIndex() == 0) {
             isTIF = false;
             dim = 1;
             outputPath = outputPath + ".csv";
             double minX = DBL_MAX;
-            
+
             double maxX = -DBL_MAX;
 
             while (obIter.nextFeature(obFeat)) {
@@ -444,6 +516,9 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 double X = obFeat.attribute(ui->cmb_x->currentIndex()).toDouble(&valOk);
                 double Y = 0;
                 double Z = 0;
+                double train_lab = 1;
+                if (ui->cmbObLab->currentIndex() > 0)
+                    double train_lab = obFeat.attribute(ui->cmbObLab->currentIndex() - 1).toDouble(&valOk);
 
                 if (!valOk) {
                     QString valStr = obFeat.attribute(ui->cmbObVal->currentIndex()).toString();
@@ -451,6 +526,11 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
 
                     val = valStr.toDouble(&valOk);
                     X = XStr.toDouble(&valOk);
+                    if (ui->cmbObLab->currentIndex() > 0)
+                    {
+                        QString train_lab_str = obFeat.attribute(ui->cmbObLab->currentIndex() - 1).toString();
+                        train_lab = train_lab_str.toDouble(&valOk);
+                    }
 
                     if (!valOk) {
                         QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
@@ -465,6 +545,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 ObPtXYZ xyz(X, Y, Z);
                 obPts_c.append(xyz);
                 obPt_val.append(val);
+                obPt_train.append(train_lab);
             }
 
             double length = maxX - minX;
@@ -481,9 +562,11 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 double X_r = minX + size * i_x;
                 double Y_r = 0;
                 double Z_r = 0;
+                double test_lab = 1;
 
                 ObPtXYZ xyz_r(X_r, Y_r, Z_r);
                 un_obPts_c.append(xyz_r);
+                obPt_test.append(test_lab);
             }
         }
         else if (ui->cmb_y->currentIndex() > 0 && ui->cmb_z->currentIndex() == 0) {
@@ -502,16 +585,23 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 double X = obFeat.attribute(ui->cmb_x->currentIndex()).toDouble(&valOk);
                 double Y = obFeat.attribute(ui->cmb_y->currentIndex() - 1).toDouble(&valOk);
                 double Z = 0;
+                double train_lab = 1;
+                if (ui->cmbObLab->currentIndex() > 0)
+                    double train_lab = obFeat.attribute(ui->cmbObLab->currentIndex() - 1).toDouble(&valOk);
 
                 if (!valOk) {
                     QString valStr = obFeat.attribute(ui->cmbObVal->currentIndex()).toString();
                     QString XStr = obFeat.attribute(ui->cmb_x->currentIndex()).toString();
                     QString YStr = obFeat.attribute(ui->cmb_y->currentIndex() - 1).toString();
-                    
+                    if (ui->cmbObLab->currentIndex() > 0)
+                    {
+                        QString train_lab_str = obFeat.attribute(ui->cmbObLab->currentIndex() - 1).toString();
+                        train_lab = train_lab_str.toDouble(&valOk);
+                    }
                     val = valStr.toDouble(&valOk);
                     X = XStr.toDouble(&valOk);
                     Y = YStr.toDouble(&valOk);
-                    
+
                     if (!valOk) {
                         QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
                         return;
@@ -526,6 +616,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 ObPtXYZ xyz(X, Y, Z);
                 obPts_c.append(xyz);
                 obPt_val.append(val);
+                obPt_train.append(train_lab);
             }
 
             double length = maxX - minX;
@@ -548,18 +639,19 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                     double X_r = minX + size * i_x;
                     double Y_r = maxY - size * i_y;
                     double Z_r = 0;
+                    double test_lab = 1;
 
                     ObPtXYZ xyz_r(X_r, Y_r, Z_r);
                     un_obPts_c.append(xyz_r);
+                    obPt_test.append(test_lab);
                 }
             }
-        }     
+        }
         else {
             QMessageBox::critical(nullptr, "Error about something", "Call Tel 17331242160");
             return;
         }
     }
-
 
     // Check for duplicate points in obPts_c and remove duplicates
     bool break_show = false;
@@ -571,8 +663,8 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 // Remove the duplicate point and its corresponding value
                 switch (QMessageBox::question(this, QString(), tr("There are coincident points in the provided coordinate fields"), tr("  Take the average  "), tr("  Leave first point  "), tr("Cancel"))) {
                 case QMessageBox::Yes:
-                    run_code = true;
                     // Take the average action
+                    run_code = true;
                     for (int i = 0; i < obPts_c.size(); ++i) {
                         double sum_opt = obPt_val[i];
                         int count_opt = 1;
@@ -622,11 +714,11 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 break;
         }
     }
-
     if (run_code) {
         this->close();
-        emit begin("Ordinary YangCZ");
-        emit sendPyParams(obPt_val, obPts_c, un_obPts_c, c_val, k_num, dim, outputPath, error_1, isTIF);
+        emit begin("GYangCZ");
+        emit sendPyParams(obPt_val, obPts_c, obPt_train, obPt_test, un_obPts_c, c_val, k_num, k2_num, dim, outputPath, error_1, isTIF);
         emit getOutPath(outputPath, isTIF);
     }
+  
 }

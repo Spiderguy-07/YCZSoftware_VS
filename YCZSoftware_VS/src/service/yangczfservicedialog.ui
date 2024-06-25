@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OYangCZServiceDialog</class>
- <widget class="QDialog" name="OYangCZServiceDialog">
+ <class>YangCZFServiceDialog</class>
+ <widget class="QDialog" name="YangCZFServiceDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>731</width>
-    <height>720</height>
+    <width>590</width>
+    <height>361</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>0</width>
-    <height>50</height>
-   </size>
   </property>
   <property name="font">
    <font>
@@ -35,8 +23,8 @@
     <rect>
      <x>20</x>
      <y>10</y>
-     <width>691</width>
-     <height>690</height>
+     <width>551</width>
+     <height>331</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -45,6 +33,11 @@
     </property>
     <item>
      <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Observed Data Layer:</string>
       </property>
@@ -55,6 +48,11 @@
     </item>
     <item>
      <widget class="QLabel" name="label_4">
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Coordinate:</string>
       </property>
@@ -194,172 +192,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Choose the type of output:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QComboBox" name="cmb_choose">
-      <item>
-       <property name="text">
-        <string>Input Unknow Data; Output CSV</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>No Unknow Data; 1dimension Output CSV, 2dimension Output Raster(.tif)</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_unknow">
-      <property name="text">
-       <string>Unknow Data Layer:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QComboBox" name="cmb_unknow"/>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_unknow_c">
-      <property name="text">
-       <string>Unknow Data Coodinate：</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QWidget" name="xyz_widget" native="true">
-      <layout class="QHBoxLayout" name="qbl_unknow_c">
-       <item>
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>10</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>X:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="cmb_x_u">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_14">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>Y:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="cmb_y_u">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>Z:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="cmb_z_u">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_8">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_grid">
-      <property name="text">
-       <string>The interval size (consistent with input coordinate units, if no Unknow Data input and not 3 dim)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="line_size"/>
-    </item>
-    <item>
      <widget class="QLabel" name="label_9">
       <property name="text">
        <string>The random variation function c value(Optional,the default is 0.3)：</string>
@@ -398,47 +230,6 @@
        <number>15</number>
       </property>
      </widget>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="cb_error">
-      <property name="text">
-       <string>The leave-out-one method was used for precision estimation during model fitting.</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-      <property name="tristate">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Output Path(If there is unknown data, the output is CSV, otherwise output is IMG)：</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QLineEdit" name="lineOutputPath"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btnBrowseOutput">
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>...</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -498,28 +289,6 @@
      </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QWidget" name="widget_grid" native="true">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>760</y>
-     <width>569</width>
-     <height>55</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>55</height>
-    </size>
-   </property>
   </widget>
  </widget>
  <resources/>

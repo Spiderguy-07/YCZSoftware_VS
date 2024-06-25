@@ -1,36 +1,27 @@
-#include "oyangczservicedialog.h"
-#include "ui_oyangczservicedialog.h"
+#include "coyangczservicedialog.h"
+#include "ui_coyangczservicedialog.h"
 
-OYangCZServiceDialog::OYangCZServiceDialog(QgsProject* project, QWidget *parent) :
+CoYangCZServiceDialog::CoYangCZServiceDialog(QgsProject* project, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::OYangCZServiceDialog)
+    ui(new Ui::CoYangCZServiceDialog)
 {
     ui->setupUi(this);
-    
-    ui->cmb_choose->setCurrentIndex(-1);
-    ui->label_unknow->setVisible(false);
-    ui->cmb_unknow->setVisible(false);
-    ui->label_unknow_c->setVisible(false);
-    ui->label_grid->setVisible(false);
-    ui->line_size->setVisible(false);
-    ui->xyz_widget->setVisible(false);
-    //ui->label_area->setVisible(false);
-    //ui->cmbRangePath->setVisible(false);
-
     this->initUI(project->layers<QgsVectorLayer*>());
-    connect(ui->cmb_choose, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::InputChanged);
-    connect(ui->btnComfirm, &QPushButton::clicked, this, &OYangCZServiceDialog::onBtnConfirmClicked);
+    connect(ui->cmb_choose, &QComboBox::currentTextChanged, this, &CoYangCZServiceDialog::InputChanged);
+    connect(ui->btnComfirm, &QPushButton::clicked, this, &CoYangCZServiceDialog::onBtnConfirmClicked);
 }
 
-OYangCZServiceDialog::~OYangCZServiceDialog()
+CoYangCZServiceDialog::~CoYangCZServiceDialog()
 {
     delete ui;
 }
 
-void OYangCZServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
+void CoYangCZServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
 {
     dim = 0;
     isTIF = false;
+    ui->cmb_l2->addItem("None");
+    ui->cmb_l3->addItem("None");
     for (const auto& vecLyr : pjLyr) {
         if (vecLyr->wkbType() != Qgis::WkbType::Point &&
             vecLyr->wkbType() != Qgis::WkbType::MultiPoint &&
@@ -45,16 +36,32 @@ void OYangCZServiceDialog::initUI(QVector<QgsVectorLayer*> pjLyr)
         lyrs.append(vecLyr);
         ui->cmbObPath->addItem(vecLyr->name());
         ui->cmb_unknow->addItem(vecLyr->name());
+        ui->cmb_l1->addItem(vecLyr->name());
+        ui->cmb_l2->addItem(vecLyr->name());
+        ui->cmb_l3->addItem(vecLyr->name());
     }
     ui->cmbObPath->setCurrentIndex(-1);
     ui->cmb_unknow->setCurrentIndex(-1);
-    connect(ui->cmbObPath, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::onCmbObPathChange);
-    connect(ui->cmb_unknow, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::onCmbUnknowChange);
-    connect(ui->btnBrowseOutput, &QPushButton::clicked, this, &OYangCZServiceDialog::onBtnBrowseOutputClicked);
+    ui->cmb_l1->setCurrentIndex(-1);
+    ui->cmb_l2->setCurrentIndex(-1);
+    ui->cmb_l3->setCurrentIndex(-1);
+    ui->cmb_l2->setEnabled(false);
+    ui->cmb_l3->setEnabled(false);
+    ui->cmb_f2->setEnabled(false);
+    ui->cmb_f3->setEnabled(false);
+    ui->dsb_c3->setEnabled(false);
+    ui->dsb_c4->setEnabled(false);
+
+    connect(ui->cmbObPath, &QComboBox::currentTextChanged, this, &CoYangCZServiceDialog::onCmbObPathChange);
+    connect(ui->cmb_unknow, &QComboBox::currentTextChanged, this, &CoYangCZServiceDialog::onCmbUnknowChange);
+    connect(ui->cmb_l1, &QComboBox::currentTextChanged, this, &CoYangCZServiceDialog::onCmbCo1Change);
+    connect(ui->cmb_l2, &QComboBox::currentTextChanged, this, &CoYangCZServiceDialog::onCmbCo2Change);
+    connect(ui->cmb_l3, &QComboBox::currentTextChanged, this, &CoYangCZServiceDialog::onCmbCo3Change);
+    connect(ui->btnBrowseOutput, &QPushButton::clicked, this, &CoYangCZServiceDialog::onBtnBrowseOutputClicked);
 }
 
 
-void OYangCZServiceDialog::InputChanged()
+void CoYangCZServiceDialog::InputChanged()
 {
     int choose = ui->cmb_choose->currentIndex();
     ui->lineOutputPath->clear();
@@ -93,7 +100,8 @@ void OYangCZServiceDialog::InputChanged()
     }
 }
 
-void OYangCZServiceDialog::onCmbObPathChange()
+
+void CoYangCZServiceDialog::onCmbObPathChange()
 {
     ui->cmbObVal->clear();
     ui->cmb_x->clear();
@@ -122,14 +130,15 @@ void OYangCZServiceDialog::onCmbObPathChange()
     ui->cmb_y->setEnabled(true);
     ui->cmb_z->setEnabled(false);
     ui->cmb_z_u->setEnabled(false);
+    ui->cmb_z_co->setEnabled(false);
     ui->cmb_y_u->setCurrentIndex(-1);
     ui->cmb_z_u->setCurrentIndex(-1);
 
-    connect(ui->cmb_z, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::onXYZChanged);
-    connect(ui->cmb_y, &QComboBox::currentTextChanged, this, &OYangCZServiceDialog::onXYZChanged);
+    connect(ui->cmb_z, &QComboBox::currentTextChanged, this, &CoYangCZServiceDialog::onXYZChanged);
+    connect(ui->cmb_y, &QComboBox::currentTextChanged, this, &CoYangCZServiceDialog::onXYZChanged);
 }
 
-void OYangCZServiceDialog::onCmbUnknowChange()
+void CoYangCZServiceDialog::onCmbUnknowChange()
 {
     ui->cmb_x_u->clear();
     ui->cmb_y_u->clear();
@@ -147,10 +156,138 @@ void OYangCZServiceDialog::onCmbUnknowChange()
     ui->cmb_x_u->setCurrentIndex(-1);
     ui->cmb_y_u->setCurrentIndex(-1);
     ui->cmb_z_u->setCurrentIndex(-1);
-
 }
 
-void OYangCZServiceDialog::onBtnBrowseOutputClicked()
+void CoYangCZServiceDialog::onCmbCo1Change()
+{
+    if (ui->cmb_l1->currentIndex() >= 0) {
+        ui->cmb_l2->setEnabled(true);
+        ui->cmb_f2->setEnabled(true);
+        //ui->dsb_c3->setEnabled(true);
+        ui->cmb_f1->clear();
+        int index = ui->cmb_l1->currentIndex();
+        QgsVectorLayer* lyr = lyrs.at(index);
+        const QgsAttributeList attrList = lyr->attributeList();
+        QgsAttributeList::const_iterator it = attrList.constBegin();
+        for (; it != attrList.constEnd(); it++) {
+            //QMessageBox::warning(this, "111", lyr->attributeDisplayName(*it));
+            ui->cmb_f1->addItem(lyr->attributeDisplayName(*it));
+            ui->cmb_x_co->addItem(lyr->attributeDisplayName(*it));
+            ui->cmb_y_co->addItem(lyr->attributeDisplayName(*it));
+            ui->cmb_z_co->addItem(lyr->attributeDisplayName(*it));
+        }
+        ui->cmb_f1->setCurrentIndex(-1);
+        ui->cmb_x_co->setCurrentIndex(-1);
+        ui->cmb_y_co->setCurrentIndex(-1);
+        ui->cmb_z_co->setCurrentIndex(-1);
+    }
+    else {
+        ui->cmb_l2->clear();
+        ui->cmb_l3->clear();
+        ui->cmb_f1->clear();
+        ui->cmb_f2->clear();
+        ui->cmb_f3->clear();
+        ui->cmb_l2->setEnabled(false);
+        ui->cmb_f2->setEnabled(false);
+        ui->dsb_c3->setValue(0);
+        ui->dsb_c4->setValue(0);
+        ui->dsb_c3->setEnabled(false);
+        ui->dsb_c4->setEnabled(false);
+    }
+}
+
+void CoYangCZServiceDialog::onCmbCo2Change()
+{
+    if (ui->cmb_l2->currentIndex() > 0) {
+        ui->cmb_f2->clear();
+        ui->dsb_c3->setEnabled(true);
+        ui->cmb_l3->setEnabled(true);
+        ui->cmb_f3->setEnabled(true);
+        int index = ui->cmb_l2->currentIndex() - 1;
+        QgsVectorLayer* lyr = lyrs.at(index);
+        const QgsAttributeList attrList = lyr->attributeList();
+        QgsAttributeList::const_iterator it = attrList.constBegin();
+        for (; it != attrList.constEnd(); it++) {
+            //QMessageBox::warning(this, "111", lyr->attributeDisplayName(*it));
+            ui->cmb_f2->addItem(lyr->attributeDisplayName(*it));
+        }
+        ui->cmb_f2->setCurrentIndex(-1);
+    }
+    else {
+        ui->cmb_l3->clear();
+        ui->cmb_f2->clear();
+        ui->cmb_f3->clear();
+        ui->cmb_l3->setEnabled(false);
+        ui->cmb_f3->setEnabled(false);
+        ui->dsb_c3->setValue(0);
+        ui->dsb_c4->setValue(0);
+        ui->dsb_c3->setEnabled(false);
+        ui->dsb_c4->setEnabled(false);
+    }
+}
+
+void CoYangCZServiceDialog::onCmbCo3Change()
+{
+    if (ui->cmb_l3->currentIndex() > 0) {
+        ui->cmb_f3->clear();
+        ui->dsb_c4->setEnabled(true);
+        int index = ui->cmb_l2->currentIndex() - 1;
+        QgsVectorLayer* lyr = lyrs.at(index);
+        const QgsAttributeList attrList = lyr->attributeList();
+        QgsAttributeList::const_iterator it = attrList.constBegin();
+        for (; it != attrList.constEnd(); it++) {
+            //QMessageBox::warning(this, "111", lyr->attributeDisplayName(*it));
+            ui->cmb_f3->addItem(lyr->attributeDisplayName(*it));
+        }
+        ui->cmb_f3->setCurrentIndex(-1);
+    }
+    else {
+        ui->cmb_f3->clear();
+        ui->dsb_c4->setValue(0);
+        ui->dsb_c4->setEnabled(false);
+    }
+}
+
+void CoYangCZServiceDialog::onXYZChanged()
+{
+    if (ui->cmb_y->currentIndex() > 0)
+    {
+        ui->cmb_z->setEnabled(true);
+
+        ui->cmb_y_u->setEnabled(true);
+        if (ui->cmb_z->currentIndex() > 0)
+        {
+            ui->cmb_z_u->setEnabled(true);
+            ui->cmb_z_co->setEnabled(true);
+            ui->cmb_choose->setCurrentIndex(0);
+            ui->cmb_choose->setEnabled(false);
+        }
+        else
+        {
+            ui->cmb_z_u->setCurrentIndex(-1);
+            ui->cmb_z_u->setEnabled(false);
+            ui->cmb_z_co->setCurrentIndex(-1);
+            ui->cmb_z_co->setEnabled(false);
+            ui->cmb_choose->setEnabled(true);
+        }
+    }
+    else
+    {
+        ui->cmb_y_u->setCurrentIndex(-1);
+        ui->cmb_z_u->setCurrentIndex(-1);
+        ui->cmb_z->setCurrentIndex(0);
+        ui->cmb_z->setEnabled(false);
+        ui->cmb_z_u->setEnabled(false);
+        ui->cmb_y_u->setEnabled(false);
+        ui->cmb_choose->setEnabled(true);
+        ui->cmb_z_co->setCurrentIndex(-1);
+        ui->cmb_z_co->setEnabled(false);
+        ui->cmb_y_co->setCurrentIndex(-1);
+        ui->cmb_y_co->setEnabled(false);
+    }
+}
+
+void CoYangCZServiceDialog::onBtnBrowseOutputClicked()
 {
     int choose = ui->cmb_choose->currentIndex();
     if (choose == 1)
@@ -160,7 +297,7 @@ void OYangCZServiceDialog::onBtnBrowseOutputClicked()
             QString fileName = QFileDialog::getSaveFileName(this, tr("output file"), "untitled", tr("TIF file(*.tif)"));
             ui->lineOutputPath->setText(fileName);
         }
-        else if(ui->cmbObPath->currentIndex() != -1)
+        else if (ui->cmbObPath->currentIndex() != -1)
         {
             QString fileName = QFileDialog::getSaveFileName(this, tr("output file"), "untitled", tr("CSV file(*.csv)"));
             ui->lineOutputPath->setText(fileName);
@@ -170,7 +307,7 @@ void OYangCZServiceDialog::onBtnBrowseOutputClicked()
             QString fileName = QFileDialog::getSaveFileName(this, tr("output file"), "untitled", tr("Unknow file(*.)"));
             ui->lineOutputPath->setText(fileName);
         }
-        
+
     }
     else if (choose == 0)
     {
@@ -184,39 +321,7 @@ void OYangCZServiceDialog::onBtnBrowseOutputClicked()
     }
 }
 
-void OYangCZServiceDialog::onXYZChanged()
-{
-    if (ui->cmb_y->currentIndex() > 0)
-    {
-        ui->cmb_z->setEnabled(true);
-        
-        ui->cmb_y_u->setEnabled(true);
-        if (ui->cmb_z->currentIndex() > 0)
-        {
-            ui->cmb_z_u->setEnabled(true);
-            ui->cmb_choose->setCurrentIndex(0);
-            ui->cmb_choose->setEnabled(false);
-        }
-        else
-        {
-            ui->cmb_z_u->setCurrentIndex(-1);
-            ui->cmb_z_u->setEnabled(false);
-            ui->cmb_choose->setEnabled(true);
-        }
-    }
-    else
-    {
-        ui->cmb_y_u->setCurrentIndex(-1);
-        ui->cmb_z_u->setCurrentIndex(-1);
-        ui->cmb_z->setCurrentIndex(0);
-        ui->cmb_z->setEnabled(false);
-        ui->cmb_z_u->setEnabled(false);
-        ui->cmb_y_u->setEnabled(false);
-        ui->cmb_choose->setEnabled(true);
-    }
-}
-
-void OYangCZServiceDialog::onBtnConfirmClicked()
+void CoYangCZServiceDialog::onBtnConfirmClicked()
 {
     if (ui->lineOutputPath->text().isEmpty()) {
         QMessageBox::critical(nullptr, "Error about output path", "output path is empty!");
@@ -224,44 +329,53 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
     }
     if (ui->cmbObPath->currentIndex() == -1)
     {
-        QMessageBox::critical(nullptr, "Error about output input", "Observed Data Layer is not choose!");
+        QMessageBox::critical(nullptr, "Error about input", "Observed Data Layer is not choose!");
         return;
     }
     if (ui->cmbObVal->currentIndex() == -1)
     {
-        QMessageBox::critical(nullptr, "Error about output input", "Observed Data Field is not choose!");
+        QMessageBox::critical(nullptr, "Error about input", "Observed Data Field is not choose!");
         return;
     }
     if (ui->cmb_choose->currentIndex() == -1)
     {
-        QMessageBox::critical(nullptr, "Error about output input", "Choose the type of output is not choose!");
+        QMessageBox::critical(nullptr, "Error about input", "Choose the type of output is not choose!");
         return;
     }
     else if (ui->cmb_choose->currentIndex() == 0)
     {
         if (ui->cmb_unknow->currentIndex() == -1) {
-            QMessageBox::critical(nullptr, "Error about output input", "Unknow Data Layer is not choose!");
+            QMessageBox::critical(nullptr, "Error about input", "Unknow Data Layer is not choose!");
             return;
         }
     }
-    else if(ui->cmb_choose->currentIndex() == 1)
+    else if (ui->cmb_choose->currentIndex() == 1)
     {
         if (ui->line_size->text().isEmpty()) {
             QMessageBox::critical(nullptr, "Error about output input", "The interval size is empty!");
             return;
         }
     }
+    if (ui->cmb_l1->currentIndex() == -1 || ui->cmb_f2->currentIndex() == 0) {
+        QMessageBox::critical(nullptr, "Error about input", "There are no covariates!");
+        return;
+    }
 
     QString outputPath = ui->lineOutputPath->text();
     int k_num = ui->sb_k_num->value();
-    double c_val = ui->dsb_c_num->value();
-    bool error_1 = false;
+    QList<double> c_list;
+ 
+    bool is_nug = false;
     if (ui->cb_error->isChecked())
-        error_1 = true;
+        is_nug = true;
+
+    int num_co;
 
     QList<ObPtXYZ> obPts_c;
     QList<ObPtXYZ> un_obPts_c;
+    QList<ObPtXYZ> co_obPts_c;
     QList<double> obPt_val;
+    QList<ObPtXYZ> co_obPt_val;
 
     int obInd = ui->cmbObPath->currentIndex();
     QgsVectorLayer* obLyr = lyrs.at(obInd);
@@ -273,9 +387,184 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
     QgsFeatureIterator obIter_u = obLyr_u->getFeatures();
     QgsFeature obFeat_u;
 
+    int obInd_co = ui->cmb_l1->currentIndex();
+    QgsVectorLayer* obLyr_co = lyrs.at(obInd_co);
+    QgsFeatureIterator obIter_co = obLyr_co->getFeatures();
+    QgsFeature obFeat_co;
     //int obInd_r = ui->cmbRangePath->currentIndex();
     //QgsVectorLayer* obLyr_r = lyrs.at(obInd_r);
     //QgsRectangle layerExtent = obLyr->extent();
+
+    c_list.append(ui->dsb_c1->value());
+    c_list.append(ui->dsb_c2->value());
+    c_list.append(ui->dsb_c3->value());
+    c_list.append(ui->dsb_c4->value());
+
+    if (ui->cmb_l3->currentIndex() > 0) {
+        num_co = 3;
+        int obInd_co1 = ui->cmb_l1->currentIndex();
+        QgsVectorLayer* obLyr_co1 = lyrs.at(obInd_co1);
+        QgsFeatureIterator obIter_co1 = obLyr_co1->getFeatures();
+        QgsFeature obFeat_co1;
+
+        int obInd_co2 = ui->cmb_l2->currentIndex() - 1;
+        QgsVectorLayer* obLyr_co2 = lyrs.at(obInd_co2);
+        QgsFeatureIterator obIter_co2 = obLyr_co2->getFeatures();
+        QgsFeature obFeat_co2;
+
+        int obInd_co3 = ui->cmb_l3->currentIndex() - 1;
+        QgsVectorLayer* obLyr_co3 = lyrs.at(obInd_co3);
+        QgsFeatureIterator obIter_co3 = obLyr_co3->getFeatures();
+        QgsFeature obFeat_co3;
+
+        QList<double> Ob_co1;
+        QList<double> Ob_co2;
+        QList<double> Ob_co3;
+
+        while (obIter_co1.nextFeature(obFeat_co1)) {
+            bool valOk = false;
+            double val = obFeat_co1.attribute(ui->cmb_f1->currentIndex()).toDouble(&valOk);
+            if (!valOk) {
+                QString valStr = obFeat_co1.attribute(ui->cmb_f1->currentIndex()).toString();
+                val = valStr.toDouble(&valOk);
+                if (!valOk) {
+                    QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                    return;
+                }
+            }
+
+            Ob_co1.append(val);
+        }
+        while (obIter_co2.nextFeature(obFeat_co2)) {
+            bool valOk = false;
+            double val = obFeat_co2.attribute(ui->cmb_f2->currentIndex()).toDouble(&valOk);
+            if (!valOk) {
+                QString valStr = obFeat_co2.attribute(ui->cmb_f2->currentIndex()).toString();
+                val = valStr.toDouble(&valOk);
+                if (!valOk) {
+                    QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                    return;
+                }
+            }
+
+            Ob_co2.append(val);
+        }
+        while (obIter_co3.nextFeature(obFeat_co3)) {
+            bool valOk = false;
+            double val = obFeat.attribute(ui->cmb_f3->currentIndex()).toDouble(&valOk);
+            if (!valOk) {
+                QString valStr = obFeat.attribute(ui->cmb_f3->currentIndex()).toString();
+                val = valStr.toDouble(&valOk);
+                if (!valOk) {
+                    QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                    return;
+                }
+            }
+
+            Ob_co3.append(val);
+        }
+
+        if (Ob_co1.size() == Ob_co2.size() == Ob_co3.size()) {
+            for (int i = 0; i < Ob_co1.size(); i++) {
+                ObPtXYZ xyz(Ob_co1[i], Ob_co2[i], Ob_co3[i]);
+                co_obPt_val.append(xyz);
+            }
+        }
+        else {
+            QMessageBox::critical(this, "Input error", "The size of covariates is not same.");
+            return;
+        }
+    }
+
+    else if (ui->cmb_l2->currentIndex() > 0) {
+        num_co = 2;
+        int obInd_co1 = ui->cmb_l1->currentIndex();
+        QgsVectorLayer* obLyr_co1 = lyrs.at(obInd_co1);
+        QgsFeatureIterator obIter_co1 = obLyr_co1->getFeatures();
+        QgsFeature obFeat_co1;
+
+        int obInd_co2 = ui->cmb_l2->currentIndex() - 1;
+        QgsVectorLayer* obLyr_co2 = lyrs.at(obInd_co2);
+        QgsFeatureIterator obIter_co2 = obLyr_co2->getFeatures();
+        QgsFeature obFeat_co2;
+
+        QList<double> Ob_co1;
+        QList<double> Ob_co2;
+
+        while (obIter_co1.nextFeature(obFeat_co1)) {
+            bool valOk = false;
+            double val = obFeat_co1.attribute(ui->cmb_f1->currentIndex()).toDouble(&valOk);
+            if (!valOk) {
+                QString valStr = obFeat_co1.attribute(ui->cmb_f1->currentIndex()).toString();
+                val = valStr.toDouble(&valOk);
+                if (!valOk) {
+                    QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                    return;
+                }
+            }
+
+            Ob_co1.append(val);
+        }
+        while (obIter_co2.nextFeature(obFeat_co2)) {
+            bool valOk = false;
+            double val = obFeat_co2.attribute(ui->cmb_f2->currentIndex()).toDouble(&valOk);
+            if (!valOk) {
+                QString valStr = obFeat_co2.attribute(ui->cmb_f2->currentIndex()).toString();
+                val = valStr.toDouble(&valOk);
+                if (!valOk) {
+                    QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                    return;
+                }
+            }
+
+            Ob_co2.append(val);
+        }
+        std::cout << Ob_co1.size();
+        std::cout << Ob_co2.size();
+
+
+        if (Ob_co1.size() == Ob_co2.size()) {
+            for (int i = 0; i < Ob_co1.size(); i++) {
+                ObPtXYZ xyz(Ob_co1[i], Ob_co2[i], 0);
+                co_obPt_val.append(xyz);
+            }
+        }
+        else {
+            QMessageBox::critical(this, "Input error", "The size of covariates is not same.");
+            return;
+        }
+    }
+
+    else {
+        num_co = 1;
+        int obInd_co1 = ui->cmb_l1->currentIndex();
+        QgsVectorLayer* obLyr_co1 = lyrs.at(obInd_co1);
+        QgsFeatureIterator obIter_co1 = obLyr_co1->getFeatures();
+        QgsFeature obFeat_co1;
+
+        QList<double> Ob_co1;
+
+        while (obIter_co1.nextFeature(obFeat_co1)) {
+            bool valOk = false;
+            double val = obFeat_co1.attribute(ui->cmb_f1->currentIndex()).toDouble(&valOk);
+            if (!valOk) {
+                QString valStr = obFeat_co1.attribute(ui->cmb_f1->currentIndex()).toString();
+                val = valStr.toDouble(&valOk);
+                if (!valOk) {
+                    QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                    return;
+                }
+            }
+
+            Ob_co1.append(val);
+        }
+
+        for (int i = 0; i < Ob_co1.size(); i++) {
+            ObPtXYZ xyz(Ob_co1[i], 0, 0);
+            co_obPt_val.append(xyz);
+        }
+    }
+
 
     if (ui->cmb_choose->currentIndex() == 0) {
         outputPath = outputPath + ".csv";
@@ -324,6 +613,25 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 ObPtXYZ xyz_u(X_u, Y_u, Z_u);
                 un_obPts_c.append(xyz_u);
             }
+
+            while (obIter_co.nextFeature(obFeat_co)) {
+                bool valOk = false;
+                double X_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toDouble(&valOk);
+                double Y_co = 0;
+                double Z_co = 0;
+                if (!valOk) {
+                    QString XStr_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toString();
+                    X_co = XStr_co.toDouble(&valOk);
+
+                    if (!valOk) {
+                        QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                        return;
+                    }
+                }
+
+                ObPtXYZ xyz_co(X_co, Y_co, Z_co);
+                co_obPts_c.append(xyz_co);
+            }
         }
         else if (ui->cmb_y->currentIndex() > 0 && ui->cmb_z->currentIndex() == 0) {
             dim = 2;
@@ -372,6 +680,28 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 ObPtXYZ xyz_u(X_u, Y_u, Z_u);
                 un_obPts_c.append(xyz_u);
             }
+
+            while (obIter_co.nextFeature(obFeat_co)) {
+                bool valOk = false;
+                double X_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toDouble(&valOk);
+                double Y_co = obFeat_co.attribute(ui->cmb_y_co->currentIndex()).toDouble(&valOk);
+                double Z_co = 0;
+                if (!valOk) {
+                    QString XStr_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toString();
+                    QString YStr_co = obFeat_co.attribute(ui->cmb_y_co->currentIndex()).toString();
+
+                    X_co = XStr_co.toDouble(&valOk);
+                    Y_co = YStr_co.toDouble(&valOk);
+
+                    if (!valOk) {
+                        QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                        return;
+                    }
+                }
+
+                ObPtXYZ xyz_co(X_co, Y_co, Z_co);
+                co_obPts_c.append(xyz_co);
+            }
         }
         else {
             dim = 3;
@@ -411,7 +741,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                     QString XStr_u = obFeat_u.attribute(ui->cmb_x_u->currentIndex()).toString();
                     QString YStr_u = obFeat_u.attribute(ui->cmb_y_u->currentIndex()).toString();
                     QString ZStr_u = obFeat_u.attribute(ui->cmb_z_u->currentIndex()).toString();
-                    
+
                     X_u = XStr_u.toDouble(&valOk);
                     Y_u = YStr_u.toDouble(&valOk);
                     Z_u = ZStr_u.toDouble(&valOk);
@@ -424,19 +754,61 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 ObPtXYZ xyz_u(X_u, Y_u, Z_u);
                 un_obPts_c.append(xyz_u);
             }
-        }       
+
+            while (obIter_co.nextFeature(obFeat_co)) {
+                bool valOk = false;
+                double X_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toDouble(&valOk);
+                double Y_co = obFeat_co.attribute(ui->cmb_y_co->currentIndex()).toDouble(&valOk);
+                double Z_co = obFeat_co.attribute(ui->cmb_z_co->currentIndex()).toDouble(&valOk);
+                if (!valOk) {
+                    QString XStr_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toString();
+                    QString YStr_co = obFeat_co.attribute(ui->cmb_y_co->currentIndex()).toString();
+                    QString ZStr_co = obFeat_co.attribute(ui->cmb_z_co->currentIndex()).toString();
+
+                    X_co = XStr_co.toDouble(&valOk);
+                    Y_co = YStr_co.toDouble(&valOk);
+                    Z_co = ZStr_co.toDouble(&valOk);
+
+                    if (!valOk) {
+                        QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                        return;
+                    }
+                }
+
+                ObPtXYZ xyz_co(X_co, Y_co, Z_co);
+                co_obPts_c.append(xyz_co);
+            }
+        }
     }
     else
     {
         double size = ui->line_size->text().toDouble();
-        
+
         if (ui->cmb_y->currentIndex() == 0) {
             isTIF = false;
             dim = 1;
             outputPath = outputPath + ".csv";
             double minX = DBL_MAX;
-            
+
             double maxX = -DBL_MAX;
+            while (obIter_co.nextFeature(obFeat_co)) {
+                bool valOk = false;
+                double X_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toDouble(&valOk);
+                double Y_co = 0;
+                double Z_co = 0;
+                if (!valOk) {
+                    QString XStr_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toString();
+                    X_co = XStr_co.toDouble(&valOk);
+
+                    if (!valOk) {
+                        QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                        return;
+                    }
+                }
+
+                ObPtXYZ xyz_co(X_co, Y_co, Z_co);
+                co_obPts_c.append(xyz_co);
+            }
 
             while (obIter.nextFeature(obFeat)) {
                 bool valOk = false;
@@ -467,6 +839,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                 obPt_val.append(val);
             }
 
+
             double length = maxX - minX;
 
             int n_x = length / size + 2;
@@ -496,6 +869,28 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
             double maxX = -DBL_MAX;
             double minY = DBL_MAX;
 
+            while (obIter_co.nextFeature(obFeat_co)) {
+                bool valOk = false;
+                double X_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toDouble(&valOk);
+                double Y_co = obFeat_co.attribute(ui->cmb_y_co->currentIndex()).toDouble(&valOk);
+                double Z_co = 0;
+                if (!valOk) {
+                    QString XStr_co = obFeat_co.attribute(ui->cmb_x_co->currentIndex()).toString();
+                    QString YStr_co = obFeat_co.attribute(ui->cmb_y_co->currentIndex()).toString();
+
+                    X_co = XStr_co.toDouble(&valOk);
+                    Y_co = YStr_co.toDouble(&valOk);
+
+                    if (!valOk) {
+                        QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
+                        return;
+                    }
+                }
+
+                ObPtXYZ xyz_co(X_co, Y_co, Z_co);
+                co_obPts_c.append(xyz_co);
+            }
+
             while (obIter.nextFeature(obFeat)) {
                 bool valOk = false;
                 double val = obFeat.attribute(ui->cmbObVal->currentIndex()).toDouble(&valOk);
@@ -507,11 +902,11 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                     QString valStr = obFeat.attribute(ui->cmbObVal->currentIndex()).toString();
                     QString XStr = obFeat.attribute(ui->cmb_x->currentIndex()).toString();
                     QString YStr = obFeat.attribute(ui->cmb_y->currentIndex() - 1).toString();
-                    
+
                     val = valStr.toDouble(&valOk);
                     X = XStr.toDouble(&valOk);
                     Y = YStr.toDouble(&valOk);
-                    
+
                     if (!valOk) {
                         QMessageBox::critical(this, "Illegal data type", "Data type of val should be number.");
                         return;
@@ -553,7 +948,7 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
                     un_obPts_c.append(xyz_r);
                 }
             }
-        }     
+        }
         else {
             QMessageBox::critical(nullptr, "Error about something", "Call Tel 17331242160");
             return;
@@ -625,8 +1020,10 @@ void OYangCZServiceDialog::onBtnConfirmClicked()
 
     if (run_code) {
         this->close();
-        emit begin("Ordinary YangCZ");
-        emit sendPyParams(obPt_val, obPts_c, un_obPts_c, c_val, k_num, dim, outputPath, error_1, isTIF);
+        emit begin("Co-YangCZ");
+        emit sendPyParams(obPt_val, co_obPt_val, obPts_c, co_obPts_c, un_obPts_c, c_list, k_num, dim, num_co, outputPath, is_nug, isTIF);
         emit getOutPath(outputPath, isTIF);
     }
 }
+
+

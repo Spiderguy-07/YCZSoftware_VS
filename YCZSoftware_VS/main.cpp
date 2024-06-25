@@ -6,7 +6,7 @@
 #include <string>
 
 #define CONFIG_PATH "./config/config.json"
-#define QGS_PREFIX_PATH "$(OSGEO_HOME)/apps/qgis-ltr-dev"
+//#define QGS_PREFIX_PATH "$(OSGEO_HOME)/apps/qgis-ltr-dev"
 
 int main(int argc, char *argv[])
 {
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     }
 
     QgsApplication a(argc, argv, true);
-    QgsApplication::setPrefixPath(QGS_PREFIX_PATH, true);
+    //QgsApplication::setPrefixPath(QGS_PREFIX_PATH, true);
     QgsApplication::initQgis(); 
 
     MainWindow w(config);

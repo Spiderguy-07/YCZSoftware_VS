@@ -45,7 +45,6 @@
 #include "./src/service/aboutsoftdialog.h"
 #include "./src/service/sqldialog.h"
 #include "./src/service/yczprogressdialog.h"
-#include "./src/service/yczprogressdialog.h"
 #include "./src/service/coanalysisdialog.h"
 #include "basewindow.h"
 #include "Project.h"
@@ -55,6 +54,18 @@
 #include <qprogressbar.h>
 
 #include "./src/service/oyangczservicedialog.h"
+#include "./src/service/yangczfservicedialog.h"
+#include "./src/service/gyangczservicedialog.h"
+#include "./src/service/styangczservicedialog.h"
+#include "./src/service/coyangczservicedialog.h"
+#include "./src/service/GYangCZPyThread.h"
+#include "./src/service/STYangCZPyThread.h"
+#include "./src/service/CoYangCZPyThread.h"
+#include "./src/service/AmoebaGPyThread.h"
+#include "./src/service/amoebagservicedialog.h"
+#include "./src/service/HTMSCANPyThread.h"
+#include "./src/service/htmscanservicedialog.h"
+
 
 class MainWindow : public QMainWindow
 {
@@ -100,6 +111,11 @@ private:
     bool isTIF;
 
     yczprogressDialog* _mprogress;
+
+    OYangCZServiceDialog* _moyangcz;
+    YangCZFServiceDialog* _myangczf;
+    GYangCZServiceDialog* _mgyangcz;
+
     //QTextEdit* m_textEditLog;
     //QDockWidget* m_dockWidgetLog;
 
@@ -171,6 +187,8 @@ private slots:
 
     void onGetPath(QString path, bool is);
     void onImportResult(PyObject* result_re);
+    void onEndProgress(PyObject* result_re);
+    void onImportResultG(PyObject* result_re);
 
     void onNewProgress(QString name);
 
@@ -178,4 +196,20 @@ private slots:
 
     void onActionOYangCZ();
     void onOYangCZParamsSended(QList<double>observed_data, QList<ObPtXYZ> obpts, QList<ObPtXYZ> un_obpts, double c, int k, int dim, QString outputPath, bool e, bool isTIF);
+    void onNewOYangCZ();
+    void onActionYangCZF();
+    void onYangCZFParamsSended(QList<double>observed_data, QList<ObPtXYZ> obpts, double c, int k, int dim);
+    void onNewYangCZF();
+    void onActionGYangCZ();
+    void onGYangCZParamsSended(QList<double>observed_data, QList<ObPtXYZ> obpts, QList<double>train_index_matrix, QList<double>test_index_matrix, QList<ObPtXYZ> un_obpts, double c, int k, int k2, int dim, QString outputPath, bool e, bool isTIF);
+    void onNewGYangCZ();
+    void onActionSTYangCZ();
+    void onSTYangCZParamsSended(QList<QList<double>>observed_data, QList<ObPtXYZ> obpts, double c_s, double c_t, int k_s, int k_t, int dim, QString outputPath, bool e);
+    void onActionCoYangCZ();
+    void onCoYangCZParamsSended(QList<double> observed_data, QList<ObPtXYZ> co_observed_data, QList<ObPtXYZ> obpts, QList<ObPtXYZ> co_obpts, QList<ObPtXYZ> un_obpts, QList<double> c_list, int k, int dim, int n_co, QString outputPath, bool isnugget, bool isTIF);
+
+    void onActionAmoebaG();
+    void onAmoebaGParamsSended(QList<double>observed_data, QList<ObPtXYZ> obpts, double length, QString neiPath, int id_sep, bool is_nei, QString outputPath, int dim, double Significant, int repeat_num);
+    void onActionHTMSCAN();
+    void onHTMSCANParamsSended(QList<double>observed_data, QList<ObPtXYZ> obpts, double length, QString neiPath, int id_sep, bool is_nei, QString outputPath, int dim, double Significant, int repeat_num);
 };

@@ -1,42 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OYangCZServiceDialog</class>
- <widget class="QDialog" name="OYangCZServiceDialog">
+ <class>CoYangCZServiceDialog</class>
+ <widget class="QDialog" name="CoYangCZServiceDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>731</width>
-    <height>720</height>
+    <width>865</width>
+    <height>844</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>0</width>
-    <height>50</height>
-   </size>
-  </property>
-  <property name="font">
-   <font>
-    <pointsize>9</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>CoYangCZ</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>10</y>
-     <width>691</width>
-     <height>690</height>
+     <width>841</width>
+     <height>817</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -46,7 +29,7 @@
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Observed Data Layer:</string>
+       <string>Input Data:</string>
       </property>
      </widget>
     </item>
@@ -182,7 +165,7 @@
     <item>
      <widget class="QLabel" name="label_12">
       <property name="text">
-       <string>Observed Data Field:</string>
+       <string>Interested Field:</string>
       </property>
      </widget>
     </item>
@@ -194,9 +177,199 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="label_17">
+      <property name="text">
+       <string>Input Covariate Data:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="2">
+       <widget class="QComboBox" name="cmb_f1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QComboBox" name="cmb_f2"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>  Covariate Data 1:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="cmb_l3"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QComboBox" name="cmb_f3"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>  Covariate Data 2:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="cmb_l1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="cmb_l2"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>  Covariate Data 3:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_21">
+      <property name="text">
+       <string>Covariate Data Coordinate:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <spacer name="horizontalSpacer_12">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>10</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>X:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cmb_x_co">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_13">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_19">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Y:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cmb_y_co">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_14">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>Z:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cmb_z_co">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_15">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Choose the type of output:</string>
+       <string>Choose The Type of Output:</string>
       </property>
      </widget>
     </item>
@@ -204,12 +377,12 @@
      <widget class="QComboBox" name="cmb_choose">
       <item>
        <property name="text">
-        <string>Input Unknow Data; Output CSV</string>
+        <string>Input Unobserved Data; Output CSV</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>No Unknow Data; 1dimension Output CSV, 2dimension Output Raster(.tif)</string>
+        <string>No Unobserved Data; 1dimension Output CSV, 2dimension Output Raster(.tif)</string>
        </property>
       </item>
      </widget>
@@ -217,7 +390,7 @@
     <item>
      <widget class="QLabel" name="label_unknow">
       <property name="text">
-       <string>Unknow Data Layer:</string>
+       <string>Input Unobserved Data:</string>
       </property>
      </widget>
     </item>
@@ -227,7 +400,7 @@
     <item>
      <widget class="QLabel" name="label_unknow_c">
       <property name="text">
-       <string>Unknow Data Coodinate：</string>
+       <string>Unobserved Coodinate：</string>
       </property>
      </widget>
     </item>
@@ -352,7 +525,7 @@
     <item>
      <widget class="QLabel" name="label_grid">
       <property name="text">
-       <string>The interval size (consistent with input coordinate units, if no Unknow Data input and not 3 dim)</string>
+       <string>Unit Size:</string>
       </property>
      </widget>
     </item>
@@ -362,27 +535,86 @@
     <item>
      <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>The random variation function c value(Optional,the default is 0.3)：</string>
+       <string>The Parameter c of R Function：</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QDoubleSpinBox" name="dsb_c_num">
-      <property name="maximum">
-       <double>1.500000000000000</double>
-      </property>
-      <property name="singleStep">
-       <double>0.100000000000000</double>
-      </property>
-      <property name="value">
-       <double>0.300000000000000</double>
-      </property>
-     </widget>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_c1">
+        <property name="text">
+         <string>Primary: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="dsb_c1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_c2">
+        <property name="text">
+         <string>Primary_covariate1: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_c3">
+        <property name="text">
+         <string>Primary_covariate2: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="dsb_c3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QDoubleSpinBox" name="dsb_c2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="dsb_c4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_c4">
+        <property name="text">
+         <string>Primary_covariate3: </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QLabel" name="label_8">
       <property name="text">
-       <string>The number of nearest points(Optional,the default is 15)：</string>
+       <string>The Number of Neighbors for Interpolation：</string>
       </property>
      </widget>
     </item>
@@ -402,7 +634,7 @@
     <item>
      <widget class="QCheckBox" name="cb_error">
       <property name="text">
-       <string>The leave-out-one method was used for precision estimation during model fitting.</string>
+       <string>Model Nugget</string>
       </property>
       <property name="checked">
        <bool>true</bool>
@@ -415,7 +647,7 @@
     <item>
      <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>Output Path(If there is unknown data, the output is CSV, otherwise output is IMG)：</string>
+       <string>Output Data：</string>
       </property>
      </widget>
     </item>
@@ -498,28 +730,6 @@
      </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QWidget" name="widget_grid" native="true">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>760</y>
-     <width>569</width>
-     <height>55</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>55</height>
-    </size>
-   </property>
   </widget>
  </widget>
  <resources/>
