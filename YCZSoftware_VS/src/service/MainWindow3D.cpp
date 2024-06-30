@@ -17,6 +17,17 @@ MainWindow3D::~MainWindow3D()
 
 void MainWindow3D::initUi()
 {
+	QString iconDir = "./icon/3D/";
+
+	ui.actionImport3D->setIcon(QIcon(iconDir + "Action_Open_32x32.png"));
+	ui.actionUnset->setIcon(QIcon(iconDir + "SelectTool_32x32.png"));
+	ui.actionPan->setIcon(QIcon(iconDir + "PanTool32.png"));
+	ui.actionZoomIn->setIcon(QIcon(iconDir + "ZoomInTool32.png"));
+	ui.actionZoomOut->setIcon(QIcon(iconDir + "ZoomOutTool32.png"));
+	ui.actioncolor->setIcon(QIcon(iconDir + "Colors_32x32.png"));
+	ui.actionmore->setIcon(QIcon(iconDir + "BlueWhiteRed_32x32.png"));
+	ui.actioncube->setIcon(QIcon(iconDir + "3DFullStackedArea_32x32.png"));
+
 	// set window size
 	this->setGeometry(this->_mConfig[X_LOCATION].asInt(),
 		this->_mConfig[Y_LOCATION].asInt(),
