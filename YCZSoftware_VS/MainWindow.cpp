@@ -86,7 +86,7 @@ void MainWindow::initUi()
 
     // create EagleEyeView dock
     this->_mEagleEyeDock = new QgsDockWidget(this);
-    this->_mEagleEyeDock->setWindowTitle(this->_mConfig[EagleEye_DOCK_TITLE].asCString());
+    this->_mEagleEyeDock->setWindowTitle("EagleEye");
     this->_mEagleEyeDock->setObjectName(this->_mConfig[EagleEye_DOCK_OBJ_NAME].asCString());
     this->addDockWidget(Qt::LeftDockWidgetArea, this->_mEagleEyeDock);
 
@@ -729,7 +729,7 @@ void MainWindow::PythonInit()
     if (!Py_IsInitialized())
     {
         //1.初始化Python解释器，这是调用操作的第一步
-        Py_SetPythonHome((wchar_t*)L"./python"); //TODO: 打包时改为相对路径
+        Py_SetPythonHome((wchar_t*)L"../x64/Release/python"); //TODO: 打包时改为相对路径
         Py_Initialize();
         if (!Py_IsInitialized()) {
             QMessageBox::critical(nullptr, "Error about python.exe", "Fail to initialize python!");
@@ -737,9 +737,9 @@ void MainWindow::PythonInit()
         }
         else {
             PyRun_SimpleString("import sys");
-            PyRun_SimpleString("sys.path.append(r'./python')");
-            //PyRun_SimpleString("sys.path.append(r'../x64/Release/python')");
-            PyRun_SimpleString("sys.path.append(r'./plugins')");
+            //PyRun_SimpleString("sys.path.append(r'./python')");
+            PyRun_SimpleString("sys.path.append(r'../x64/Release/python')");
+            PyRun_SimpleString("sys.path.append(r'../x64/Release/plugins')");
 
             PyEval_InitThreads();
             // 启动子线程前执行，为了释放PyEval_InitThreads获得的全局锁，否则子线程可能无法获取到全局锁。

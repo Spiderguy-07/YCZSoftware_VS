@@ -66,8 +66,8 @@ void Canvas3D::initializeGL()
 
 	// create shader
 	_mShaderProgram.create();
-	_mShaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./resource/shader/gl.vert");
-	_mShaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./resource/shader/gl.frag");
+	_mShaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "../YCZSoftware_VS/resource/shader/gl.vert");
+	_mShaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "../YCZSoftware_VS/resource/shader/gl.frag");
 	_mShaderProgram.link();
 
 	
